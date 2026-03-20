@@ -1,6 +1,6 @@
 import logging
 from device.adb_controller import AdbController
-from skills import tap, type_text, open_app, press_key, scroll
+from skills import tap, type_text, open_app, press_key, scroll, save_memory, delete_memory
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,9 @@ class SkillExecutor:
             "type_text": type_text.execute,
             "open_app": open_app.execute,
             "press_key": press_key.execute,
-            "scroll": scroll.execute
+            "scroll": scroll.execute,
+            "save_memory": save_memory.execute,
+            "delete_memory": delete_memory.execute,
         }
 
     def set_last_elements(self, elements: list):
@@ -75,10 +77,10 @@ class SkillExecutor:
                 logger.info(f"Resolved text='{label}' → ({args['x']}, {args['y']}) via element text/desc")
                 return args
 
-        logger.warning(f"Could not resolve text='{label}' to any UI element. Tap will be skipped.")
-        return args  # x/y still missing → executor will skip gracefully
+        logger.warning(f"Could not resolve text='{label}' to any UI element. Signalling vision_needed.")
+        return {"vision_needed": True, "label": label}  # signal agent_loop to escalate to vision
 
-    def execute_skill(self, skill_name: str, args: dict) -> bool:
+    def execute_skill(self, skill_name: str, args: dict):
         """
         Executes a skill given its name and arguments.
         """
@@ -97,9 +99,12 @@ class SkillExecutor:
         # For tap: if x/y still absent but LLM sent text=, resolve via element label
         if skill_name == "tap" and "x" not in args and "y" not in args and "text" in args:
             args = self._resolve_text_to_coords(args)
+            # If vision escalation is needed, propagate the signal up to agent_loop
+            if isinstance(args, dict) and args.get("vision_needed"):
+                return args  # Return vision_needed signal dict
 
         # Guard: tap requires x and y — fail fast if still missing after all resolution
-        if skill_name == "tap" and ("x" not in args or "y" not in args):
+        if skill_name == "tap" and (not isinstance(args, dict) or "x" not in args or "y" not in args):
             logger.error(f"tap skill called without x/y and could not resolve them from args {args}. Skipping.")
             return False
 

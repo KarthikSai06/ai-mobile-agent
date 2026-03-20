@@ -23,21 +23,30 @@ class LLMPlanner:
         self.model = settings.LLM_MODEL
         self.vision_model = getattr(settings, "LLM_VISION_MODEL", "moondream:latest")
         
-        self.system_prompt = """
-You are an Android agent. Output ONE action per turn.
+        self.system_prompt = """You are an Android agent. Output ONE action per turn.
 
 Skills:
-  tap          ARGS: id=<n>   OR   x=<n> y=<n>
-  type_text    ARGS: text=<string>
-  open_app     ARGS: package_name=<pkg>   (no other args)
-  press_key    ARGS: key=HOME|BACK|ENTER
-  scroll       ARGS: x1=500 y1=1500 x2=500 y2=500
-  done         ARGS: (none)
+  tap            ARGS: id=<n>   OR   x=<n> y=<n>
+  type_text      ARGS: text=<string>
+  open_app       ARGS: package_name=<pkg>   (no other args)
+  press_key      ARGS: key=HOME|BACK|ENTER
+  scroll         ARGS: x1=500 y1=1500 x2=500 y2=500
+  save_memory    ARGS: key=<name> value=<x,y or description>
+  delete_memory  ARGS: key=<name>
+  done           ARGS: (none)
 
 Rules:
   1. open_app only needs package_name. Never add id/x/y/text to it.
   2. Prefer id over coordinates when available.
-  3. Output ONLY the two lines below — nothing else.
+  3. If you just tapped a text field/search bar and it succeeded, DO NOT tap it again. Assume the keyboard is open and proceed immediately to type_text.
+  4. If Stored Memory contains the coordinates for an element you need, use those coordinates directly instead of searching the UI.
+  5. After successfully locating a hard-to-find element (e.g., a search bar or send button), call save_memory to store its coordinates for future use.
+  6. CRITICAL: After typing a search term, the search bar element will now show your typed text (e.g., text='bujji' desc='Search Chats'). Do NOT tap this element — it is the search bar, not a result. Tap the actual search result that appears BELOW it (e.g., 'Bujji, bot', 'Bujji, @Karthikkammalabot').
+  7. CRITICAL — Identifying your current screen:
+     - YOU ARE ON A PROFILE PAGE if you see 'Message', 'Mute', 'Call'/'Share' buttons in a horizontal row near y=738 AND there is NO 'Bot menu' or 'Emoji, stickers, and GIFs' element visible. Action: tap the 'Message' button (at y=738) to enter the chat.
+     - YOU ARE IN THE CHAT WINDOW if you see 'desc=Emoji, stickers, and GIFs' or 'desc=Bot menu' in the UI elements. The message input box will be labeled 'Message' near y > 2000. Action: IMMEDIATELY tap the 'Message' input box (at the bottom) and type your text. Do NOT tap the contact name/header (e.g., 'Bujji\nbot' at the top) — that takes you BACK to the profile page and will undo all progress.
+  8. CRITICAL: Never tap a three-dot menu button or options icon unless explicitly needed. If you see a dropdown with 'Night Mode', 'New Group', 'Saved Messages' — press BACK immediately to close it and look for the correct element instead.
+  9. Output ONLY the two lines below — nothing else.
 
 Format (copy exactly):
 SKILL: <name>
@@ -65,6 +74,20 @@ ARGS: <key=val ...>"""
                 history_lines.append(f"  {h}")
         history_str = "\n".join(history_lines) if history_lines else "  (none)"
 
+        # Load saved memory and inject into prompt
+        import json, os
+        memory_str = ""
+        memory_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "storage", "memory.json")
+        if os.path.exists(memory_path):
+            try:
+                with open(memory_path, "r", encoding="utf-8") as f:
+                    mem = json.load(f)
+                if mem:
+                    memory_lines = "\n".join(f"  {k}: {v}" for k, v in mem.items())
+                    memory_str = f"\nStored Memory (use these coordinates/info directly):\n{memory_lines}\n"
+            except Exception:
+                pass
+
         # Fix 1: Always pass the FULL UI to the LLM — vision is a soft hint, not a filter
         hint_line = ""
         if vision_insight:
@@ -73,6 +96,7 @@ ARGS: <key=val ...>"""
         user_prompt = (
             f"Task: {task}\n"
             f"{hint_line}"
+            f"{memory_str}"
             f"\nAction History:\n{history_str}\n"
             f"\nExample:\nSKILL: tap\nARGS: id=3\n"
             f"\nUI Elements:\n{ui_elements_str}\n"
@@ -118,6 +142,41 @@ ARGS: <key=val ...>"""
 
         return result
 
+    def refine_task(self, raw_task: str) -> str:
+        """
+        Takes the user's raw instruction and rewrites it into a clear, step-by-step
+        sequence of Android UI interaction steps. Called once at the start of every task.
+        Returns the refined task string, or the original if refinement fails.
+        """
+        if not self.client:
+            return raw_task
+
+        prompt = (
+            f"You are an Android automation planner. The user wants to: \"{raw_task}\"\n\n"
+            "Rewrite this as a numbered, step-by-step list of exact UI interactions to perform on an Android phone. "
+            "Be very specific — specify which app to open, which button to tap, what text to type, and when to press send/enter. "
+            "Do NOT include steps about confirming the task is done. Keep it concise, max 8 steps.\n\n"
+            "Example output:\n"
+            "1. Open Telegram (package: org.telegram.messenger)\n"
+            "2. Tap the element with desc='Search Chats' — this is the search bar at the top of the Chats list (do NOT tap the three-dot menu icon)\n"
+            "3. Type 'bujji' into the search bar\n"
+            "4. If the result shows a bot/user (e.g., 'Bujji, bot'), tap it\n"
+            "5. If a profile page opens with 'Message', 'Mute', 'Call' buttons — tap the 'Message' button\n"
+            "6. Tap the message input box labeled 'Message'\n"
+            "7. Type 'hi'\n"
+            "8. Tap the Send button\n\n"
+            "Now generate the steps for the user's task:"
+        )
+
+        try:
+            messages = [{"role": "user", "content": prompt}]
+            refined = self._call_llm(messages)
+            logger.info(f"Task refined:\n{refined}")
+            return f"{raw_task}\n\nDetailed steps:\n{refined}"
+        except Exception as e:
+            logger.error(f"refine_task error: {e}")
+            return raw_task
+
     def _call_llm(self, messages: list) -> str:
         """Calls the LLM and returns the raw text response."""
         response = self.client.chat.completions.create(
@@ -127,11 +186,11 @@ ARGS: <key=val ...>"""
         )
         return response.choices[0].message.content.strip()
 
-    def get_action_from_screenshot(self, task: str, screenshot_path: str) -> dict:
+    def get_action_from_screenshot(self, task: str, screenshot_path: str, hint: str = None) -> dict:
         """
-        When uiautomator cannot dump the UI (e.g. fullscreen ad or video),
-        send a screenshot to the vision model and ask it to return the exact
-        pixel coordinates of what to tap to continue the task.
+        When the agent is stuck or uiautomator cannot dump the UI, send a screenshot
+        to the vision model and ask it to return the exact pixel coordinates to tap.
+        Optional hint provides extra context (e.g. element label to locate).
         Returns {"skill": "tap", "args": {"x": ..., "y": ...}} or {"skill": "done", ...}.
         """
         if not self.client or not os.path.exists(screenshot_path):
@@ -142,11 +201,11 @@ ARGS: <key=val ...>"""
             with open(screenshot_path, "rb") as f:
                 b64 = base64.b64encode(f.read()).decode("utf-8")
 
+            hint_line = f"\nHint: {hint}" if hint else ""
             prompt = (
-                f"You are controlling an Android phone. The task is: {task}\n"
-                "The UI cannot be read right now (a video or ad may be playing).\n"
+                f"You are controlling an Android phone. The task is: {task}{hint_line}\n"
                 "Look at this screenshot. Find the most useful element to tap to make progress on the task "
-                "(e.g. a Skip button, search bar, video thumbnail, or close button).\n"
+                "(e.g. a Skip button, search bar, video thumbnail, close button, or a list item).\n"
                 "Reply with ONLY two integers separated by a space: the X and Y pixel coordinates to tap.\n"
                 "Example: 540 1200"
             )
@@ -235,8 +294,7 @@ ARGS: <key=val ...>"""
                 "You are a visual analyst checking a phone screenshot. "
                 f"The user wants to: {task}\n"
                 "Look at this screenshot and find the most relevant icon, button, or search field to accomplish this task. "
-                "Reply ONLY with its approximate location using EXACTLY ONE of these phrases: "
-                "top-left, top-right, bottom-left, bottom-right, center, top-center, bottom-center"
+                "Reply ONLY with its approximate location using EXACTLY the co-ordinates of the button "
             )
             
             response = self.client.chat.completions.create(

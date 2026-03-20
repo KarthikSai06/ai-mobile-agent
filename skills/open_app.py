@@ -10,6 +10,9 @@ def execute(adb: AdbController, package_name: str = None, device_id: str = None)
     if not package_name:
         logger.error("open_app: No package_name provided.")
         return False
+
+    if package_name == "com.telegram.messenger":
+        package_name = "org.telegram.messenger"
                                  
     current_focus = adb.get_current_focus(device_id)
     if current_focus == package_name:
