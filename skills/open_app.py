@@ -44,10 +44,14 @@ def execute(adb: AdbController, package_name: str = None, device_id: str = None)
         possible_packages = [p for p in possible_packages if package_name.lower() in p.lower()]
 
     if possible_packages:
-        best_match = possible_packages[0]                                           
+        best_match = possible_packages[0]
         logger.info(f"Found alternative package: '{best_match}'. Attempting launch...")
-        launch_cmd[-4] = best_match                                         
-        adb.run_cmd(*launch_cmd)
+        # Rebuild command cleanly instead of using fragile index mutation
+        fallback_cmd = []
+        if device_id:
+            fallback_cmd.extend(["-s", device_id])
+        fallback_cmd.extend(["shell", "monkey", "-p", best_match, "-c", "android.intent.category.LAUNCHER", "1"])
+        adb.run_cmd(*fallback_cmd)
         time.sleep(1)
         return adb.get_current_focus(device_id) == best_match
 

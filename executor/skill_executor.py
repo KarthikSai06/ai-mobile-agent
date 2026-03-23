@@ -1,6 +1,10 @@
 import logging
 from device.adb_controller import AdbController
-from skills import tap, type_text, open_app, press_key, scroll, save_memory, delete_memory
+from skills import (
+    tap, type_text, open_app, press_key, scroll, save_memory, delete_memory,
+    set_wifi, set_bluetooth, set_brightness, set_volume,
+    set_airplane_mode, set_flashlight, set_mobile_data, extract_text,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -8,9 +12,8 @@ class SkillExecutor:
     def __init__(self, adb: AdbController, device_id: str = None):
         self.adb = adb
         self.device_id = device_id
-        self.last_elements = []                                     
-        
-                                                                  
+        self.last_elements = []
+
         self.skills = {
             "tap": tap.execute,
             "type_text": type_text.execute,
@@ -19,7 +22,18 @@ class SkillExecutor:
             "scroll": scroll.execute,
             "save_memory": save_memory.execute,
             "delete_memory": delete_memory.execute,
+            # System control skills
+            "set_wifi": set_wifi.execute,
+            "set_bluetooth": set_bluetooth.execute,
+            "set_brightness": set_brightness.execute,
+            "set_volume": set_volume.execute,
+            "set_airplane_mode": set_airplane_mode.execute,
+            "set_flashlight": set_flashlight.execute,
+            "set_mobile_data": set_mobile_data.execute,
+            # Text extraction
+            "extract_text": extract_text.execute,
         }
+
 
     def set_last_elements(self, elements: list):
         """Updates the internal cache of UI elements for ID lookup."""
@@ -87,11 +101,9 @@ class SkillExecutor:
         if skill_name not in self.skills:
             logger.error(f"Unknown skill: {skill_name}")
             return False
-            
+
         skill_func = self.skills[skill_name]
-        
-                                
-                                                               
+
         if "id" in args:
             args = self._resolve_id_to_coords(args)
             args.pop("id", None)
@@ -111,16 +123,17 @@ class SkillExecutor:
         import inspect
         sig = inspect.signature(skill_func)
         valid_args = sig.parameters.keys()
-        
-                                   
+
         call_args = {"adb": self.adb, "device_id": self.device_id}
-        
+
+        # Pass last_elements to extract_text so it can read current screen content
+        if skill_name == "extract_text":
+            call_args["_last_elements"] = self.last_elements
+
         import re
-        
-                                                 
+
         for k, v in args.items():
             if k in valid_args:
-                                                                                            
                 if k in ['x', 'y', 'x1', 'y1', 'x2', 'y2'] and isinstance(v, str):
                     try:
                         clean_val = re.sub(r'[^\d-]', '', str(v))
@@ -130,10 +143,11 @@ class SkillExecutor:
                 call_args[k] = v
             else:
                 logger.warning(f"Skill {skill_name} doesn't accept argument {k}. Skipping.")
-        
+
         try:
             logger.info(f"Executing {skill_name} with args: {call_args}")
             return skill_func(**call_args)
         except Exception as e:
             logger.error(f"Error executing skill {skill_name}: {e}")
             return False
+

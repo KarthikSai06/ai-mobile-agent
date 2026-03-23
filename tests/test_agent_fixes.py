@@ -66,6 +66,8 @@ def _make_loop():
 
     loop.planner = MagicMock()
     loop.planner.plan_next_action.return_value = {"skill": "tap", "args": {"id": 1}}
+    # refine_task was added to agent_loop.run(); mock it to return the task unchanged
+    loop.planner.refine_task.side_effect = lambda task: task
 
     loop.adb = MagicMock()
     return loop
@@ -157,9 +159,9 @@ class TestOutcomeTracking(unittest.TestCase):
         loop.planner.plan_next_action.return_value = {"skill": "tap", "args": {"id": 0}}
 
         # Provide 2 dump paths (pre + post) and 2 format return values
-        with patch("ui.dump_ui.dump_ui_hierarchy", side_effect=["/tmp/before.xml", "/tmp/after.xml"]), \
-             patch("ui.ui_parser.parse_ui_xml", return_value=[]), \
-             patch("ui.ui_parser.format_ui_elements_for_llm", side_effect=[ui_before, ui_after]), \
+        with patch("agent.agent_loop.dump_ui_hierarchy", side_effect=["/tmp/before.xml", "/tmp/after.xml"]), \
+             patch("agent.agent_loop.parse_ui_xml", return_value=[]), \
+             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=[ui_before, ui_after]), \
              patch("time.sleep"):
             loop.run(task="test task", max_steps=1)
         return loop.history
@@ -199,9 +201,9 @@ class TestLoopDetector(unittest.TestCase):
         ui_dumps = [f"/tmp/ui{i}.xml" for i in range(20)]
         ui_strs = ["same_ui"] * 20
 
-        with patch("ui.dump_ui.dump_ui_hierarchy", side_effect=ui_dumps), \
-             patch("ui.ui_parser.parse_ui_xml", return_value=[]), \
-             patch("ui.ui_parser.format_ui_elements_for_llm", side_effect=ui_strs), \
+        with patch("agent.agent_loop.dump_ui_hierarchy", side_effect=ui_dumps), \
+             patch("agent.agent_loop.parse_ui_xml", return_value=[]), \
+             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=ui_strs), \
              patch("time.sleep"):
             loop.run(task="scroll forever", max_steps=4)
 

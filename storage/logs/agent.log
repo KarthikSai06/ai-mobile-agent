@@ -32783,3 +32783,152 @@ Detailed steps:
 [55] desc='Messages, 603 notification(s)' clickable=True center=(413,2271)
 [56] desc='Contacts' clickable=True center=(666,2271)
 [57] desc='Camera' clickable=True center=(919,2271)
+2026-03-21 04:59:14,571 [INFO] httpx: HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-21 04:59:14,575 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'org.telegram.messenger'}
+2026-03-21 04:59:14,582 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x00000205B1B38650>, 'device_id': '10BF5P1PNN0010T', 'package_name': 'org.telegram.messenger'}
+2026-03-21 04:59:14,777 [INFO] skills.open_app: Attempting to launch: 'org.telegram.messenger'
+2026-03-21 04:59:16,264 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 04:59:20,631 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049356.xml on attempt 1
+2026-03-21 04:59:20,634 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'org.telegram.messenger'}) → SUCCESS
+2026-03-21 04:59:22,635 [INFO] agent.agent_loop: === Step 2/20 ===
+2026-03-21 04:59:22,635 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 04:59:27,525 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049362.xml on attempt 1
+2026-03-21 04:59:27,528 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(540,123)
+[1] text='Telegram' center=(428,162)
+[2] desc='Search' clickable=True center=(891,173)
+[3] clickable=True center=(1017,173)
+[4] desc='New Message' clickable=True center=(964,2085)
+[5] clickable=True center=(964,1948)
+[6] clickable=True center=(540,2282)
+[7] clickable=True center=(213,2258)
+[8] text='Chats' center=(213,2292)
+[9] clickable=True center=(422,2258)
+[10] text='Contacts' center=(422,2292)
+[11] clickable=True center=(649,2258)
+[12] text='Settings' center=(649,2292)
+[13] clickable=True center=(859,2258)
+[14] text='Profile' center=(859,2292)
+[15] desc='Web tabs ' center=(540,2253)
+2026-03-21 04:59:38,340 [INFO] httpx: HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-21 04:59:38,340 [INFO] agent.agent_loop: Planned Action -> SKILL: type_text, ARGS: {'text': 'hi'}
+2026-03-21 04:59:38,342 [INFO] executor.skill_executor: Executing type_text with args: {'adb': <device.adb_controller.AdbController object at 0x00000205B1B38650>, 'device_id': '10BF5P1PNN0010T', 'text': 'hi'}
+2026-03-21 04:59:38,343 [INFO] skills.type_text: Executing TYPE_TEXT: 'hi'
+2026-03-21 04:59:38,538 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 04:59:43,007 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049378.xml on attempt 1
+2026-03-21 04:59:43,010 [INFO] agent.agent_loop: Action executed but UI did not change in XML (e.g., keyboard pop-up or scroll end).
+2026-03-21 04:59:43,010 [INFO] agent.agent_loop: History entry: type_text({'text': 'hi'}) → SUCCESS
+2026-03-21 04:59:45,011 [INFO] agent.agent_loop: === Step 3/20 ===
+2026-03-21 04:59:45,011 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 04:59:49,468 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049385.xml on attempt 1
+2026-03-21 04:59:49,470 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(540,123)
+[1] text='Telegram' center=(428,162)
+[2] desc='Search' clickable=True center=(891,173)
+[3] clickable=True center=(1017,173)
+[4] desc='New Message' clickable=True center=(964,2085)
+[5] clickable=True center=(964,1948)
+[6] clickable=True center=(540,2282)
+[7] clickable=True center=(213,2258)
+[8] text='Chats' center=(213,2292)
+[9] clickable=True center=(422,2258)
+[10] text='Contacts' center=(422,2292)
+[11] clickable=True center=(649,2258)
+[12] text='Settings' center=(649,2292)
+[13] clickable=True center=(859,2258)
+[14] text='Profile' center=(859,2292)
+[15] desc='Web tabs ' center=(540,2253)
+2026-03-21 04:59:59,747 [INFO] httpx: HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-21 04:59:59,748 [INFO] agent.agent_loop: Planned Action -> SKILL: press_key, ARGS: {'key': 'ENTER'}
+2026-03-21 04:59:59,749 [INFO] executor.skill_executor: Executing press_key with args: {'adb': <device.adb_controller.AdbController object at 0x00000205B1B38650>, 'device_id': '10BF5P1PNN0010T', 'key': 'ENTER'}
+2026-03-21 04:59:59,749 [INFO] skills.press_key: Executing PRESS_KEY: 'ENTER' (KEYCODE_ENTER)
+2026-03-21 04:59:59,905 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 05:00:04,345 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049399.xml on attempt 1
+2026-03-21 05:00:04,346 [INFO] agent.agent_loop: Action executed but UI did not change in XML (e.g., keyboard pop-up or scroll end).
+2026-03-21 05:00:04,347 [INFO] agent.agent_loop: History entry: press_key({'key': 'ENTER'}) → SUCCESS
+2026-03-21 05:00:06,348 [INFO] agent.agent_loop: === Step 4/20 ===
+2026-03-21 05:00:06,348 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 05:00:10,769 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049406.xml on attempt 1
+2026-03-21 05:00:10,771 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(540,123)
+[1] text='Telegram' center=(428,162)
+[2] desc='Search' clickable=True center=(891,173)
+[3] clickable=True center=(1017,173)
+[4] desc='New Message' clickable=True center=(964,2085)
+[5] clickable=True center=(964,1948)
+[6] clickable=True center=(540,2282)
+[7] clickable=True center=(213,2258)
+[8] text='Chats' center=(213,2292)
+[9] clickable=True center=(422,2258)
+[10] text='Contacts' center=(422,2292)
+[11] clickable=True center=(649,2258)
+[12] text='Settings' center=(649,2292)
+[13] clickable=True center=(859,2258)
+[14] text='Profile' center=(859,2292)
+[15] desc='Web tabs ' center=(540,2253)
+2026-03-21 05:00:21,711 [INFO] httpx: HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-21 05:00:21,712 [INFO] agent.agent_loop: Planned Action -> SKILL: press_key, ARGS: {'key': 'ENTER'}
+2026-03-21 05:00:21,712 [INFO] executor.skill_executor: Executing press_key with args: {'adb': <device.adb_controller.AdbController object at 0x00000205B1B38650>, 'device_id': '10BF5P1PNN0010T', 'key': 'ENTER'}
+2026-03-21 05:00:21,713 [INFO] skills.press_key: Executing PRESS_KEY: 'ENTER' (KEYCODE_ENTER)
+2026-03-21 05:00:21,877 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 05:00:26,269 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049421.xml on attempt 1
+2026-03-21 05:00:26,269 [INFO] agent.agent_loop: Action executed but UI did not change in XML (e.g., keyboard pop-up or scroll end).
+2026-03-21 05:00:26,270 [INFO] agent.agent_loop: History entry: press_key({'key': 'ENTER'}) → SUCCESS
+2026-03-21 05:00:28,271 [INFO] agent.agent_loop: === Step 5/20 ===
+2026-03-21 05:00:28,272 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 05:00:32,720 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774049428.xml on attempt 1
+2026-03-21 05:00:32,724 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(540,123)
+[1] text='Telegram' center=(428,162)
+[2] desc='Search' clickable=True center=(891,173)
+[3] clickable=True center=(1017,173)
+[4] desc='New Message' clickable=True center=(964,2085)
+[5] clickable=True center=(964,1948)
+[6] clickable=True center=(540,2282)
+[7] clickable=True center=(213,2258)
+[8] text='Chats' center=(213,2292)
+[9] clickable=True center=(422,2258)
+[10] text='Contacts' center=(422,2292)
+[11] clickable=True center=(649,2258)
+[12] text='Settings' center=(649,2292)
+[13] clickable=True center=(859,2258)
+[14] text='Profile' center=(859,2292)
+[15] desc='Web tabs ' center=(540,2253)
+2026-03-21 05:00:32,724 [WARNING] agent.agent_loop: Trigger 2: 3 consecutive NO_CHANGE steps. Escalating to vision.
+2026-03-21 05:05:55,633 [INFO] openai._base_client: Retrying request to /chat/completions in 0.415485 seconds
+2026-03-21 05:06:00,223 [INFO] openai._base_client: Retrying request to /chat/completions in 0.821436 seconds
+2026-03-21 05:06:05,134 [ERROR] planner.llm_planner: Vision action error: Connection error.
+2026-03-21 05:06:05,136 [INFO] agent.agent_loop: Vision NO_CHANGE action: {'skill': 'done', 'args': {}}
+2026-03-21 05:06:07,138 [INFO] agent.agent_loop: === Step 6/20 ===
+2026-03-21 05:06:07,138 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-21 05:06:16,080 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 1: 
+2026-03-21 05:06:16,633 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s 10BF5P1PNN0010T pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774049767.xml
+2026-03-21 05:06:16,633 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-21 05:06:16,633 [WARNING] ui.dump_ui: UI dump failed on attempt 1.
+2026-03-21 05:06:16,633 [INFO] ui.dump_ui: Scrolling to unblock UI dump (attempt 1/3)...
+2026-03-21 05:06:28,524 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 2: 
+2026-03-21 05:06:29,073 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s 10BF5P1PNN0010T pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774049767.xml
+2026-03-21 05:06:29,076 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-21 05:06:29,076 [WARNING] ui.dump_ui: UI dump failed on attempt 2.
+2026-03-21 05:06:29,076 [INFO] ui.dump_ui: Scrolling to unblock UI dump (attempt 2/3)...
+2026-03-21 05:06:40,883 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 3: 
+2026-03-21 05:06:41,431 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s 10BF5P1PNN0010T pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774049767.xml
+2026-03-21 05:06:41,431 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-21 05:06:41,432 [WARNING] ui.dump_ui: UI dump failed on attempt 3.
+2026-03-21 05:06:41,432 [INFO] ui.dump_ui: Scrolling to unblock UI dump (attempt 3/3)...
+2026-03-21 05:06:53,228 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 4: 
+2026-03-21 05:06:53,773 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s 10BF5P1PNN0010T pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774049767.xml
+2026-03-21 05:06:53,774 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-21 05:06:53,774 [WARNING] ui.dump_ui: UI dump failed on attempt 4.
+2026-03-21 05:06:53,774 [ERROR] ui.dump_ui: UI dump failed after 3 scroll attempts. Signalling for vision recovery.
+2026-03-21 05:06:53,774 [WARNING] agent.agent_loop: UI dump failed — screen may have a fullscreen video/ad. Trying vision recovery...
+2026-03-21 05:06:58,482 [INFO] openai._base_client: Retrying request to /chat/completions in 0.487014 seconds
+2026-03-21 05:07:03,020 [INFO] openai._base_client: Retrying request to /chat/completions in 0.828388 seconds
+2026-03-21 05:07:07,909 [ERROR] planner.llm_planner: Vision action error: Connection error.
+2026-03-21 05:07:07,910 [INFO] agent.agent_loop: Vision recovery action: {'skill': 'done', 'args': {}}
+2026-03-21 05:07:07,911 [ERROR] agent.agent_loop: Vision recovery also failed. Aborting.
+2026-03-21 05:07:07,912 [INFO] agent.agent_loop: Agent loop finished.

@@ -28,7 +28,7 @@ class AgentLoop:
         self.planner = LLMPlanner()
         self.history = []           # list of {"action": str, "outcome": str}
         self.last_ui_str = ""
-        self.no_change_streak = 0
+        # no_change_streak is managed as a local var inside run() — not stored on self
 
     def run(self, task: str, max_steps: int = 15):
         """
@@ -154,10 +154,11 @@ class AgentLoop:
             if not success:
                 outcome = "FAILED"
                 logger.warning("Action execution failed or returned False.")
+            elif post_ui_str and post_ui_str == ui_str:
+                outcome = "NO_CHANGE"
+                logger.info("Action executed but UI did not change (e.g., keyboard pop-up or scroll end).")
             else:
                 outcome = "SUCCESS"
-                if post_ui_str and post_ui_str == ui_str:
-                    logger.info("Action executed but UI did not change in XML (e.g., keyboard pop-up or scroll end).")
 
             action_record = f"{skill_name}({args})"
             self.history.append({"action": action_record, "outcome": outcome})

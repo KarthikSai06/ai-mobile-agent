@@ -29,10 +29,18 @@ Skills:
   tap            ARGS: id=<n>   OR   x=<n> y=<n>
   type_text      ARGS: text=<string>
   open_app       ARGS: package_name=<pkg>   (no other args)
-  press_key      ARGS: key=HOME|BACK|ENTER
+  press_key      ARGS: key=HOME|BACK|ENTER|VOLUME_UP|VOLUME_DOWN
   scroll         ARGS: x1=500 y1=1500 x2=500 y2=500
   save_memory    ARGS: key=<name> value=<x,y or description>
   delete_memory  ARGS: key=<name>
+  set_wifi       ARGS: state=on|off
+  set_bluetooth  ARGS: state=on|off
+  set_brightness ARGS: level=<0-255 or 50%> mode=manual|auto
+  set_volume     ARGS: level=<0-15> stream=media|ring|alarm|notification|system
+  set_airplane_mode ARGS: state=on|off
+  set_flashlight ARGS: state=on|off
+  set_mobile_data ARGS: state=on|off
+  extract_text   ARGS: save_as=<memory_key>   (reads all text visible on screen)
   done           ARGS: (none)
 
 Rules:
@@ -44,9 +52,10 @@ Rules:
   6. CRITICAL: After typing a search term, the search bar element will now show your typed text (e.g., text='bujji' desc='Search Chats'). Do NOT tap this element — it is the search bar, not a result. Tap the actual search result that appears BELOW it (e.g., 'Bujji, bot', 'Bujji, @Karthikkammalabot').
   7. CRITICAL — Identifying your current screen:
      - YOU ARE ON A PROFILE PAGE if you see 'Message', 'Mute', 'Call'/'Share' buttons in a horizontal row near y=738 AND there is NO 'Bot menu' or 'Emoji, stickers, and GIFs' element visible. Action: tap the 'Message' button (at y=738) to enter the chat.
-     - YOU ARE IN THE CHAT WINDOW if you see 'desc=Emoji, stickers, and GIFs' or 'desc=Bot menu' in the UI elements. The message input box will be labeled 'Message' near y > 2000. Action: IMMEDIATELY tap the 'Message' input box (at the bottom) and type your text. Do NOT tap the contact name/header (e.g., 'Bujji\nbot' at the top) — that takes you BACK to the profile page and will undo all progress.
+     - YOU ARE IN THE CHAT WINDOW if you see 'desc=Emoji, stickers, and GIFs' or 'desc=Bot menu' in the UI elements. The message input box will be labeled 'Message' near y > 2000. Action: IMMEDIATELY tap the 'Message' input box (at the bottom) and type your text. Do NOT tap the contact name/header (e.g., 'Bujji\\nbot' at the top) — that takes you BACK to the profile page and will undo all progress.
   8. CRITICAL: Never tap a three-dot menu button or options icon unless explicitly needed. If you see a dropdown with 'Night Mode', 'New Group', 'Saved Messages' — press BACK immediately to close it and look for the correct element instead.
-  9. Output ONLY the two lines below — nothing else.
+  9. For system tasks (WiFi, Bluetooth, brightness, etc.) use the dedicated skill directly — do NOT open Settings manually unless the skill is unavailable.
+  10. Output ONLY the two lines below — nothing else.
 
 Format (copy exactly):
 SKILL: <name>
