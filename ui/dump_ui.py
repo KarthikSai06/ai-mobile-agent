@@ -23,7 +23,7 @@ def dump_ui_hierarchy(adb: AdbController, device_id: str = None) -> str:
 
     logger.info("Dumping UI hierarchy...")
 
-    for attempt in range(4):  # attempt 0 = first try, attempts 1-3 = scroll + retry
+    for attempt in range(2):  # attempt 0 = first try, attempt 1 = scroll + retry
         adb.run_cmd(*(cmd_prefix + ["shell", "rm", "-f", remote_path]))
         time.sleep(1.5)
 
@@ -39,11 +39,11 @@ def dump_ui_hierarchy(adb: AdbController, device_id: str = None) -> str:
             return local_path
 
         logger.warning(f"UI dump failed on attempt {attempt+1}.")
-        if attempt < 3:
-            # Scroll slightly to nudge the view and unblock uiautomator
-            logger.info(f"Scrolling to unblock UI dump (attempt {attempt+1}/3)...")
-            adb.run_cmd(*(cmd_prefix + ["shell", "input", "swipe", "500", "1000", "500", "800", "300"]))
+        if attempt < 1:
+            # Scroll significantly to nudge the view and unblock uiautomator
+            logger.info(f"Scrolling to unblock UI dump (attempt {attempt+1}/1)...")
+            adb.run_cmd(*(cmd_prefix + ["shell", "input", "swipe", "500", "1500", "500", "500", "300"]))
             time.sleep(2.5)
 
-    logger.error("UI dump failed after 3 scroll attempts. Signalling for vision recovery.")
+    logger.error("UI dump failed after 1 scroll attempt. Signalling for vision recovery.")
     return ""

@@ -41,12 +41,13 @@ Skills:
   set_flashlight ARGS: state=on|off
   set_mobile_data ARGS: state=on|off
   extract_text   ARGS: save_as=<memory_key>   (reads all text visible on screen)
+  take_screenshot ARGS: filename=<optional_name>  (saves a PNG to the screenshots folder)
   done           ARGS: (none)
 
 Rules:
   1. open_app only needs package_name. Never add id/x/y/text to it.
   2. Prefer id over coordinates when available.
-  3. If you just tapped a text field/search bar and it succeeded, DO NOT tap it again. Assume the keyboard is open and proceed immediately to type_text.
+  3. CRITICAL: If your last action was tapping a search bar or text field (and outcome was SUCCESS), you MUST immediately use the type_text skill on the next turn. Do NOT tap the search bar again. Repeatedly tapping it will close the keyboard and cause a loop.
   4. If Stored Memory contains the coordinates for an element you need, use those coordinates directly instead of searching the UI.
   5. After successfully locating a hard-to-find element (e.g., a search bar or send button), call save_memory to store its coordinates for future use.
   6. CRITICAL: After typing a search term, the search bar element will now show your typed text (e.g., text='bujji' desc='Search Chats'). Do NOT tap this element — it is the search bar, not a result. Tap the actual search result that appears BELOW it (e.g., 'Bujji, bot', 'Bujji, @Karthikkammalabot').
@@ -56,6 +57,8 @@ Rules:
   8. CRITICAL: Never tap a three-dot menu button or options icon unless explicitly needed. If you see a dropdown with 'Night Mode', 'New Group', 'Saved Messages' — press BACK immediately to close it and look for the correct element instead.
   9. For system tasks (WiFi, Bluetooth, brightness, etc.) use the dedicated skill directly — do NOT open Settings manually unless the skill is unavailable.
   10. Output ONLY the two lines below — nothing else.
+  11. CRITICAL — Sending messages: After typing your message text, FIRST try tapping the Send button (desc='Send'). If the UI does NOT change after tapping it (outcome=NO_CHANGE), immediately switch to press_key ENTER to send the message instead of tapping Send repeatedly.
+  12. CRITICAL — SCROLLING: Any time your objective requires finding an element that logically exists on the page (e.g., a search result, a 'Submit'/'Add' button, an older message, or a setting) but it is NOT visible in the current UI Elements list, you MUST output a `scroll` action. Do NOT tap randomly, guess coordinates, repeat your previous tap, or give up. Scroll (usually x1=500 y1=1500 x2=500 y2=500) to find it.
 
 Format (copy exactly):
 SKILL: <name>
@@ -212,11 +215,12 @@ ARGS: <key=val ...>"""
 
             hint_line = f"\nHint: {hint}" if hint else ""
             prompt = (
-                f"You are controlling an Android phone. The task is: {task}{hint_line}\n"
-                "Look at this screenshot. Find the most useful element to tap to make progress on the task "
-                "(e.g. a Skip button, search bar, video thumbnail, close button, or a list item).\n"
-                "Reply with ONLY two integers separated by a space: the X and Y pixel coordinates to tap.\n"
-                "Example: 540 1200"
+                f"You are an expert Android AI agent. The current task is: '{task}'{hint_line}\n"
+                "Analyze this screenshot carefully. Identify the SINGLE most crucial element you must tap to make progress "
+                "(e.g., a search bar, a specific product in a list, an 'Add to Cart' or 'Buy' button, a profile/chat, or a 'Skip Ad' button).\n"
+                "If the element is visible, provide the EXACT X and Y pixel coordinates for the center of that element.\n"
+                "If the element is NOT visible and you realistically need to scroll down to find it, reply with exactly the word SCROLL.\n"
+                "CRITICAL: Reply with EXCLUSIVELY the X and Y integers separated by a single space, OR the word SCROLL. Do NOT include words, explanations, or punctuation."
             )
 
             response = self.client.chat.completions.create(
@@ -232,6 +236,10 @@ ARGS: <key=val ...>"""
             )
             raw = response.choices[0].message.content.strip()
             logger.info(f"Vision action output: {raw}")
+
+            if raw.upper() == "SCROLL":
+                logger.info("Vision suggests SCROLLING")
+                return {"skill": "scroll", "args": {"x1": 500, "y1": 1500, "x2": 500, "y2": 500}}
 
             # Parse "x y" or "x, y" format
             parts = re.findall(r"\d+", raw)

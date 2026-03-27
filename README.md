@@ -6,7 +6,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
 [![ADB](https://img.shields.io/badge/ADB-Android%20Debug%20Bridge-green?logo=android)](https://developer.android.com/tools/adb)
-[![Gemini](https://img.shields.io/badge/LLM-Gemini%202.0%20Flash-orange?logo=google)](https://ai.google.dev/)
+[![Gemini](https://img.shields.io/badge/LLM-Gemini%202.5%20Pro-orange?logo=google)](https://ai.google.dev/)
 
 </div>
 
@@ -33,14 +33,16 @@ The agent handles it all — reading the screen, planning each step, and executi
 |---|---|
 | 🗣️ **Natural language tasks** | Give any instruction in plain English |
 | 📱 **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
-| 🧠 **LLM action planning** | Powered by **Gemini 2.0 Flash** (OpenAI-compatible API) |
+| 🧠 **LLM action planning** | Powered by **Gemini 2.5 Pro** (OpenAI-compatible API) |
 | 👁️ **Vision recovery** | When UI can't be read (ads/video), takes a screenshot and asks Gemini what to tap |
+| ✅ **Smart task completion** | Checks if task is already done (e.g. video playing) **before** attempting any recovery tap |
 | 📋 **Outcome tracking** | Every action is tracked as `SUCCESS`, `FAILED`, or `NO_CHANGE` — fed back to the LLM |
-| 🔁 **Loop detection** | Detects repeated identical actions and presses BACK to escape |
+| 🔁 **Loop detection** | Detects repeated identical actions and escalates to vision or BACK |
 | 🎯 **Smart element resolution** | Resolves elements by numeric index, resource ID, or text label |
-| ✅ **Task completion detection** | After a vision tap, confirms task is done via screenshot analysis |
+| 💬 **Messaging resilience** | Falls back to `ENTER` key when Send button taps produce no change |
 | 🔌 **System control skills** | Toggle WiFi, Bluetooth, airplane mode, flashlight, mobile data, brightness, and volume |
 | 📝 **Text extraction** | Extract all visible text from the current screen and save to agent memory |
+| 📸 **Screenshot skill** | Capture the device screen and save as PNG on demand |
 | 🔌 **Pluggable skill system** | Add new skills by dropping a `.py` file in `skills/` |
 | 🧪 **Unit tested** | 10 tests covering all core behaviours, all passing |
 
@@ -64,7 +66,7 @@ User Task (natural language)
                               │
                      ┌────────▼─────────┐
                      │  LLM Planner     │  planner/llm_planner.py
-                     │  (decides action)│  — text + vision planning (Gemini 2.0 Flash)
+                     │  (decides action)│  — text + vision planning (Gemini 2.5 Pro)
                      └────────┬─────────┘
                               │
                      ┌────────▼─────────┐
@@ -114,7 +116,8 @@ mobile_agent/
 │   ├── set_airplane_mode.py    # NEW — Toggle airplane mode
 │   ├── set_flashlight.py       # NEW — Toggle flashlight/torch
 │   ├── set_mobile_data.py      # NEW — Toggle mobile data
-│   └── extract_text.py         # NEW — Extract all visible screen text
+│   ├── extract_text.py         # Extract all visible screen text
+│   └── take_screenshot.py      # NEW — Capture device screen as PNG
 └── tests/
     └── test_agent_fixes.py     # 10 unit tests (all passing)
 ```
@@ -139,12 +142,12 @@ pip install openai
 
 Edit `config/settings.py`:
 
-**Option A — Gemini 2.0 Flash (default, recommended)**
+**Option A — Gemini 2.5 Pro (default, recommended)**
 ```python
 OPENAI_API_KEY   = "AIzaSy..."                                    # Your Gemini API key
 LLM_BASE_URL     = "https://generativelanguage.googleapis.com/v1beta/openai/"
-LLM_MODEL        = "gemini-2.0-flash"
-LLM_VISION_MODEL = "gemini-2.0-flash"
+LLM_MODEL        = "gemini-2.5-pro"
+LLM_VISION_MODEL = "gemini-2.5-pro"
 ENABLE_VISION_FALLBACK = False  # Gemini handles vision natively
 ```
 
@@ -211,8 +214,12 @@ python main.py "Enable airplane mode" --steps 3
 # Text extraction
 python main.py "Read the text on screen and save it as page_content" --steps 3
 
+# Screenshot
+python main.py "Take a screenshot and save it as my_screen"
+
 # Messaging
-python main.py "Open Telegram and send hi to bujji" --device 10BF5P1PNN0010T --steps 20
+python main.py "Open WhatsApp and send hi to Thanu Sree" --steps 20
+python main.py "Open Telegram and send hi to bujji" --steps 20
 ```
 
 ---
@@ -236,6 +243,7 @@ python main.py "Open Telegram and send hi to bujji" --device 10BF5P1PNN0010T --s
 | `set_flashlight` | `state=on\|off` | Toggle camera torch (Android 13+) |
 | `set_mobile_data` | `state=on\|off` | Toggle mobile data |
 | `extract_text` | `save_as` | Extract all visible text; optionally save to memory |
+| `take_screenshot` | `filename` (optional) | Capture device screen and save as PNG to `storage/screenshots/` |
 | `done` | — | Signal task is complete |
 
 ---

@@ -4,6 +4,7 @@ from skills import (
     tap, type_text, open_app, press_key, scroll, save_memory, delete_memory,
     set_wifi, set_bluetooth, set_brightness, set_volume,
     set_airplane_mode, set_flashlight, set_mobile_data, extract_text,
+    take_screenshot,
 )
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,8 @@ class SkillExecutor:
             "set_mobile_data": set_mobile_data.execute,
             # Text extraction
             "extract_text": extract_text.execute,
+            # Screenshot
+            "take_screenshot": take_screenshot.execute,
         }
 
 

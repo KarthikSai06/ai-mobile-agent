@@ -54,13 +54,19 @@ class AgentLoop:
             # 1. Dump UI hierarchy
             xml_path = dump_ui_hierarchy(self.adb, self.device_id)
             if not xml_path:
-                logger.warning("UI dump failed — screen may have a fullscreen video/ad. Trying vision recovery...")
+                logger.warning("UI dump failed — screen may have a fullscreen video/ad. Checking task status via screenshot...")
                 screenshot_path = os.path.join(settings.SCREENSHOTS_DIR, f"recovery_{step}.png")
                 if self.adb.take_screenshot(screenshot_path, self.device_id):
+                    # ─── First, check if the task is already done (video playing, etc.) ───
+                    if self.planner.check_task_done_from_screenshot(task, screenshot_path):
+                        logger.info("Task confirmed complete via screenshot (no tap needed). Done!")
+                        break  # clean exit — video is already playing
+
+                    # ─── Task not done yet — ask vision model what to tap ───────────────
                     recovery = self.planner.get_action_from_screenshot(task, screenshot_path)
                     logger.info(f"Vision recovery action: {recovery}")
-                    if recovery.get("skill") == "tap":
-                        self.executor.execute_skill("tap", recovery["args"])
+                    if recovery.get("skill") in ["tap", "scroll"]:
+                        self.executor.execute_skill(recovery["skill"], recovery.get("args", {}))
                         time.sleep(2.5)  # wait for screen to settle after tap
 
                         # Check if the task is now complete (e.g. video is playing)
@@ -99,8 +105,8 @@ class AgentLoop:
                     )
                     vision_action = self.planner.get_action_from_screenshot(task, screenshot_path, hint=hint)
                     logger.info(f"Vision NO_CHANGE action: {vision_action}")
-                    if vision_action.get("skill") == "tap":
-                        self.executor.execute_skill("tap", vision_action["args"])
+                    if vision_action.get("skill") in ["tap", "scroll"]:
+                        self.executor.execute_skill(vision_action["skill"], vision_action.get("args", {}))
                 no_change_streak = 0
                 time.sleep(2.0)
                 continue
@@ -133,8 +139,8 @@ class AgentLoop:
                     hint = f"Find and tap the element labeled '{label}' or scroll to reveal it."
                     vision_action = self.planner.get_action_from_screenshot(task, screenshot_path, hint=hint)
                     logger.info(f"Vision locate action: {vision_action}")
-                    if vision_action.get("skill") == "tap":
-                        self.executor.execute_skill("tap", vision_action["args"])
+                    if vision_action.get("skill") in ["tap", "scroll"]:
+                        self.executor.execute_skill(vision_action["skill"], vision_action.get("args", {}))
                         tap_success = True
                 outcome = "SUCCESS" if tap_success else "FAILED"
                 self.history.append({"action": f"{skill_name}({args})", "outcome": outcome})
@@ -181,8 +187,8 @@ class AgentLoop:
                     )
                     vision_action = self.planner.get_action_from_screenshot(task, screenshot_path, hint=hint)
                     logger.info(f"Vision loop-break action: {vision_action}")
-                    if vision_action.get("skill") == "tap":
-                        self.executor.execute_skill("tap", vision_action["args"])
+                    if vision_action.get("skill") in ["tap", "scroll"]:
+                        self.executor.execute_skill(vision_action["skill"], vision_action.get("args", {}))
                         vision_tapped = True
                 if not vision_tapped:
                     logger.warning("Vision gave no tap — falling back to BACK key.")
