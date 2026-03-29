@@ -4,7 +4,7 @@ from skills import (
     tap, type_text, open_app, press_key, scroll, save_memory, delete_memory,
     set_wifi, set_bluetooth, set_brightness, set_volume,
     set_airplane_mode, set_flashlight, set_mobile_data, extract_text,
-    take_screenshot,
+    take_screenshot, summarize_text,
 )
 
 logger = logging.getLogger(__name__)
@@ -33,6 +33,8 @@ class SkillExecutor:
             "set_mobile_data": set_mobile_data.execute,
             # Text extraction
             "extract_text": extract_text.execute,
+            # Summarize on-screen content via LLM
+            "summarize_text": summarize_text.execute,
             # Screenshot
             "take_screenshot": take_screenshot.execute,
         }
@@ -41,6 +43,39 @@ class SkillExecutor:
     def set_last_elements(self, elements: list):
         """Updates the internal cache of UI elements for ID lookup."""
         self.last_elements = elements
+
+    def _resolve_memory_refs(self, args: dict) -> dict:
+        """
+        Expands @memory_key references in string argument values.
+        e.g. {"text": "@bujji_summary"} → {"text": "<full stored summary>"}
+        Lets the LLM say: ARGS: text=@bujji_summary
+        """
+        import json, os
+        memory_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "storage", "memory.json"
+        )
+        mem = {}
+        if os.path.exists(memory_path):
+            try:
+                with open(memory_path, "r", encoding="utf-8") as f:
+                    mem = json.load(f)
+            except Exception:
+                pass
+
+        resolved = {}
+        for k, v in args.items():
+            if isinstance(v, str) and v.startswith("@"):
+                key = v[1:]
+                if key in mem:
+                    logger.info(f"Resolved memory ref @{key} → {len(str(mem[key]))} chars")
+                    resolved[k] = mem[key]
+                else:
+                    logger.warning(f"Memory ref @{key} not found. Keeping original value.")
+                    resolved[k] = v
+            else:
+                resolved[k] = v
+        return resolved
 
     def _resolve_id_to_coords(self, args: dict) -> dict:
         """Resolve 'id' in args to x/y coordinates using last_elements (by index or resource_id)."""
@@ -123,14 +158,17 @@ class SkillExecutor:
             logger.error(f"tap skill called without x/y and could not resolve them from args {args}. Skipping.")
             return False
 
+        # Memory key resolution: if any arg value is "@key_name", replace with stored memory value
+        args = self._resolve_memory_refs(args)
+
         import inspect
         sig = inspect.signature(skill_func)
         valid_args = sig.parameters.keys()
 
         call_args = {"adb": self.adb, "device_id": self.device_id}
 
-        # Pass last_elements to extract_text so it can read current screen content
-        if skill_name == "extract_text":
+        # Pass last_elements to extract_text / summarize_text so they can read current screen content
+        if skill_name in ("extract_text", "summarize_text"):
             call_args["_last_elements"] = self.last_elements
 
         import re

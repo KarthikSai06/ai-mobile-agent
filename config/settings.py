@@ -13,7 +13,7 @@ default_adb = os.path.join(local_app_data, "Android", "Sdk", "platform-tools", "
 ADB_PATH = default_adb if os.path.exists(default_adb) else "adb"
 
 # ── Option A: OpenRouter / Cloud API (disabled) ────────────────────────────────
-OPENAI_API_KEY   = "AIzaSyB1kwiCyRtYOSNQwMCLeRdPlpTxHyyfWj0"
+OPENAI_API_KEY   = "YOUR API KEY"
 LLM_BASE_URL     = "https://generativelanguage.googleapis.com/v1beta/openai/"
 LLM_MODEL        = "gemini-2.5-flash"
 LLM_VISION_MODEL = "gemini-2.5-flash"

@@ -41,6 +41,7 @@ Skills:
   set_flashlight ARGS: state=on|off
   set_mobile_data ARGS: state=on|off
   extract_text   ARGS: save_as=<memory_key>   (reads all text visible on screen)
+  summarize_text ARGS: save_as=<memory_key>   (reads screen text, summarizes it via LLM, prints & optionally saves the summary)
   take_screenshot ARGS: filename=<optional_name>  (saves a PNG to the screenshots folder)
   done           ARGS: (none)
 
@@ -60,6 +61,7 @@ Rules:
   11. CRITICAL — Sending messages: After typing your message text, FIRST try tapping the Send button (desc='Send'). If the UI does NOT change after tapping it (outcome=NO_CHANGE), immediately switch to press_key ENTER to send the message instead of tapping Send repeatedly.
   12. CRITICAL — SCROLLING: Any time your objective requires finding an element that logically exists on the page (e.g., a search result, a 'Submit'/'Add' button, an older message, or a setting) but it is NOT visible in the current UI Elements list, you MUST output a `scroll` action. Do NOT tap randomly, guess coordinates, repeat your previous tap, or give up. Scroll (usually x1=500 y1=1500 x2=500 y2=500) to find it.
   13. CRITICAL — ONLY USE SKILLS FROM THE LIST ABOVE. Do NOT invent or use skills like 'search', 'find', 'query', 'swipe', 'input', or any other name not listed. There is NO 'search' skill. To search inside an app (Gmail, YouTube, etc.), you MUST: (a) tap the search icon/bar shown in UI Elements, then (b) use type_text to type the search query, then (c) press_key ENTER.
+  14. MEMORY REFERENCES: To type text that is stored in memory, use @key_name as the text value. Example: SKILL: type_text / ARGS: text=@bujji_summary — the agent will automatically expand it to the full stored value before typing. This is the PREFERRED way to send long saved texts (like summaries).
 
 Format (copy exactly):
 SKILL: <name>
@@ -368,17 +370,29 @@ ARGS: <key=val ...>"""
         args_match = re.search(r"ARGS:\s*(.*)", output, re.DOTALL)
         if args_match:
             args_str = args_match.group(1).strip()
-                                                                                    
-                                                                                 
+
+            # Special-case: if skill is type_text, grab the FULL text value
+            # (including spaces and special chars) before running the generic parser.
+            if result.get("skill") == "type_text":
+                # Try quoted first: text="..." or text='...'
+                text_quoted = re.search(r'text\s*=\s*(?:"([^"]*)"|\'([^\']*)\')', args_str)
+                if text_quoted:
+                    result["args"]["text"] = text_quoted.group(1) or text_quoted.group(2)
+                else:
+                    # Unquoted: capture everything after text= to end of line
+                    text_unquoted = re.search(r'text\s*=\s*(.+?)(?:\n|$)', args_str)
+                    if text_unquoted:
+                        result["args"]["text"] = text_unquoted.group(1).strip()
+                return result
+
+            # Generic parser for all other skills
             args_pairs = re.findall(r"(\w+)\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|(\S+))", args_str)
-            
+
             for match in args_pairs:
                 key = match[0]
-                                                              
                 val = match[1] or match[2] or match[3]
-                
-                                        
-                if val.isdigit() or (val.startswith('-') and val[1:].isdigit()):                              
+
+                if val.isdigit() or (val.startswith('-') and val[1:].isdigit()):
                     result["args"][key] = int(val)
                 elif val.lower() == "true":
                     result["args"][key] = True

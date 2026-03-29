@@ -1,0 +1,1830 @@
+2026-03-28 01:48:18,630 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 01:48:18,630 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 02:06:48,400 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 02:06:48,401 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 02:06:53,996 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:06:53] "[33mGET / HTTP/1.1[0m" 404 -
+2026-03-28 02:06:54,330 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:06:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-28 02:07:03,417 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:07:03] "[31m[1mGET /run-task HTTP/1.1[0m" 405 -
+2026-03-28 02:07:03,693 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:07:03] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-28 02:07:13,588 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:07:13] "GET /status HTTP/1.1" 200 -
+2026-03-28 02:07:13,801 [INFO] werkzeug: 192.168.1.60 - - [28/Mar/2026 02:07:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-28 02:08:01,658 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:01] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:08:02,558 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:02] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:08:57,753 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:57] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:08:59,082 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:59] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:08:59,614 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:59] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:08:59,768 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:08:59] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:00,206 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:00] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:04,641 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:04] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:05,771 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:05] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:06,841 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:06] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:07,721 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:07] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:08,313 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:08] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:11,799 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:11] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:15,822 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:15] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:16,393 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:16] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:17,201 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:17] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:17,669 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:17] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:09:17,994 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:09:17] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:16:52,034 [ERROR] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:16:52] code 400, message Bad request version ('\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x00\x8b\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00')
+2026-03-28 02:16:52,035 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:16:52] "[31m[1m\x16\x03\x01\x00ö\x01\x00\x00ò\x03\x035Ié\x02SÝ©E*D\x8f9§Èòá\x17\x8dNÃÄ¢(Ôþ|\x9fy®»Òë ~IÈôpÓ\x93~ZG1\x9b"e\x0dÓ\x1fÔL~÷ê\x13\x0e\x06\x0f:\x09ÄàMà\x00\x1e\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x00\x8b\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00[0m" 400 -
+2026-03-28 02:18:11,846 [ERROR] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:18:11] code 400, message Bad request version ('\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x00\x8b\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00')
+2026-03-28 02:18:11,847 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:18:11] "[31m[1m\x16\x03\x01\x00ö\x01\x00\x00ò\x03\x03F[²V]\x8c2¶Ã\x8a\x1aT\x1fËÇ£å¨Hn9ðÛ+¶¼=û\x02Õ\x01Á \x09\x9d3f\x12±ºÃ9Ü\x91\x93\x00 ±5Weì,´Ít\x139~Y\x86{ª[M\x00\x1e\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x00\x8b\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00[0m" 400 -
+2026-03-28 02:19:03,012 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:19:03] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:20:18,821 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:20:18] "[31m[1mPOST /run-task HTTP/1.1[0m" 400 -
+2026-03-28 02:22:07,553 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:22:07] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 02:22:09,667 [INFO] __main__: Starting agent task: '{task}' (max_steps=20)
+2026-03-28 02:22:09,717 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 02:22:10,802 [INFO] agent.agent_loop: Starting agent task: {task}
+2026-03-28 02:22:10,805 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 02:22:22,976 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:22:22,991 [INFO] planner.llm_planner: Task refined:
+**Task:** "Change the wallpaper to a photo from the gallery."
+
+1.  Open Settings (package: com.android.settings)
+2.  Scroll down and tap 'Wallpaper & style'.
+3.  Tap 'Change wallpaper'.
+4.  Tap 'Photos' or 'Gallery' (package: com.google.android.apps.photos).
+5.  Tap on the desired photo from your gallery.
+6.  Adjust the photo crop if prompted, then tap 'Set wallpaper' or the checkmark icon.
+7.  Tap 'Home screen and lock screen' or 'Home screen' to apply the wallpaper.
+2026-03-28 02:22:22,992 [INFO] agent.agent_loop: Refined task:
+{task}
+
+Detailed steps:
+**Task:** "Change the wallpaper to a photo from the gallery."
+
+1.  Open Settings (package: com.android.settings)
+2.  Scroll down and tap 'Wallpaper & style'.
+3.  Tap 'Change wallpaper'.
+4.  Tap 'Photos' or 'Gallery' (package: com.google.android.apps.photos).
+5.  Tap on the desired photo from your gallery.
+6.  Adjust the photo crop if prompted, then tap 'Set wallpaper' or the checkmark icon.
+7.  Tap 'Home screen and lock screen' or 'Home screen' to apply the wallpaper.
+2026-03-28 02:22:22,993 [INFO] agent.agent_loop: === Step 1/20 ===
+2026-03-28 02:22:22,993 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:22:26,655 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774644742.xml on attempt 1
+2026-03-28 02:22:26,657 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='{
+  "message": "Task started.",
+  "poll": "/status",
+  "steps": 20,
+  "task": "{task}"
+}' clickable=True center=(540,463)
+[1] clickable=True center=(75,185)
+[2] desc='Close' center=(74,184)
+[3] text='mobile agent ' center=(344,183)
+[4] clickable=True center=(755,185)
+[5] desc='Rerun' center=(754,184)
+[6] clickable=True center=(881,185)
+[7] desc='Share' center=(880,184)
+[8] clickable=True center=(1007,185)
+[9] desc='Save as file' center=(1006,184)
+2026-03-28 02:22:27,869 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:22:27,872 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.android.settings'}
+2026-03-28 02:22:27,872 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000001A501057CB0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.android.settings'}
+2026-03-28 02:22:28,087 [INFO] skills.open_app: Attempting to launch: 'com.android.settings'
+2026-03-28 02:22:29,784 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'com.android.settings'}) → SUCCESS
+2026-03-28 02:22:30,787 [INFO] agent.agent_loop: === Step 2/20 ===
+2026-03-28 02:22:30,789 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:22:34,046 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774644750.xml on attempt 1
+2026-03-28 02:22:34,046 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] id='com.android.settings:id/account_category' clickable=True center=(539,591)
+[1] text='630****033' id='com.android.settings:id/account_title' center=(376,560)
+[2] text='Account password & security' id='com.android.settings:id/summary_ex' center=(532,621)
+[3] clickable=True center=(539,821)
+[4] desc='Wi-Fi, Atithi pg R23 5Ghz' id='com.android.settings:id/vlist_content' center=(539,821)
+[5] text='Wi-Fi' id='android:id/title' center=(267,827)
+[6] text='Atithi pg R23 5Ghz' id='android:id/summary' center=(743,826)
+[7] clickable=True center=(539,977)
+[8] desc='Bluetooth, Off' id='com.android.settings:id/vlist_content' center=(539,977)
+[9] text='Bluetooth' id='android:id/title' center=(322,977)
+[10] text='Off' id='android:id/summary' center=(895,976)
+[11] clickable=True center=(539,1127)
+[12] desc='Mobile network' id='com.android.settings:id/vlist_content' center=(539,1127)
+[13] text='Mobile network' id='android:id/title' center=(389,1127)
+[14] clickable=True center=(539,1282)
+[15] desc='More connections' id='com.android.settings:id/vlist_content' center=(539,1282)
+[16] text='More connections' id='android:id/title' center=(416,1277)
+[17] clickable=True center=(539,1488)
+[18] desc='Notifications & status bar' id='com.android.settings:id/vlist_content' center=(539,1488)
+[19] text='Notifications & status bar' id='android:id/title' center=(508,1494)
+[20] clickable=True center=(539,1644)
+[21] desc='Sounds & vibration' id='com.android.settings:id/vlist_content' center=(539,1644)
+[22] text='Sounds & vibration' id='android:id/title' center=(434,1644)
+[23] clickable=True center=(539,1827)
+[24] desc='Display, brightness & eye protection' id='com.android.settings:id/vlist_content' center=(539,1827)
+[25] text='Display, brightness & eye protection' id='android:id/title' center=(562,1827)
+[26] clickable=True center=(539,2050)
+[27] desc='Home screen, lock screen & wallpaper' id='com.android.settings:id/vlist_content' center=(539,2050)
+[28] text='Home screen, lock screen & wallpaper' id='android:id/title' center=(562,2044)
+[29] clickable=True center=(539,2289)
+[30] desc='Apps' id='com.android.settings:id/vlist_content' center=(539,2289)
+[31] text='Apps' id='android:id/title' center=(265,2295)
+[32] clickable=True center=(539,2385)
+[33] desc='Security & privacy' id='com.android.settings:id/vlist_content' center=(539,2385)
+[34] id='com.android.settings:id/orginui_vcommonlayout_toptargetview' clickable=True center=(539,227)
+[35] text='Settings' id='com.android.settings:id/originui_vtoolbar_normal_title_rom14_0' center=(249,236)
+[36] id='com.android.settings:id/orginui_vcommonlayout_toptargetview_addmoreview_vsearchview' clickable=True center=(539,391)
+[37] desc='Search settings' id='com.android.settings:id/vigour_search_content' clickable=True center=(539,372)
+[38] id='com.android.settings:id/vigour_search_indicator_image' clickable=True center=(131,372)
+[39] text='Search settings' id='com.android.settings:id/vigour_search_edit' clickable=True center=(595,372)
+2026-03-28 02:22:35,712 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:22:35,782 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 28}
+2026-03-28 02:22:35,790 [INFO] executor.skill_executor: Resolved index ID 28 → (562, 2044)
+2026-03-28 02:22:35,792 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000001A501057CB0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 562, 'y': 2044}
+2026-03-28 02:22:35,793 [INFO] skills.tap: Executing TAP at (562, 2044)
+2026-03-28 02:22:36,050 [INFO] agent.agent_loop: History entry: tap({'x': 562, 'y': 2044}) → SUCCESS
+2026-03-28 02:22:37,051 [INFO] agent.agent_loop: === Step 3/20 ===
+2026-03-28 02:22:37,052 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:22:40,158 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774644757.xml on attempt 1
+2026-03-28 02:22:40,158 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] id='com.bbk.theme:id/originui_vtoolbar_navigation_view_rom14_0' clickable=True center=(92,179)
+[1] desc='Back' id='com.bbk.theme:id/originui_vtoolbar_navigation_view_btn_rom14_0' clickable=True center=(92,179)
+[2] text='Home screen, lock screen & wallpaper' id='com.bbk.theme:id/originui_vtoolbar_normal_title_rom14_0' center=(580,176)
+[3] desc='Wallpapers' id='com.bbk.theme:id/wallpaperViewIv' clickable=True center=(334,906)
+[4] text='Wallpapers' id='com.bbk.theme:id/settingCardBottomTitleTv' center=(333,1429)
+[5] desc='Themes' id='com.bbk.theme:id/themeViewIv' clickable=True center=(833,609)
+[6] text='Themes' id='com.bbk.theme:id/settingCardBottomTitleTv' center=(832,835)
+[7] desc='Always On Display' id='com.bbk.theme:id/screenOffViewIv' clickable=True center=(833,1203)
+[8] text='Always On Display' id='com.bbk.theme:id/settingCardBottomTitleTv' center=(833,1425)
+[9] desc='Icons' id='com.bbk.theme:id/iconViewIv' clickable=True center=(334,1717)
+[10] text='Icons' id='com.bbk.theme:id/settingCardBottomTitleTv' center=(334,1864)
+[11] desc='System style' id='com.bbk.theme:id/interfaceColorIv' clickable=True center=(833,1717)
+[12] text='System style' id='com.bbk.theme:id/text' center=(833,1864)
+[13] clickable=True center=(540,2037)
+[14] text='Lock screen settings' id='com.bbk.theme:id/title' center=(332,2043)
+[15] clickable=True center=(540,2185)
+[16] text='Dynamic effects' id='com.bbk.theme:id/title' center=(282,2185)
+[17] clickable=True center=(540,2328)
+[18] text='Home settings' id='com.bbk.theme:id/title' center=(266,2327)
+2026-03-28 02:22:42,231 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:22:42,237 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 3}
+2026-03-28 02:22:42,237 [INFO] executor.skill_executor: Resolved index ID 3 → (334, 906)
+2026-03-28 02:22:42,237 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000001A501057CB0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 334, 'y': 906}
+2026-03-28 02:22:42,237 [INFO] skills.tap: Executing TAP at (334, 906)
+2026-03-28 02:22:42,379 [INFO] agent.agent_loop: History entry: tap({'x': 334, 'y': 906}) → SUCCESS
+2026-03-28 02:22:43,385 [INFO] agent.agent_loop: === Step 4/20 ===
+2026-03-28 02:22:43,385 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:22:46,195 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp shell uiautomator dump /sdcard/ui_dump.xml
+2026-03-28 02:22:46,195 [ERROR] device.adb_controller: Error output: 
+2026-03-28 02:22:46,198 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 1: 
+2026-03-28 02:23:14,755 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 02:23:14,755 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 02:23:17,399 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:23:17] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 02:23:18,495 [INFO] __main__: Starting agent task: '{task}' (max_steps=20)
+2026-03-28 02:23:18,537 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 02:23:19,073 [INFO] agent.agent_loop: Starting agent task: {task}
+2026-03-28 02:23:19,073 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 02:23:28,078 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:23:28] "[31m[1mPOST /run-task HTTP/1.1[0m" 409 -
+2026-03-28 02:23:31,240 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:23:31,252 [INFO] planner.llm_planner: Task refined:
+**Task:** "Send a WhatsApp message to a contact named 'John Doe' with the message 'Hello from automation!'"
+
+1.  Open WhatsApp (package: com.whatsapp)
+2.  Tap the 'New chat' button (usually a green circular icon with a message bubble or pencil icon at the bottom right).
+3.  Tap the element with desc='Search contacts' or the magnifying glass icon at the top.
+4.  Type 'John Doe' into the search bar.
+5.  Tap the contact 'John Doe' from the search results.
+6.  Tap the message input box labeled 'Message'.
+7.  Type 'Hello from automation!'.
+8.  Tap the Send button (usually a paper airplane icon).
+2026-03-28 02:23:31,252 [INFO] agent.agent_loop: Refined task:
+{task}
+
+Detailed steps:
+**Task:** "Send a WhatsApp message to a contact named 'John Doe' with the message 'Hello from automation!'"
+
+1.  Open WhatsApp (package: com.whatsapp)
+2.  Tap the 'New chat' button (usually a green circular icon with a message bubble or pencil icon at the bottom right).
+3.  Tap the element with desc='Search contacts' or the magnifying glass icon at the top.
+4.  Type 'John Doe' into the search bar.
+5.  Tap the contact 'John Doe' from the search results.
+6.  Tap the message input box labeled 'Message'.
+7.  Type 'Hello from automation!'.
+8.  Tap the Send button (usually a paper airplane icon).
+2026-03-28 02:23:31,252 [INFO] agent.agent_loop: === Step 1/20 ===
+2026-03-28 02:23:31,252 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:23:34,678 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774644811.xml on attempt 1
+2026-03-28 02:23:34,678 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='mobile agent  failed with status code 409 (Conflict).
+
+{"current_task":"{task}","error":"Agent is already running a task."}
+' clickable=True center=(540,463)
+[1] clickable=True center=(75,185)
+[2] desc='Close' center=(74,184)
+[3] text='mobile agent ' center=(344,183)
+[4] clickable=True center=(755,185)
+[5] desc='Rerun' center=(754,184)
+[6] clickable=True center=(881,185)
+[7] desc='Share' center=(880,184)
+[8] clickable=True center=(1007,185)
+[9] desc='Save as file' center=(1006,184)
+2026-03-28 02:23:36,250 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:23:36,254 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.whatsapp'}
+2026-03-28 02:23:36,256 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000001E13C77D8B0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.whatsapp'}
+2026-03-28 02:23:36,490 [INFO] skills.open_app: Attempting to launch: 'com.whatsapp'
+2026-03-28 02:26:23,560 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 02:26:23,560 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 02:26:34,650 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 02:26:34] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 02:26:35,767 [INFO] __main__: Starting agent task: 'open youtube and play believer' (max_steps=20)
+2026-03-28 02:26:35,816 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 02:26:36,414 [INFO] agent.agent_loop: Starting agent task: open youtube and play believer
+2026-03-28 02:26:36,415 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 02:26:40,251 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:26:40,278 [INFO] planner.llm_planner: Task refined:
+1. Open YouTube (package: com.google.android.youtube)
+2. Tap the element with desc='Search' (magnifying glass icon, usually at the top right).
+3. Type 'believer' into the search input field.
+4. Tap the 'Search' button on the keyboard.
+5. Tap the video result titled 'Imagine Dragons - Believer (Official Music Video)' or similar.
+2026-03-28 02:26:40,278 [INFO] agent.agent_loop: Refined task:
+open youtube and play believer
+
+Detailed steps:
+1. Open YouTube (package: com.google.android.youtube)
+2. Tap the element with desc='Search' (magnifying glass icon, usually at the top right).
+3. Type 'believer' into the search input field.
+4. Tap the 'Search' button on the keyboard.
+5. Tap the video result titled 'Imagine Dragons - Believer (Official Music Video)' or similar.
+2026-03-28 02:26:40,279 [INFO] agent.agent_loop: === Step 1/20 ===
+2026-03-28 02:26:40,279 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:26:43,695 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645000.xml on attempt 1
+2026-03-28 02:26:43,697 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='{
+  "message": "Task started.",
+  "poll": "/status",
+  "steps": 20,
+  "task": "open youtube and play believer"
+}' clickable=True center=(540,488)
+[1] clickable=True center=(75,185)
+[2] desc='Close' center=(74,184)
+[3] text='mobile agent ' center=(344,183)
+[4] clickable=True center=(755,185)
+[5] desc='Rerun' center=(754,184)
+[6] clickable=True center=(881,185)
+[7] desc='Share' center=(880,184)
+[8] clickable=True center=(1007,185)
+[9] desc='Save as file' center=(1006,184)
+2026-03-28 02:26:45,146 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:26:45,150 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.google.android.youtube'}
+2026-03-28 02:26:45,150 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.google.android.youtube'}
+2026-03-28 02:26:45,347 [INFO] skills.open_app: Attempting to launch: 'com.google.android.youtube'
+2026-03-28 02:26:47,031 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'com.google.android.youtube'}) → SUCCESS
+2026-03-28 02:26:48,033 [INFO] agent.agent_loop: === Step 2/20 ===
+2026-03-28 02:26:48,034 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:26:59,996 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 1: 
+2026-03-28 02:27:00,363 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774645008.xml
+2026-03-28 02:27:00,363 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-28 02:27:00,365 [WARNING] ui.dump_ui: UI dump failed on attempt 1.
+2026-03-28 02:27:00,365 [INFO] ui.dump_ui: Scrolling to unblock UI dump (attempt 1/1)...
+2026-03-28 02:27:05,918 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645008.xml on attempt 2
+2026-03-28 02:27:05,921 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='SPECTATING the Most HATED Getaway Driver in GTA 5 - 18 minutes, 32 seconds - Go to channel Reported - Reported - 9.6 thousand views - 5 hours ago - play video' clickable=True center=(540,26)
+[1] text='Reported · 9.6K views · 5 hours ago' desc='Reported · 9.6K views · 5 hours ago' center=(567,28)
+[2] clickable=True center=(540,335)
+[3] text='Is the above video a good recommendation for you?' desc='Is the above video a good recommendation for you?' center=(506,262)
+[4] desc='Dismiss' clickable=True center=(991,254)
+[5] desc='Very bad' clickable=True center=(116,401)
+[6] desc='Somewhat bad' clickable=True center=(328,401)
+[7] desc='Neither good nor bad' clickable=True center=(540,401)
+[8] desc='Somewhat good' clickable=True center=(751,401)
+[9] desc='Very good' clickable=True center=(963,401)
+[10] text='Very bad' desc='Very bad' center=(138,499)
+[11] text='Very good' desc='Very good' center=(929,499)
+[12] clickable=True center=(540,629)
+[13] text='A notoriously sloppy driver attempts to survive a five-minute police pursuit in a packed GTA Online lobby. After evading the authorities, the driver must navigate across the map to reach an escape plane.' desc='A notoriously sloppy driver attempts to survive a five-minute police pursuit in a packed GTA Online lobby. After evading the authorities, the driver must navigate across the map to reach an escape plane.' center=(369,630)
+[14] text='Summary' desc='Summary' center=(871,630)
+[15] desc='Shorts' center=(257,848)
+[16] text='Shorts' desc='Shorts' center=(257,848)
+[17] desc='Action menu' clickable=True center=(1006,848)
+[18] desc='GTA Has Apple Pay🍎? - play Short' clickable=True center=(280,1291)
+[19] desc='New' center=(110,968)
+[20] text='New' desc='New' center=(102,968)
+[21] desc='More actions' clickable=True center=(494,962)
+[22] text='GTA Has Apple Pay🍎?' desc='GTA Has Apple Pay🍎?' center=(280,1614)
+[23] desc='Buying an LHR Graphics Card 😬 - play Short' clickable=True center=(799,1291)
+[24] desc='More actions' clickable=True center=(1013,962)
+[25] text='Buying an LHR Graphics Card 😬' desc='Buying an LHR Graphics Card 😬' center=(799,1590)
+[26] desc='0.01ms Flick | TenZ - play Short' clickable=True center=(280,2042)
+[27] desc='More actions' clickable=True center=(494,1728)
+[28] text='0.01ms Flick | TenZ' desc='0.01ms Flick | TenZ' center=(280,2376)
+[29] desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer - play Short' clickable=True center=(799,2042)
+[30] desc='More actions' clickable=True center=(1013,1728)
+[31] text='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' center=(799,2351)
+[32] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(280,1291)
+2026-03-28 02:27:07,519 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:07,521 [WARNING] planner.llm_planner: LLM returned empty or malformed output (no SKILL: found).
+2026-03-28 02:27:07,521 [WARNING] planner.llm_planner: Malformed LLM output. Retrying with simplified prompt.
+2026-03-28 02:27:09,035 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:09,038 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.google.android.youtube'}
+2026-03-28 02:27:09,040 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.google.android.youtube'}
+2026-03-28 02:27:09,381 [INFO] skills.open_app: App 'com.google.android.youtube' is already in focus.
+2026-03-28 02:27:09,384 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'com.google.android.youtube'}) → SUCCESS
+2026-03-28 02:27:10,385 [INFO] agent.agent_loop: === Step 3/20 ===
+2026-03-28 02:27:10,385 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:13,791 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645030.xml on attempt 1
+2026-03-28 02:27:13,794 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='SPECTATING the Most HATED Getaway Driver in GTA 5 - 18 minutes, 32 seconds - Go to channel Reported - Reported - 9.6 thousand views - 5 hours ago - play video' clickable=True center=(540,26)
+[1] text='Reported · 9.6K views · 5 hours ago' desc='Reported · 9.6K views · 5 hours ago' center=(567,28)
+[2] clickable=True center=(540,335)
+[3] text='Is the above video a good recommendation for you?' desc='Is the above video a good recommendation for you?' center=(506,262)
+[4] desc='Dismiss' clickable=True center=(991,254)
+[5] desc='Very bad' clickable=True center=(116,401)
+[6] desc='Somewhat bad' clickable=True center=(328,401)
+[7] desc='Neither good nor bad' clickable=True center=(540,401)
+[8] desc='Somewhat good' clickable=True center=(751,401)
+[9] desc='Very good' clickable=True center=(963,401)
+[10] text='Very bad' desc='Very bad' center=(138,499)
+[11] text='Very good' desc='Very good' center=(929,499)
+[12] clickable=True center=(540,629)
+[13] text='A notoriously sloppy driver attempts to survive a five-minute police pursuit in a packed GTA Online lobby. After evading the authorities, the driver must navigate across the map to reach an escape plane.' desc='A notoriously sloppy driver attempts to survive a five-minute police pursuit in a packed GTA Online lobby. After evading the authorities, the driver must navigate across the map to reach an escape plane.' center=(369,630)
+[14] text='Summary' desc='Summary' center=(871,630)
+[15] desc='Shorts' center=(257,848)
+[16] text='Shorts' desc='Shorts' center=(257,848)
+[17] desc='Action menu' clickable=True center=(1006,848)
+[18] desc='GTA Has Apple Pay🍎? - play Short' clickable=True center=(280,1291)
+[19] desc='New' center=(110,968)
+[20] text='New' desc='New' center=(102,968)
+[21] desc='More actions' clickable=True center=(494,962)
+[22] text='GTA Has Apple Pay🍎?' desc='GTA Has Apple Pay🍎?' center=(280,1614)
+[23] desc='Buying an LHR Graphics Card 😬 - play Short' clickable=True center=(799,1291)
+[24] desc='More actions' clickable=True center=(1013,962)
+[25] text='Buying an LHR Graphics Card 😬' desc='Buying an LHR Graphics Card 😬' center=(799,1590)
+[26] desc='0.01ms Flick | TenZ - play Short' clickable=True center=(280,2042)
+[27] desc='More actions' clickable=True center=(494,1728)
+[28] text='0.01ms Flick | TenZ' desc='0.01ms Flick | TenZ' center=(280,2376)
+[29] desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer - play Short' clickable=True center=(799,2042)
+[30] desc='More actions' clickable=True center=(1013,1728)
+[31] text='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' center=(799,2351)
+[32] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(280,1291)
+2026-03-28 02:27:15,391 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:15,392 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:27:15,393 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:27:15,394 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:27:16,211 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:27:17,214 [INFO] agent.agent_loop: === Step 4/20 ===
+2026-03-28 02:27:17,216 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:23,029 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645037.xml on attempt 1
+2026-03-28 02:27:23,034 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(799,579)
+[1] desc='YouTube' id='com.google.android.youtube:id/youtube_logo' clickable=True center=(183,163)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(764,163)
+[3] desc='Notifications' id='com.google.android.youtube:id/menu_item_view' clickable=True center=(891,163)
+[4] desc='Search' id='com.google.android.youtube:id/menu_item_view' clickable=True center=(1017,163)
+[5] desc='filters' center=(540,289)
+[6] desc='Explore Menu' clickable=True center=(87,289)
+[7] clickable=True center=(240,289)
+[8] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(240,289)
+[9] clickable=True center=(425,289)
+[10] text='Gaming' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(425,289)
+[11] clickable=True center=(674,289)
+[12] text='BeamNG' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(674,289)
+[13] clickable=True center=(908,289)
+[14] text='Nvidia' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(908,289)
+[15] clickable=True center=(1051,289)
+[16] text='Live' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(1051,289)
+[17] desc='GTA Has Apple Pay🍎? - play Short' clickable=True center=(280,652)
+[18] text='GTA Has Apple Pay🍎?' desc='GTA Has Apple Pay🍎?' center=(280,902)
+[19] desc='Buying an LHR Graphics Card 😬 - play Short' clickable=True center=(799,652)
+[20] text='Buying an LHR Graphics Card 😬' desc='Buying an LHR Graphics Card 😬' center=(799,878)
+[21] desc='0.01ms Flick | TenZ - play Short' clickable=True center=(280,1345)
+[22] desc='More actions' clickable=True center=(494,1016)
+[23] text='0.01ms Flick | TenZ' desc='0.01ms Flick | TenZ' center=(280,1668)
+[24] desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer - play Short' clickable=True center=(799,1345)
+[25] desc='More actions' clickable=True center=(1013,1016)
+[26] text='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' desc='When you buy every single ticket on the plane ✈️😱  -  🎥 phil.stringer' center=(799,1644)
+[27] desc='Sponsored - toing - Food Delivery
+Enjoy great pizza at low prices. Order on Toing Affordable pizza made easy. Only on Toing
+4.4 stars
+FREE - Install' clickable=True center=(540,2100)
+[28] clickable=True center=(540,2100)
+[29] desc='Home' clickable=True center=(108,2290)
+[30] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[31] desc='Shorts' clickable=True center=(324,2290)
+[32] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[33] desc='Create' clickable=True center=(540,2290)
+[34] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[35] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[36] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[37] desc='You' clickable=True center=(972,2290)
+[38] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:27:24,707 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:24,710 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 'com.google.android.youtube:id/menu_item_view'}
+2026-03-28 02:27:24,710 [INFO] executor.skill_executor: Resolved resource ID com.google.android.youtube:id/menu_item_view → (891, 163)
+2026-03-28 02:27:24,711 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 891, 'y': 163}
+2026-03-28 02:27:24,711 [INFO] skills.tap: Executing TAP at (891, 163)
+2026-03-28 02:27:24,910 [INFO] agent.agent_loop: History entry: tap({'x': 891, 'y': 163}) → SUCCESS
+2026-03-28 02:27:25,911 [INFO] agent.agent_loop: === Step 5/20 ===
+2026-03-28 02:27:25,911 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:29,480 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645045.xml on attempt 1
+2026-03-28 02:27:29,483 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:27:31,236 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:31,240 [INFO] agent.agent_loop: Planned Action -> SKILL: type_text, ARGS: {'text': 'believer'}
+2026-03-28 02:27:31,241 [INFO] executor.skill_executor: Executing type_text with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'text': 'believer'}
+2026-03-28 02:27:31,241 [INFO] skills.type_text: Executing TYPE_TEXT: 'believer'
+2026-03-28 02:27:31,488 [INFO] agent.agent_loop: History entry: type_text({'text': 'believer'}) → SUCCESS
+2026-03-28 02:27:32,489 [INFO] agent.agent_loop: === Step 6/20 ===
+2026-03-28 02:27:32,489 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:36,054 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645052.xml on attempt 1
+2026-03-28 02:27:36,056 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:27:37,706 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:37,709 [INFO] agent.agent_loop: Planned Action -> SKILL: press_key, ARGS: {'key': 'ENTER'}
+2026-03-28 02:27:37,710 [INFO] executor.skill_executor: Executing press_key with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'key': 'ENTER'}
+2026-03-28 02:27:37,710 [INFO] skills.press_key: Executing PRESS_KEY: 'ENTER' (KEYCODE_ENTER)
+2026-03-28 02:27:37,916 [INFO] agent.agent_loop: History entry: press_key({'key': 'ENTER'}) → SUCCESS
+2026-03-28 02:27:38,919 [INFO] agent.agent_loop: === Step 7/20 ===
+2026-03-28 02:27:38,919 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:42,597 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645058.xml on attempt 1
+2026-03-28 02:27:42,600 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:27:44,473 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:44,475 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:27:44,475 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:27:44,477 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:27:45,199 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:27:46,200 [INFO] agent.agent_loop: === Step 8/20 ===
+2026-03-28 02:27:46,200 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:27:49,759 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645066.xml on attempt 1
+2026-03-28 02:27:49,762 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:27:49,762 [WARNING] agent.agent_loop: Trigger 2: 3 consecutive NO_CHANGE steps. Escalating to vision.
+2026-03-28 02:27:59,305 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:27:59,306 [INFO] planner.llm_planner: Vision action output: 825 65
+2026-03-28 02:27:59,308 [INFO] planner.llm_planner: Vision suggests tapping (825, 65)
+2026-03-28 02:27:59,309 [INFO] agent.agent_loop: Vision NO_CHANGE action: {'skill': 'tap', 'args': {'x': 825, 'y': 65}}
+2026-03-28 02:27:59,310 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 825, 'y': 65}
+2026-03-28 02:27:59,310 [INFO] skills.tap: Executing TAP at (825, 65)
+2026-03-28 02:28:00,561 [INFO] agent.agent_loop: === Step 9/20 ===
+2026-03-28 02:28:00,562 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:04,034 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645080.xml on attempt 1
+2026-03-28 02:28:04,036 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:28:05,677 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:05,680 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:05,681 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:05,681 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:28:06,591 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:28:07,593 [INFO] agent.agent_loop: === Step 10/20 ===
+2026-03-28 02:28:07,593 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:11,148 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645087.xml on attempt 1
+2026-03-28 02:28:11,151 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:28:12,529 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:12,532 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:12,532 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:12,533 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:28:13,198 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:28:13,198 [WARNING] agent.agent_loop: Trigger 1: Loop — 'scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500})' repeated 3x. Trying vision before BACK.
+2026-03-28 02:28:18,138 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:18,141 [INFO] planner.llm_planner: Vision action output: 850 60
+2026-03-28 02:28:18,141 [INFO] planner.llm_planner: Vision suggests tapping (850, 60)
+2026-03-28 02:28:18,143 [INFO] agent.agent_loop: Vision loop-break action: {'skill': 'tap', 'args': {'x': 850, 'y': 60}}
+2026-03-28 02:28:18,143 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 850, 'y': 60}
+2026-03-28 02:28:18,143 [INFO] skills.tap: Executing TAP at (850, 60)
+2026-03-28 02:28:20,139 [INFO] agent.agent_loop: === Step 11/20 ===
+2026-03-28 02:28:20,140 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:23,869 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645100.xml on attempt 1
+2026-03-28 02:28:23,872 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:28:23,873 [WARNING] agent.agent_loop: Trigger 2: 3 consecutive NO_CHANGE steps. Escalating to vision.
+2026-03-28 02:28:28,528 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:28,530 [INFO] planner.llm_planner: Vision action output: 850 70
+2026-03-28 02:28:28,531 [INFO] planner.llm_planner: Vision suggests tapping (850, 70)
+2026-03-28 02:28:28,532 [INFO] agent.agent_loop: Vision NO_CHANGE action: {'skill': 'tap', 'args': {'x': 850, 'y': 70}}
+2026-03-28 02:28:28,533 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 850, 'y': 70}
+2026-03-28 02:28:28,533 [INFO] skills.tap: Executing TAP at (850, 70)
+2026-03-28 02:28:29,712 [INFO] agent.agent_loop: === Step 12/20 ===
+2026-03-28 02:28:29,713 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:33,403 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645109.xml on attempt 1
+2026-03-28 02:28:33,405 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:28:35,047 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:35,050 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:35,051 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:28:35,052 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:28:35,881 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:28:35,881 [WARNING] agent.agent_loop: Trigger 1: Loop — 'scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500})' repeated 3x. Trying vision before BACK.
+2026-03-28 02:28:40,587 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:40,590 [INFO] planner.llm_planner: Vision action output: 850 70
+2026-03-28 02:28:40,590 [INFO] planner.llm_planner: Vision suggests tapping (850, 70)
+2026-03-28 02:28:40,590 [INFO] agent.agent_loop: Vision loop-break action: {'skill': 'tap', 'args': {'x': 850, 'y': 70}}
+2026-03-28 02:28:40,591 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 850, 'y': 70}
+2026-03-28 02:28:40,591 [INFO] skills.tap: Executing TAP at (850, 70)
+2026-03-28 02:28:42,610 [INFO] agent.agent_loop: === Step 13/20 ===
+2026-03-28 02:28:42,612 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:46,175 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645122.xml on attempt 1
+2026-03-28 02:28:46,178 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Navigate up' clickable=True center=(73,163)
+[1] text='Notifications' center=(317,162)
+[2] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(784,163)
+[3] desc='Search' id='com.google.android.youtube:id/menu_search' clickable=True center=(911,163)
+[4] desc='More options' clickable=True center=(1027,163)
+[5] desc='filters' center=(540,289)
+[6] clickable=True center=(88,289)
+[7] text='All' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(88,289)
+[8] clickable=True center=(289,289)
+[9] text='Mentions' id='com.google.android.youtube:id/chip_cloud_chip_modern_text' center=(289,289)
+[10] desc='Danger Extras Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet 1 month ago' clickable=True center=(540,489)
+[11] text='Danger Extras' desc='Danger Extras' center=(310,412)
+[12] text='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' desc='Uploaded: PvP Top 60 Rope Dart/Twin Blade | Controller | 55+ ms | Where Winds Meet' center=(429,494)
+[13] text='1 month ago' desc='1 month ago' center=(285,571)
+[14] desc='Action menu' clickable=True center=(1038,407)
+[15] desc='New notification Where Winds Meet Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse 1 month ago' clickable=True center=(540,764)
+[16] text='Where Winds Meet' desc='Where Winds Meet' center=(357,687)
+[17] text='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' desc='Uploaded: YEAR OF THE HORSE IS HERE!!! #wherewindsmeet #yearofthehorse' center=(429,769)
+[18] text='1 month ago' desc='1 month ago' center=(285,846)
+[19] desc='Action menu' clickable=True center=(1038,682)
+[20] desc='New notification Call of Duty League Uploaded: HIM. 1 month ago' clickable=True center=(540,1017)
+[21] text='Call of Duty League' desc='Call of Duty League' center=(361,962)
+[22] text='Uploaded: HIM.' desc='Uploaded: HIM.' center=(330,1019)
+[23] text='1 month ago' desc='1 month ago' center=(285,1072)
+[24] desc='Action menu' clickable=True center=(1038,957)
+[25] desc='Home' clickable=True center=(108,2290)
+[26] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[27] desc='Shorts' clickable=True center=(324,2290)
+[28] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[29] desc='Create' clickable=True center=(540,2290)
+[30] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[31] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[32] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[33] desc='You' clickable=True center=(972,2290)
+[34] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:28:47,856 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:47,858 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 'com.google.android.youtube:id/menu_search'}
+2026-03-28 02:28:47,859 [INFO] executor.skill_executor: Resolved resource ID com.google.android.youtube:id/menu_search → (911, 163)
+2026-03-28 02:28:47,861 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 911, 'y': 163}
+2026-03-28 02:28:47,863 [INFO] skills.tap: Executing TAP at (911, 163)
+2026-03-28 02:28:48,169 [INFO] agent.agent_loop: History entry: tap({'x': 911, 'y': 163}) → SUCCESS
+2026-03-28 02:28:49,171 [INFO] agent.agent_loop: === Step 14/20 ===
+2026-03-28 02:28:49,171 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:28:52,627 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645129.xml on attempt 1
+2026-03-28 02:28:52,629 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Voice search' id='com.google.android.youtube:id/fab' clickable=True center=(985,1341)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='Search YouTube' id='com.google.android.youtube:id/search_edit_text' clickable=True center=(550,163)
+[3] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(1017,163)
+[4] text='You may like' id='com.google.android.youtube:id/text' center=(540,289)
+[5] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,415)
+[6] text='naanga naalu peru' id='com.google.android.youtube:id/text' center=(461,415)
+[7] desc='Edit suggestion naanga naalu peru' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,415)
+[8] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,542)
+[9] text='shahida ansari' id='com.google.android.youtube:id/text' center=(461,542)
+[10] desc='Edit suggestion shahida ansari' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,542)
+[11] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,669)
+[12] text='love songs' id='com.google.android.youtube:id/text' center=(461,669)
+[13] desc='Edit suggestion love songs' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,669)
+[14] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,796)
+[15] text='fortuner song' id='com.google.android.youtube:id/text' center=(461,796)
+[16] desc='Edit suggestion fortuner song' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,796)
+[17] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,923)
+[18] text='film' id='com.google.android.youtube:id/text' center=(461,923)
+[19] desc='Edit suggestion film' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,923)
+[20] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1050)
+[21] text='little singham' id='com.google.android.youtube:id/text' center=(461,1050)
+[22] desc='Edit suggestion little singham' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1050)
+[23] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1177)
+[24] text='english songs' id='com.google.android.youtube:id/text' center=(461,1177)
+[25] desc='Edit suggestion english songs' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1177)
+[26] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1304)
+[27] text='main tota main tota' id='com.google.android.youtube:id/text' center=(461,1304)
+[28] desc='Edit suggestion main tota main tota' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1304)
+[29] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1378)
+[30] desc='Edit suggestion new movie' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1378)
+2026-03-28 02:28:54,518 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:28:54,520 [INFO] agent.agent_loop: Planned Action -> SKILL: type_text, ARGS: {'text': 'believer'}
+2026-03-28 02:28:54,524 [INFO] executor.skill_executor: Executing type_text with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'text': 'believer'}
+2026-03-28 02:28:54,528 [INFO] skills.type_text: Executing TYPE_TEXT: 'believer'
+2026-03-28 02:28:54,862 [INFO] agent.agent_loop: History entry: type_text({'text': 'believer'}) → SUCCESS
+2026-03-28 02:28:55,863 [INFO] agent.agent_loop: === Step 15/20 ===
+2026-03-28 02:28:55,865 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:00,663 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645135.xml on attempt 1
+2026-03-28 02:29:00,664 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Voice search' id='com.google.android.youtube:id/fab' clickable=True center=(985,1341)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_edit_text' clickable=True center=(550,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(1017,163)
+[4] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,289)
+[5] text='believer song' id='com.google.android.youtube:id/text' center=(545,289)
+[6] desc='Edit suggestion believer song' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,289)
+[7] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,415)
+[8] text='believer' id='com.google.android.youtube:id/text' center=(545,415)
+[9] desc='Edit suggestion believer' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,415)
+[10] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,541)
+[11] text='believer lyrics' id='com.google.android.youtube:id/text' center=(545,541)
+[12] desc='Edit suggestion believer lyrics' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,541)
+[13] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,667)
+[14] text='believer song in tamil' id='com.google.android.youtube:id/text' center=(545,667)
+[15] desc='Edit suggestion believer song in tamil' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,667)
+[16] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,793)
+[17] text='believer imagine dragons' id='com.google.android.youtube:id/text' center=(545,793)
+[18] desc='Edit suggestion believer imagine dragons' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,793)
+[19] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,919)
+[20] text='believer dance' id='com.google.android.youtube:id/text' center=(545,919)
+[21] desc='Edit suggestion believer dance' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,919)
+[22] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1045)
+[23] text='believer karaoke' id='com.google.android.youtube:id/text' center=(545,1045)
+[24] desc='Edit suggestion believer karaoke' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1045)
+[25] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1171)
+[26] text='believer song in english' id='com.google.android.youtube:id/text' center=(545,1171)
+[27] desc='Edit suggestion believer song in english' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1171)
+[28] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1297)
+[29] text='believer ringtone' id='com.google.android.youtube:id/text' center=(545,1297)
+[30] desc='Edit suggestion believer ringtone' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1297)
+[31] id='com.google.android.youtube:id/linearLayout' clickable=True center=(540,1374)
+[32] desc='Edit suggestion believer song ringtone' id='com.google.android.youtube:id/edit_suggestion' clickable=True center=(1017,1374)
+2026-03-28 02:29:02,397 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:02,399 [INFO] agent.agent_loop: Planned Action -> SKILL: press_key, ARGS: {'key': 'ENTER'}
+2026-03-28 02:29:02,400 [INFO] executor.skill_executor: Executing press_key with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'key': 'ENTER'}
+2026-03-28 02:29:02,400 [INFO] skills.press_key: Executing PRESS_KEY: 'ENTER' (KEYCODE_ENTER)
+2026-03-28 02:29:02,688 [INFO] agent.agent_loop: History entry: press_key({'key': 'ENTER'}) → SUCCESS
+2026-03-28 02:29:03,692 [INFO] agent.agent_loop: === Step 16/20 ===
+2026-03-28 02:29:03,694 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:16,430 [WARNING] ui.dump_ui: Unexpected uiautomator output on attempt 1: 
+2026-03-28 02:29:16,759 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp pull /sdcard/ui_dump.xml D:\projects\mobile_agent\storage\ui_dump_1774645143.xml
+2026-03-28 02:29:16,760 [ERROR] device.adb_controller: Error output: adb: error: failed to stat remote object '/sdcard/ui_dump.xml': No such file or directory
+
+2026-03-28 02:29:16,760 [WARNING] ui.dump_ui: UI dump failed on attempt 1.
+2026-03-28 02:29:16,761 [INFO] ui.dump_ui: Scrolling to unblock UI dump (attempt 1/1)...
+2026-03-28 02:29:22,252 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645143.xml on attempt 2
+2026-03-28 02:29:22,256 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(280,917)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_query' clickable=True center=(371,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(659,163)
+[4] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(785,163)
+[5] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(911,163)
+[6] desc='More options' clickable=True center=(1027,163)
+[7] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,375)
+[8] text='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' center=(280,311)
+[9] desc='Go to channel LIVE music journey' clickable=True center=(79,453)
+[10] text='LIVE music journey' desc='LIVE music journey' center=(327,427)
+[11] text='15M views · 8mo ago' desc='15M views · 8mo ago' center=(327,481)
+[12] desc='Believer 🌼 ~ Imagine Dragons #songlyrics, 7.1 million views, Vish, 3 years ago - play Short' clickable=True center=(799,375)
+[13] text='Believer 🌼 ~ Imagine Dragons #songlyrics' desc='Believer 🌼 ~ Imagine Dragons #songlyrics' center=(799,311)
+[14] desc='Go to channel Vish' clickable=True center=(598,453)
+[15] text='Vish' desc='Vish' center=(829,427)
+[16] text='7.1M views · 3y ago' desc='7.1M views · 3y ago' center=(829,481)
+[17] desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥, 5 million views, Rayanxiix, 2 years ago - play Short' clickable=True center=(280,986)
+[18] desc='More actions' clickable=True center=(486,596)
+[19] text='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' center=(280,1216)
+[20] desc='Go to channel Rayanxiix' clickable=True center=(79,1358)
+[21] text='Rayanxiix' desc='Rayanxiix' center=(300,1332)
+[22] text='5M views · 2y ago' desc='5M views · 2y ago' center=(300,1386)
+[23] desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts, 235 thousand views, Sara_Lyrics, 8 months ago - play Short' clickable=True center=(799,986)
+[24] desc='More actions' clickable=True center=(1005,596)
+[25] text='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' center=(799,1216)
+[26] desc='Go to channel Sara_Lyrics' clickable=True center=(598,1358)
+[27] text='Sara_Lyrics' desc='Sara_Lyrics' center=(853,1332)
+[28] text='235K views · 8mo ago' desc='235K views · 8mo ago' center=(853,1386)
+[29] desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *...., 72 million views, Stunning munny, 4 years ago - play Short' clickable=True center=(280,1891)
+[30] desc='More actions' clickable=True center=(486,1501)
+[31] text='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' center=(280,2121)
+[32] desc='Go to channel Stunning munny' clickable=True center=(79,2263)
+[33] text='Stunning munny' desc='Stunning munny' center=(311,2237)
+[34] text='72M views · 4y ago' desc='72M views · 4y ago' center=(311,2291)
+[35] desc='Imagine Dragons - Believer  #imaginedragons, 143 thousand views, ImagineDragonsVEVO, 1 year ago - play Short' clickable=True center=(799,1891)
+[36] desc='More actions' clickable=True center=(1005,1501)
+[37] text='Imagine Dragons - Believer  #imaginedragons' desc='Imagine Dragons - Believer  #imaginedragons' center=(799,2121)
+[38] desc='Go to channel ImagineDragonsVEVO' clickable=True center=(598,2263)
+[39] text='ImagineDragonsVEVO' desc='ImagineDragonsVEVO' center=(853,2237)
+[40] text='143K views · 1y ago' desc='143K views · 1y ago' center=(832,2291)
+[41] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,2377)
+[42] desc='More actions' clickable=True center=(486,2387)
+[43] desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song, 17 million views, The Magical Lines , 1 year ago - play Short' clickable=True center=(799,2377)
+[44] desc='More actions' clickable=True center=(1005,2387)
+[45] desc='Home' clickable=True center=(108,2290)
+[46] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[47] desc='Shorts' clickable=True center=(324,2290)
+[48] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[49] desc='Create' clickable=True center=(540,2290)
+[50] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[51] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[52] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[53] desc='You' clickable=True center=(972,2290)
+[54] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:29:25,511 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:25,513 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:29:25,515 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:29:25,515 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:29:26,182 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:29:27,182 [INFO] agent.agent_loop: === Step 17/20 ===
+2026-03-28 02:29:27,183 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:31,265 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645167.xml on attempt 1
+2026-03-28 02:29:31,268 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(799,504)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_query' clickable=True center=(371,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(659,163)
+[4] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(785,163)
+[5] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(911,163)
+[6] desc='More options' clickable=True center=(1027,163)
+[7] desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥, 5 million views, Rayanxiix, 2 years ago - play Short' clickable=True center=(280,621)
+[8] text='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' center=(280,803)
+[9] desc='Go to channel Rayanxiix' clickable=True center=(79,945)
+[10] text='Rayanxiix' desc='Rayanxiix' center=(300,919)
+[11] text='5M views · 2y ago' desc='5M views · 2y ago' center=(300,973)
+[12] desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts, 235 thousand views, Sara_Lyrics, 8 months ago - play Short' clickable=True center=(799,621)
+[13] text='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' center=(799,803)
+[14] desc='Go to channel Sara_Lyrics' clickable=True center=(598,945)
+[15] text='Sara_Lyrics' desc='Sara_Lyrics' center=(853,919)
+[16] text='235K views · 8mo ago' desc='235K views · 8mo ago' center=(853,973)
+[17] desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *...., 72 million views, Stunning munny, 4 years ago - play Short' clickable=True center=(280,1478)
+[18] desc='More actions' clickable=True center=(486,1088)
+[19] text='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' center=(280,1708)
+[20] desc='Go to channel Stunning munny' clickable=True center=(79,1850)
+[21] text='Stunning munny' desc='Stunning munny' center=(311,1824)
+[22] text='72M views · 4y ago' desc='72M views · 4y ago' center=(311,1878)
+[23] desc='Imagine Dragons - Believer  #imaginedragons, 143 thousand views, ImagineDragonsVEVO, 1 year ago - play Short' clickable=True center=(799,1478)
+[24] desc='More actions' clickable=True center=(1005,1088)
+[25] text='Imagine Dragons - Believer  #imaginedragons' desc='Imagine Dragons - Believer  #imaginedragons' center=(799,1708)
+[26] desc='Go to channel ImagineDragonsVEVO' clickable=True center=(598,1850)
+[27] text='ImagineDragonsVEVO' desc='ImagineDragonsVEVO' center=(853,1824)
+[28] text='143K views · 1y ago' desc='143K views · 1y ago' center=(832,1878)
+[29] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,2170)
+[30] desc='More actions' clickable=True center=(486,1993)
+[31] desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song, 17 million views, The Magical Lines , 1 year ago - play Short' clickable=True center=(799,2170)
+[32] desc='More actions' clickable=True center=(1005,1993)
+[33] desc='Home' clickable=True center=(108,2290)
+[34] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[35] desc='Shorts' clickable=True center=(324,2290)
+[36] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[37] desc='Create' clickable=True center=(540,2290)
+[38] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[39] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[40] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[41] desc='You' clickable=True center=(972,2290)
+[42] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:29:34,452 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:34,455 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'center': '(799,1478)'}
+2026-03-28 02:29:34,455 [ERROR] executor.skill_executor: tap skill called without x/y and could not resolve them from args {'center': '(799,1478)'}. Skipping.
+2026-03-28 02:29:34,456 [WARNING] agent.agent_loop: Action execution failed or returned False.
+2026-03-28 02:29:34,456 [INFO] agent.agent_loop: History entry: tap({'center': '(799,1478)'}) → FAILED
+2026-03-28 02:29:35,457 [INFO] agent.agent_loop: === Step 18/20 ===
+2026-03-28 02:29:35,457 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:39,053 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645175.xml on attempt 1
+2026-03-28 02:29:39,057 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(799,504)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_query' clickable=True center=(371,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(659,163)
+[4] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(785,163)
+[5] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(911,163)
+[6] desc='More options' clickable=True center=(1027,163)
+[7] desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥, 5 million views, Rayanxiix, 2 years ago - play Short' clickable=True center=(280,621)
+[8] text='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' desc='Imagine Dragons "BELIEVER" LIVE PERFORMANCE 🔥' center=(280,803)
+[9] desc='Go to channel Rayanxiix' clickable=True center=(79,945)
+[10] text='Rayanxiix' desc='Rayanxiix' center=(300,919)
+[11] text='5M views · 2y ago' desc='5M views · 2y ago' center=(300,973)
+[12] desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts, 235 thousand views, Sara_Lyrics, 8 months ago - play Short' clickable=True center=(799,621)
+[13] text='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' desc='Believer - Imagine Dragons [lyrics] #shortvideo #lyrics #believer #imaginedragons #aestheic #shorts' center=(799,803)
+[14] desc='Go to channel Sara_Lyrics' clickable=True center=(598,945)
+[15] text='Sara_Lyrics' desc='Sara_Lyrics' center=(853,919)
+[16] text='235K views · 8mo ago' desc='235K views · 8mo ago' center=(853,973)
+[17] desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *...., 72 million views, Stunning munny, 4 years ago - play Short' clickable=True center=(280,1478)
+[18] desc='More actions' clickable=True center=(486,1088)
+[19] text='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' desc='Believer song.. / girls attitude What'sapp status.. *girl's * power *....' center=(280,1708)
+[20] desc='Go to channel Stunning munny' clickable=True center=(79,1850)
+[21] text='Stunning munny' desc='Stunning munny' center=(311,1824)
+[22] text='72M views · 4y ago' desc='72M views · 4y ago' center=(311,1878)
+[23] desc='Imagine Dragons - Believer  #imaginedragons, 143 thousand views, ImagineDragonsVEVO, 1 year ago - play Short' clickable=True center=(799,1478)
+[24] desc='More actions' clickable=True center=(1005,1088)
+[25] text='Imagine Dragons - Believer  #imaginedragons' desc='Imagine Dragons - Believer  #imaginedragons' center=(799,1708)
+[26] desc='Go to channel ImagineDragonsVEVO' clickable=True center=(598,1850)
+[27] text='ImagineDragonsVEVO' desc='ImagineDragonsVEVO' center=(853,1824)
+[28] text='143K views · 1y ago' desc='143K views · 1y ago' center=(832,1878)
+[29] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,2170)
+[30] desc='More actions' clickable=True center=(486,1993)
+[31] desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song, 17 million views, The Magical Lines , 1 year ago - play Short' clickable=True center=(799,2170)
+[32] desc='More actions' clickable=True center=(1005,1993)
+[33] desc='Home' clickable=True center=(108,2290)
+[34] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[35] desc='Shorts' clickable=True center=(324,2290)
+[36] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[37] desc='Create' clickable=True center=(540,2290)
+[38] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[39] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[40] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[41] desc='You' clickable=True center=(972,2290)
+[42] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:29:41,372 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:41,374 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:29:41,375 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}
+2026-03-28 02:29:41,376 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 1500) to (500, 500)
+2026-03-28 02:29:42,241 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 1500, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 02:29:43,248 [INFO] agent.agent_loop: === Step 19/20 ===
+2026-03-28 02:29:43,249 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:47,010 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645183.xml on attempt 1
+2026-03-28 02:29:47,016 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(799,595)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_query' clickable=True center=(371,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(659,163)
+[4] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(785,163)
+[5] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(911,163)
+[6] desc='More options' clickable=True center=(1027,163)
+[7] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,666)
+[8] desc='More actions' clickable=True center=(486,274)
+[9] text='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' center=(280,894)
+[10] desc='Go to channel LIVE music journey' clickable=True center=(79,1036)
+[11] text='LIVE music journey' desc='LIVE music journey' center=(327,1010)
+[12] text='15M views · 8mo ago' desc='15M views · 8mo ago' center=(327,1064)
+[13] desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song, 17 million views, The Magical Lines , 1 year ago - play Short' clickable=True center=(799,666)
+[14] desc='More actions' clickable=True center=(1005,274)
+[15] text='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song' desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song' center=(799,894)
+[16] desc='Go to channel The Magical Lines ' clickable=True center=(598,1036)
+[17] text='The Magical Lines ' desc='The Magical Lines ' center=(826,1010)
+[18] text='17M views · 1y ago' desc='17M views · 1y ago' center=(826,1064)
+[19] desc='Mix - Imagine Dragons - Believer (Official Music Video) - Imagine Dragons, Ed Sheeran, OneRepublic, and more - 50 videos' clickable=True center=(540,1593)
+[20] text='Mix' desc='Mix' center=(985,1740)
+[21] text='Mix - Imagine Dragons - Believer (Official Music Video)' desc='Mix - Imagine Dragons - Believer (Official Music Video)' center=(503,1880)
+[22] text='Imagine Dragons, Ed Sheeran, OneRepublic, and more' desc='Imagine Dragons, Ed Sheeran, OneRepublic, and more' center=(483,1973)
+[23] desc='Action menu' clickable=True center=(1006,1851)
+[24] desc='Dynamic Marble Ball Journey | "Believer" by Imagine Dragons, 1.2 million views, Lychee Luster, 1 year ago - play Short' clickable=True center=(280,2231)
+[25] desc='More actions' clickable=True center=(486,2114)
+[26] desc='Believer ✨ Imagine Dragons 🐉Quick Cover by Ruby Jay & Riley McEvoy, 1.3 million views, Ruby Jay, 8 years ago - play Short' clickable=True center=(799,2231)
+[27] desc='More actions' clickable=True center=(1005,2114)
+[28] desc='Home' clickable=True center=(108,2290)
+[29] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[30] desc='Shorts' clickable=True center=(324,2290)
+[31] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[32] desc='Create' clickable=True center=(540,2290)
+[33] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[34] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[35] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[36] desc='You' clickable=True center=(972,2290)
+[37] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:29:49,493 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:49,496 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'center': '(540,1593)'}
+2026-03-28 02:29:49,497 [ERROR] executor.skill_executor: tap skill called without x/y and could not resolve them from args {'center': '(540,1593)'}. Skipping.
+2026-03-28 02:29:49,497 [WARNING] agent.agent_loop: Action execution failed or returned False.
+2026-03-28 02:29:49,497 [INFO] agent.agent_loop: History entry: tap({'center': '(540,1593)'}) → FAILED
+2026-03-28 02:29:50,499 [INFO] agent.agent_loop: === Step 20/20 ===
+2026-03-28 02:29:50,499 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 02:29:54,075 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774645190.xml on attempt 1
+2026-03-28 02:29:54,079 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(799,595)
+[1] desc='Navigate up' clickable=True center=(73,163)
+[2] text='believer' id='com.google.android.youtube:id/search_query' clickable=True center=(371,163)
+[3] desc='Clear' id='com.google.android.youtube:id/search_clear' clickable=True center=(659,163)
+[4] desc='Voice search' id='com.google.android.youtube:id/voice_search' clickable=True center=(785,163)
+[5] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(911,163)
+[6] desc='More options' clickable=True center=(1027,163)
+[7] desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live, 15 million views, LIVE music journey, 8 months ago - play Short' clickable=True center=(280,666)
+[8] desc='More actions' clickable=True center=(486,274)
+[9] text='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' desc='BELIEVER IMAGINE DRAGONS LIVE CONCERT - BELIEVER LYRICS #imaginedragons #live' center=(280,894)
+[10] desc='Go to channel LIVE music journey' clickable=True center=(79,1036)
+[11] text='LIVE music journey' desc='LIVE music journey' center=(327,1010)
+[12] text='15M views · 8mo ago' desc='15M views · 8mo ago' center=(327,1064)
+[13] desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song, 17 million views, The Magical Lines , 1 year ago - play Short' clickable=True center=(799,666)
+[14] desc='More actions' clickable=True center=(1005,274)
+[15] text='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song' desc='BELIEVER 🔥🔥🔥 PAIN YOU MADE ME A YOU MADE ME A BELEIVER  🔥  HIGHLY MOTIVATIONAL LINES 🔥 beleiver song' center=(799,894)
+[16] desc='Go to channel The Magical Lines ' clickable=True center=(598,1036)
+[17] text='The Magical Lines ' desc='The Magical Lines ' center=(826,1010)
+[18] text='17M views · 1y ago' desc='17M views · 1y ago' center=(826,1064)
+[19] desc='Mix - Imagine Dragons - Believer (Official Music Video) - Imagine Dragons, Ed Sheeran, OneRepublic, and more - 50 videos' clickable=True center=(540,1593)
+[20] text='Mix' desc='Mix' center=(985,1740)
+[21] text='Mix - Imagine Dragons - Believer (Official Music Video)' desc='Mix - Imagine Dragons - Believer (Official Music Video)' center=(503,1880)
+[22] text='Imagine Dragons, Ed Sheeran, OneRepublic, and more' desc='Imagine Dragons, Ed Sheeran, OneRepublic, and more' center=(483,1973)
+[23] desc='Action menu' clickable=True center=(1006,1851)
+[24] desc='Dynamic Marble Ball Journey | "Believer" by Imagine Dragons, 1.2 million views, Lychee Luster, 1 year ago - play Short' clickable=True center=(280,2231)
+[25] desc='More actions' clickable=True center=(486,2114)
+[26] desc='Believer ✨ Imagine Dragons 🐉Quick Cover by Ruby Jay & Riley McEvoy, 1.3 million views, Ruby Jay, 8 years ago - play Short' clickable=True center=(799,2231)
+[27] desc='More actions' clickable=True center=(1005,2114)
+[28] desc='Home' clickable=True center=(108,2290)
+[29] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[30] desc='Shorts' clickable=True center=(324,2290)
+[31] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[32] desc='Create' clickable=True center=(540,2290)
+[33] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[34] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[35] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[36] desc='You' clickable=True center=(972,2290)
+[37] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 02:29:56,428 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 02:29:56,430 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 19}
+2026-03-28 02:29:56,431 [INFO] executor.skill_executor: Resolved index ID 19 → (540, 1593)
+2026-03-28 02:29:56,431 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000002B759F674D0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 540, 'y': 1593}
+2026-03-28 02:29:56,431 [INFO] skills.tap: Executing TAP at (540, 1593)
+2026-03-28 02:29:56,686 [INFO] agent.agent_loop: History entry: tap({'x': 540, 'y': 1593}) → SUCCESS
+2026-03-28 02:29:57,688 [WARNING] agent.agent_loop: Task reached maximum steps (20) without finishing.
+2026-03-28 02:29:57,689 [INFO] agent.agent_loop: Agent loop finished.
+2026-03-28 12:17:00,859 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 12:17:00,859 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 12:52:46,916 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:52:46] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:06,382 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:06] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:07,412 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:07] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:08,306 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:08] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:08,897 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:08] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:15,526 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:15] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 12:53:16,675 [INFO] __main__: Starting agent task: 'Turn on flashlight' (max_steps=3)
+2026-03-28 12:53:16,710 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 12:53:17,233 [INFO] agent.agent_loop: Starting agent task: Turn on flashlight
+2026-03-28 12:53:17,234 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 12:53:18,608 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:18] "[31m[1mPOST /run-task HTTP/1.1[0m" 409 -
+2026-03-28 12:53:22,023 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:53:22,049 [INFO] planner.llm_planner: Task refined:
+1.  **Swipe down from the top edge of the screen.** (This opens the notification shade and partial Quick Settings panel)
+2.  **Swipe down again from the top edge of the screen.** (This fully expands the Quick Settings panel)
+3.  **Locate the "Flashlight" tile.** (This tile typically has a flashlight icon and the text "Flashlight" below it)
+4.  **Tap the "Flashlight" tile.**
+2026-03-28 12:53:22,050 [INFO] agent.agent_loop: Refined task:
+Turn on flashlight
+
+Detailed steps:
+1.  **Swipe down from the top edge of the screen.** (This opens the notification shade and partial Quick Settings panel)
+2.  **Swipe down again from the top edge of the screen.** (This fully expands the Quick Settings panel)
+3.  **Locate the "Flashlight" tile.** (This tile typically has a flashlight icon and the text "Flashlight" below it)
+4.  **Tap the "Flashlight" tile.**
+2026-03-28 12:53:22,050 [INFO] agent.agent_loop: === Step 1/3 ===
+2026-03-28 12:53:22,051 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:53:26,099 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682602.xml on attempt 1
+2026-03-28 12:53:26,104 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1389)
+[22] text='📶 WiFi Off' center=(300,1388)
+[23] desc='📶 WiFi On' clickable=True center=(747,1389)
+[24] text='📶 WiFi On' center=(747,1388)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1521)
+[26] text='🔦 Flashlight On' center=(300,1520)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1521)
+[28] text='🔦 Flashlight Off' center=(747,1520)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1653)
+[30] text='🔆 Brightness 50%' center=(300,1653)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1653)
+[32] text='🔕 Silent Mode' center=(747,1653)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:53:27,780 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:53:27,785 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 25}
+2026-03-28 12:53:27,785 [INFO] executor.skill_executor: Resolved index ID 25 → (300, 1521)
+2026-03-28 12:53:27,786 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7FDF2E870>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 300, 'y': 1521}
+2026-03-28 12:53:27,787 [INFO] skills.tap: Executing TAP at (300, 1521)
+2026-03-28 12:53:27,929 [INFO] agent.agent_loop: History entry: tap({'x': 300, 'y': 1521}) → SUCCESS
+2026-03-28 12:53:27,951 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:27] "[31m[1mPOST /run-task HTTP/1.1[0m" 409 -
+2026-03-28 12:53:28,931 [INFO] agent.agent_loop: === Step 2/3 ===
+2026-03-28 12:53:28,931 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:53:29,878 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:29] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:30,890 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:53:30] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:53:35,275 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682608.xml on attempt 1
+2026-03-28 12:53:35,277 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1389)
+[22] text='📶 WiFi Off' center=(300,1388)
+[23] desc='📶 WiFi On' clickable=True center=(747,1389)
+[24] text='📶 WiFi On' center=(747,1388)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1521)
+[26] text='🔦 Flashlight On' center=(300,1520)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1521)
+[28] text='🔦 Flashlight Off' center=(747,1520)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1653)
+[30] text='🔆 Brightness 50%' center=(300,1653)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1653)
+[32] text='🔕 Silent Mode' center=(747,1653)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:53:37,621 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:53:37,623 [INFO] agent.agent_loop: Planned Action -> SKILL: set_flashlight, ARGS: {'state': 'on'}
+2026-03-28 12:53:37,627 [INFO] executor.skill_executor: Executing set_flashlight with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7FDF2E870>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'state': 'on'}
+2026-03-28 12:53:37,627 [INFO] skills.set_flashlight: Setting flashlight to: on
+2026-03-28 12:53:37,724 [ERROR] device.adb_controller: ADB command failed: C:\Users\kamma\AppData\Local\Android\Sdk\platform-tools\adb.exe -s adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp shell cmd flashlight --set enabled
+2026-03-28 12:53:37,725 [ERROR] device.adb_controller: Error output: cmd: Can't find service: flashlight
+
+2026-03-28 12:53:37,725 [INFO] agent.agent_loop: History entry: set_flashlight({'state': 'on'}) → SUCCESS
+2026-03-28 12:53:38,726 [INFO] agent.agent_loop: === Step 3/3 ===
+2026-03-28 12:53:38,727 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:53:42,226 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682618.xml on attempt 1
+2026-03-28 12:53:42,228 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1389)
+[22] text='📶 WiFi Off' center=(300,1388)
+[23] desc='📶 WiFi On' clickable=True center=(747,1389)
+[24] text='📶 WiFi On' center=(747,1388)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1521)
+[26] text='🔦 Flashlight On' center=(300,1520)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1521)
+[28] text='🔦 Flashlight Off' center=(747,1520)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1653)
+[30] text='🔆 Brightness 50%' center=(300,1653)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1653)
+[32] text='🔕 Silent Mode' center=(747,1653)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:53:44,573 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:53:44,580 [INFO] agent.agent_loop: Planned Action -> SKILL: done, ARGS: {}
+2026-03-28 12:53:44,589 [INFO] agent.agent_loop: Task marked as DONE by planner.
+2026-03-28 12:53:44,591 [INFO] agent.agent_loop: Agent loop finished.
+2026-03-28 12:54:17,543 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.60:5000
+2026-03-28 12:54:17,543 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-03-28 12:54:39,760 [INFO] __main__: Starting agent task: 'Open youtube' (max_steps=20)
+2026-03-28 12:54:39,760 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:54:39] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 12:54:39,810 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 12:54:40,159 [INFO] agent.agent_loop: Starting agent task: Open youtube
+2026-03-28 12:54:40,159 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 12:54:46,710 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:54:46,716 [INFO] planner.llm_planner: Task refined:
+1.  Swipe up from the bottom of the screen to open the app drawer.
+2.  Tap the search bar (often labeled 'Search apps' or similar) at the top of the app drawer.
+3.  Type 'youtube' into the search bar.
+4.  Tap the YouTube app icon that appears in the search results (package: com.google.android.youtube).
+2026-03-28 12:54:46,716 [INFO] agent.agent_loop: Refined task:
+Open youtube
+
+Detailed steps:
+1.  Swipe up from the bottom of the screen to open the app drawer.
+2.  Tap the search bar (often labeled 'Search apps' or similar) at the top of the app drawer.
+3.  Type 'youtube' into the search bar.
+4.  Tap the YouTube app icon that appears in the search results (package: com.google.android.youtube).
+2026-03-28 12:54:46,716 [INFO] agent.agent_loop: === Step 1/20 ===
+2026-03-28 12:54:46,716 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:54:56,292 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682686.xml on attempt 1
+2026-03-28 12:54:56,294 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1361)
+[22] text='📶 WiFi Off' center=(300,1375)
+[23] desc='📶 WiFi On' clickable=True center=(747,1361)
+[24] text='📶 WiFi On' center=(747,1375)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1427)
+[26] text='🔦 Flashlight On' center=(300,1441)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1427)
+[28] text='🔦 Flashlight Off' center=(747,1441)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1493)
+[30] text='🔆 Brightness 50%' center=(300,1507)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1493)
+[32] text='🔕 Silent Mode' center=(747,1507)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:54:58,370 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:54:58,373 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}
+2026-03-28 12:54:58,375 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812733E0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}
+2026-03-28 12:54:58,376 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 2000) to (500, 500)
+2026-03-28 12:54:59,001 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 12:55:00,002 [INFO] agent.agent_loop: === Step 2/20 ===
+2026-03-28 12:55:00,003 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:55:04,476 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682700.xml on attempt 1
+2026-03-28 12:55:04,477 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Splash Screen Image' center=(540,1127)
+[1] text='Mobile Agent' center=(540,1502)
+2026-03-28 12:55:05,843 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:55:05,845 [INFO] agent.agent_loop: Planned Action -> SKILL: scroll, ARGS: {'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}
+2026-03-28 12:55:05,847 [INFO] executor.skill_executor: Executing scroll with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812733E0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}
+2026-03-28 12:55:05,847 [INFO] skills.scroll: Executing SCROLL/SWIPE from (500, 2000) to (500, 500)
+2026-03-28 12:55:06,478 [INFO] agent.agent_loop: History entry: scroll({'x1': 500, 'y1': 2000, 'x2': 500, 'y2': 500}) → SUCCESS
+2026-03-28 12:55:07,479 [INFO] agent.agent_loop: === Step 3/20 ===
+2026-03-28 12:55:07,481 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:55:13,013 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682707.xml on attempt 1
+2026-03-28 12:55:13,015 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1389)
+[22] text='📶 WiFi Off' center=(300,1388)
+[23] desc='📶 WiFi On' clickable=True center=(747,1389)
+[24] text='📶 WiFi On' center=(747,1388)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1521)
+[26] text='🔦 Flashlight On' center=(300,1520)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1521)
+[28] text='🔦 Flashlight Off' center=(747,1520)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1653)
+[30] text='🔆 Brightness 50%' center=(300,1653)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1653)
+[32] text='🔕 Silent Mode' center=(747,1653)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:55:15,432 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:55:15,436 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.google.android.youtube'}
+2026-03-28 12:55:15,437 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812733E0>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.google.android.youtube'}
+2026-03-28 12:55:15,630 [INFO] skills.open_app: Attempting to launch: 'com.google.android.youtube'
+2026-03-28 12:55:17,272 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'com.google.android.youtube'}) → SUCCESS
+2026-03-28 12:55:18,273 [INFO] agent.agent_loop: === Step 4/20 ===
+2026-03-28 12:55:18,274 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:55:21,607 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682718.xml on attempt 1
+2026-03-28 12:55:21,610 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] desc='Expand Mini Player' id='com.google.android.youtube:id/player_overlays' clickable=True center=(540,532)
+[1] desc='Tap to mute or unmute playback audio' id='com.google.android.youtube:id/audio_toggle' clickable=True center=(1006,302)
+[2] desc='Captions' id='com.google.android.youtube:id/caption_toggle' clickable=True center=(1006,428)
+[3] desc='YouTube' id='com.google.android.youtube:id/youtube_logo' clickable=True center=(183,163)
+[4] desc='Cast' id='com.google.android.youtube:id/mdx_entry_point_button' clickable=True center=(764,163)
+[5] desc='Notifications' id='com.google.android.youtube:id/menu_item_view' clickable=True center=(891,163)
+[6] desc='Search' id='com.google.android.youtube:id/menu_item_view' clickable=True center=(1017,163)
+[7] desc='Sponsored - Google One पर पाएं ऑटो बैकअप की सुविधा. सिर्फ़ ₹59/महीने से प्लान शुरू. - 15 seconds - Google One ले फ़ोन डेटा का बैकअप अपने-आप, ताकि बेफ़िक्र रहें आप. ₹59/महीने से प्लान शुरू. - Google - play video' clickable=True center=(540,670)
+[8] clickable=True center=(540,958)
+[9] clickable=True center=(79,915)
+[10] desc='More options' clickable=True center=(1006,899)
+[11] text='Sponsored' desc='Sponsored' center=(245,1023)
+[12] text='Google' desc='Google' center=(422,1023)
+[13] desc='Shorts' center=(249,1202)
+[14] text='Shorts' desc='Shorts' center=(249,1202)
+[15] desc='Action menu' clickable=True center=(1006,1201)
+[16] desc='Every iPhone Ever. SAME photo! - play Short' clickable=True center=(280,1644)
+[17] desc='New' center=(108,1320)
+[18] text='New' desc='New' center=(100,1320)
+[19] desc='More actions' clickable=True center=(494,1315)
+[20] text='Every iPhone Ever. SAME photo!' desc='Every iPhone Ever. SAME photo!' center=(280,1943)
+[21] desc='This 110-Year-Old Eraser Company Invented Something You Use Every Day - play Short' clickable=True center=(799,1644)
+[22] desc='New' center=(627,1320)
+[23] text='New' desc='New' center=(619,1320)
+[24] desc='More actions' clickable=True center=(1013,1315)
+[25] text='This 110-Year-Old Eraser Company Invented Something You Use Every Day' desc='This 110-Year-Old Eraser Company Invented Something You Use Every Day' center=(799,1943)
+[26] desc='Another reasons ThinkPads are the best #pc #tech #technology #computer #shorttrending - play Short' clickable=True center=(280,2218)
+[27] desc='New' center=(108,2086)
+[28] text='New' desc='New' center=(100,2086)
+[29] desc='More actions' clickable=True center=(494,2081)
+[30] desc='GTA Has Apple Pay🍎? - play Short' clickable=True center=(799,2218)
+[31] desc='New' center=(627,2086)
+[32] text='New' desc='New' center=(619,2086)
+[33] desc='More actions' clickable=True center=(1013,2081)
+[34] desc='Home' clickable=True center=(108,2290)
+[35] text='Home' id='com.google.android.youtube:id/text' center=(108,2324)
+[36] desc='Shorts' clickable=True center=(324,2290)
+[37] text='Shorts' id='com.google.android.youtube:id/text' center=(324,2324)
+[38] desc='Create' clickable=True center=(540,2290)
+[39] desc='Subscriptions: New content is available' clickable=True center=(756,2290)
+[40] desc='New content available' id='com.google.android.youtube:id/new_content_dot' center=(778,2252)
+[41] text='Subscriptions' id='com.google.android.youtube:id/text' center=(756,2324)
+[42] desc='You' clickable=True center=(972,2290)
+[43] text='You' id='com.google.android.youtube:id/text' center=(972,2324)
+2026-03-28 12:55:23,127 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:55:23,148 [INFO] agent.agent_loop: Planned Action -> SKILL: done, ARGS: {}
+2026-03-28 12:55:23,149 [INFO] agent.agent_loop: Task marked as DONE by planner.
+2026-03-28 12:55:23,150 [INFO] agent.agent_loop: Agent loop finished.
+2026-03-28 12:55:39,433 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:55:39] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:55:40,572 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:55:40] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:55:41,648 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:55:41] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 12:55:54,818 [INFO] __main__: Starting agent task: 'Open settings and search for display' (max_steps=20)
+2026-03-28 12:55:54,818 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 12:55:54] "[35m[1mPOST /run-task HTTP/1.1[0m" 202 -
+2026-03-28 12:55:54,869 [INFO] agent.agent_loop: Using device: adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp
+2026-03-28 12:55:55,214 [INFO] agent.agent_loop: Starting agent task: Open settings and search for display
+2026-03-28 12:55:55,214 [INFO] agent.agent_loop: Refining task with LLM before starting...
+2026-03-28 12:55:58,036 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:55:58,040 [INFO] planner.llm_planner: Task refined:
+1.  Open the "Settings" app (package: com.android.settings).
+2.  Tap the search bar or icon, typically labeled "Search settings" or represented by a magnifying glass icon at the top of the screen.
+3.  Type 'display' into the search input field.
+4.  Tap the search/enter key on the keyboard.
+2026-03-28 12:55:58,041 [INFO] agent.agent_loop: Refined task:
+Open settings and search for display
+
+Detailed steps:
+1.  Open the "Settings" app (package: com.android.settings).
+2.  Tap the search bar or icon, typically labeled "Search settings" or represented by a magnifying glass icon at the top of the screen.
+3.  Type 'display' into the search input field.
+4.  Tap the search/enter key on the keyboard.
+2026-03-28 12:55:58,041 [INFO] agent.agent_loop: === Step 1/20 ===
+2026-03-28 12:55:58,042 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:56:01,465 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682758.xml on attempt 1
+2026-03-28 12:56:01,467 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] text='Server Offline' center=(282,53)
+[1] text='http://192.168.1.60:5000' center=(282,105)
+[2] text='Offline' center=(956,77)
+[3] text='Send a Task' center=(540,277)
+[4] text='e.g. Open YouTube and search Believer…' clickable=True center=(540,447)
+[5] text='Max steps: 20' center=(212,624)
+[6] desc='5' clickable=True center=(600,624)
+[7] text='5' center=(599,624)
+[8] desc='10' clickable=True center=(706,624)
+[9] text='10' center=(706,624)
+[10] desc='20' clickable=True center=(825,624)
+[11] text='20' center=(824,624)
+[12] desc='30' clickable=True center=(943,624)
+[13] text='30' center=(943,624)
+[14] desc='▶ Send Task' center=(540,770)
+[15] text='▶ Send Task' center=(539,769)
+[16] text='⚡ Quick Tasks' center=(540,1002)
+[17] desc='📸 Screenshot' clickable=True center=(300,1122)
+[18] text='📸 Screenshot' center=(300,1122)
+[19] desc='📋 Summarize Screen' clickable=True center=(320,1256)
+[20] text='📋 Summarize Screen' center=(320,1255)
+[21] desc='📶 WiFi Off' clickable=True center=(300,1361)
+[22] text='📶 WiFi Off' center=(300,1375)
+[23] desc='📶 WiFi On' clickable=True center=(747,1361)
+[24] text='📶 WiFi On' center=(747,1375)
+[25] desc='🔦 Flashlight On' clickable=True center=(300,1427)
+[26] text='🔦 Flashlight On' center=(300,1441)
+[27] desc='🔦 Flashlight Off' clickable=True center=(747,1427)
+[28] text='🔦 Flashlight Off' center=(747,1441)
+[29] desc='🔆 Brightness 50%' clickable=True center=(300,1493)
+[30] text='🔆 Brightness 50%' center=(300,1507)
+[31] desc='🔕 Silent Mode' clickable=True center=(747,1493)
+[32] text='🔕 Silent Mode' center=(747,1507)
+[33] desc='▶, Send' clickable=True center=(180,2304)
+[34] text='Send' center=(180,2347)
+[35] text='▶' center=(179,2306)
+[36] desc='🕐, History' clickable=True center=(540,2304)
+[37] text='History' center=(540,2347)
+[38] text='🕐' center=(539,2306)
+[39] desc='⚙️, Settings' clickable=True center=(900,2304)
+[40] text='Settings' center=(900,2347)
+[41] text='⚙️' center=(899,2306)
+2026-03-28 12:56:02,954 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:56:02,956 [INFO] agent.agent_loop: Planned Action -> SKILL: open_app, ARGS: {'package_name': 'com.android.settings'}
+2026-03-28 12:56:02,958 [INFO] executor.skill_executor: Executing open_app with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812B4470>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'package_name': 'com.android.settings'}
+2026-03-28 12:56:03,293 [INFO] skills.open_app: Attempting to launch: 'com.android.settings'
+2026-03-28 12:56:05,056 [INFO] agent.agent_loop: History entry: open_app({'package_name': 'com.android.settings'}) → SUCCESS
+2026-03-28 12:56:06,059 [INFO] agent.agent_loop: === Step 2/20 ===
+2026-03-28 12:56:06,060 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:56:09,397 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682766.xml on attempt 1
+2026-03-28 12:56:09,397 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] id='com.android.settings:id/account_category' clickable=True center=(539,591)
+[1] text='630****033' id='com.android.settings:id/account_title' center=(371,560)
+[2] text='Account password & security' id='com.android.settings:id/summary_ex' center=(519,621)
+[3] clickable=True center=(539,821)
+[4] desc='Wi-Fi, Atithi pg R23 5Ghz' id='com.android.settings:id/vlist_content' center=(539,821)
+[5] text='Wi-Fi' id='android:id/title' center=(260,826)
+[6] text='Atithi pg R23 5Ghz' id='android:id/summary' center=(752,826)
+[7] clickable=True center=(539,977)
+[8] desc='Bluetooth, Off' id='com.android.settings:id/vlist_content' center=(539,977)
+[9] text='Bluetooth' id='android:id/title' center=(314,976)
+[10] text='Off' id='android:id/summary' center=(896,976)
+[11] clickable=True center=(539,1127)
+[12] desc='Mobile network' id='com.android.settings:id/vlist_content' center=(539,1127)
+[13] text='Mobile network' id='android:id/title' center=(379,1126)
+[14] clickable=True center=(539,1282)
+[15] desc='More connections' id='com.android.settings:id/vlist_content' center=(539,1282)
+[16] text='More connections' id='android:id/title' center=(409,1276)
+[17] clickable=True center=(539,1488)
+[18] desc='Notifications & status bar' id='com.android.settings:id/vlist_content' center=(539,1488)
+[19] text='Notifications & status bar' id='android:id/title' center=(493,1493)
+[20] clickable=True center=(539,1644)
+[21] desc='Sounds & vibration' id='com.android.settings:id/vlist_content' center=(539,1644)
+[22] text='Sounds & vibration' id='android:id/title' center=(417,1643)
+[23] clickable=True center=(539,1828)
+[24] desc='Display, brightness & eye protection' id='com.android.settings:id/vlist_content' center=(539,1828)
+[25] text='Display, brightness & eye protection' id='android:id/title' center=(562,1828)
+[26] clickable=True center=(539,2051)
+[27] desc='Home screen, lock screen & wallpaper' id='com.android.settings:id/vlist_content' center=(539,2051)
+[28] text='Home screen, lock screen & wallpaper' id='android:id/title' center=(562,2046)
+[29] clickable=True center=(539,2291)
+[30] desc='Apps' id='com.android.settings:id/vlist_content' center=(539,2291)
+[31] text='Apps' id='android:id/title' center=(263,2296)
+[32] clickable=True center=(539,2386)
+[33] desc='Security & privacy' id='com.android.settings:id/vlist_content' center=(539,2386)
+[34] id='com.android.settings:id/orginui_vcommonlayout_toptargetview' clickable=True center=(539,227)
+[35] text='Settings' id='com.android.settings:id/originui_vtoolbar_normal_title_rom14_0' center=(238,237)
+[36] id='com.android.settings:id/orginui_vcommonlayout_toptargetview_addmoreview_vsearchview' clickable=True center=(539,391)
+[37] desc='Search settings' id='com.android.settings:id/vigour_search_content' clickable=True center=(539,372)
+[38] id='com.android.settings:id/vigour_search_indicator_image' clickable=True center=(131,372)
+[39] text='Search settings' id='com.android.settings:id/vigour_search_edit' clickable=True center=(595,372)
+2026-03-28 12:56:10,871 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:56:10,877 [INFO] agent.agent_loop: Planned Action -> SKILL: tap, ARGS: {'id': 'com.android.settings:id/vigour_search_edit'}
+2026-03-28 12:56:10,877 [INFO] executor.skill_executor: Resolved resource ID com.android.settings:id/vigour_search_edit → (595, 372)
+2026-03-28 12:56:10,877 [INFO] executor.skill_executor: Executing tap with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812B4470>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'x': 595, 'y': 372}
+2026-03-28 12:56:10,877 [INFO] skills.tap: Executing TAP at (595, 372)
+2026-03-28 12:56:11,087 [INFO] agent.agent_loop: History entry: tap({'x': 595, 'y': 372}) → SUCCESS
+2026-03-28 12:56:12,092 [INFO] agent.agent_loop: === Step 3/20 ===
+2026-03-28 12:56:12,092 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:56:15,771 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682772.xml on attempt 1
+2026-03-28 12:56:15,773 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] id='com.android.settings:id/orginui_vcommonlayout_toptargetview' clickable=True center=(539,130)
+[1] id='com.android.settings:id/orginui_vcommonlayout_toptargetview_addmoreview_vsearchview' clickable=True center=(539,197)
+[2] id='com.android.settings:id/vigour_search_indicator_image' clickable=True center=(131,178)
+[3] text='Search settings' id='com.android.settings:id/vigour_search_edit' clickable=True center=(500,178)
+[4] text='Cancel' id='com.android.settings:id/vigour_search_right_btn' clickable=True center=(937,178)
+[5] id='com.android.settings:id/search_record_layout' clickable=True center=(539,1330)
+[6] text='Search history' id='com.android.settings:id/historic_records_title' center=(404,312)
+[7] desc='Delete' id='com.android.settings:id/delete_all_records_view' clickable=True center=(977,312)
+[8] text='wirele' id='com.android.settings:id/historic_record_content' clickable=True center=(158,422)
+[9] text='assista' id='com.android.settings:id/historic_record_content' clickable=True center=(367,422)
+[10] text='app lock' id='com.android.settings:id/historic_record_content' clickable=True center=(597,422)
+[11] text='wire' id='com.android.settings:id/historic_record_content' clickable=True center=(802,422)
+[12] text='wireless' id='com.android.settings:id/historic_record_content' clickable=True center=(177,513)
+[13] text='sleep' id='com.android.settings:id/historic_record_content' clickable=True center=(391,513)
+[14] text='deve' id='com.android.settings:id/historic_record_content' clickable=True center=(578,513)
+[15] text='app lo' id='com.android.settings:id/historic_record_content' clickable=True center=(769,513)
+[16] text='Search suggestions' id='com.android.settings:id/search_suggestion_title' center=(463,682)
+[17] desc='Hide' id='com.android.settings:id/show_or_hide_btn' clickable=True center=(951,682)
+[18] text='OTG' id='com.android.settings:id/suggestion_record_content' clickable=True center=(144,816)
+[19] text='Personal hotspot' id='com.android.settings:id/suggestion_record_content' clickable=True center=(421,816)
+[20] text='Private space' id='com.android.settings:id/suggestion_record_content' clickable=True center=(771,816)
+[21] text='Date & time' id='com.android.settings:id/suggestion_record_content' clickable=True center=(202,907)
+[22] text='Screen lock' id='com.android.settings:id/suggestion_record_content' clickable=True center=(495,907)
+[23] text='Dynamic effects' id='com.android.settings:id/suggestion_record_content' clickable=True center=(825,907)
+[24] text='Navigation keys' id='com.android.settings:id/suggestion_record_content' clickable=True center=(236,999)
+[25] text='Phone storage' id='com.android.settings:id/suggestion_record_content' clickable=True center=(584,999)
+2026-03-28 12:56:18,004 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:56:18,009 [INFO] agent.agent_loop: Planned Action -> SKILL: type_text, ARGS: {'text': 'display'}
+2026-03-28 12:56:18,010 [INFO] executor.skill_executor: Executing type_text with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812B4470>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'text': 'display'}
+2026-03-28 12:56:18,010 [INFO] skills.type_text: type_text: using direct input for 'display'.
+2026-03-28 12:56:18,335 [INFO] agent.agent_loop: History entry: type_text({'text': 'display'}) → SUCCESS
+2026-03-28 12:56:19,337 [INFO] agent.agent_loop: === Step 4/20 ===
+2026-03-28 12:56:19,337 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:56:22,604 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682779.xml on attempt 1
+2026-03-28 12:56:22,608 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(539,433)
+[1] text='Display, brightness & eye protection' id='com.android.settings:id/title' center=(594,410)
+[2] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,509)
+[3] clickable=True center=(539,705)
+[4] text='Always On Display' id='com.android.settings:id/title' center=(412,645)
+[5] text='Home screen, lock screen & wallpaper > Always On Display' id='com.android.settings:id/subtitle' center=(594,738)
+[6] clickable=True center=(539,970)
+[7] text='Always On Display' id='com.android.settings:id/title' center=(412,905)
+[8] text='Home screen, lock screen & wallpaper > Dynamic effects > Ambient lights' id='com.android.settings:id/subtitle' center=(594,998)
+[9] clickable=True center=(539,1236)
+[10] text='Display size' id='com.android.settings:id/title' center=(338,1234)
+[11] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1295)
+[12] clickable=True center=(539,1469)
+[13] text='Display on top' id='com.android.settings:id/title' center=(366,1441)
+[14] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1502)
+[15] clickable=True center=(539,1676)
+[16] text='Display in full screen' id='com.android.settings:id/title' center=(437,1648)
+[17] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1709)
+[18] clickable=True center=(539,1915)
+[19] text='Enhanced display effects' id='com.android.settings:id/title' center=(490,1850)
+[20] text='Display, brightness & eye protection > Enhanced display effects' id='com.android.settings:id/subtitle' center=(594,1943)
+[21] clickable=True center=(539,2207)
+[22] text='Display mode' id='com.android.settings:id/title' center=(358,2174)
+[23] text='Home screen, lock screen & wallpaper > Always On Display > More AOD settings' id='com.android.settings:id/subtitle' center=(594,2267)
+[24] clickable=True center=(539,2382)
+[25] id='com.android.settings:id/orginui_vcommonlayout_toptargetview' clickable=True center=(539,130)
+[26] id='com.android.settings:id/orginui_vcommonlayout_toptargetview_addmoreview_vsearchview' clickable=True center=(539,197)
+[27] id='com.android.settings:id/vigour_search_indicator_image' clickable=True center=(131,178)
+[28] text='display' id='com.android.settings:id/vigour_search_edit' clickable=True center=(461,178)
+[29] desc='Clear' id='com.android.settings:id/vigour_search_clear_image' clickable=True center=(772,178)
+[30] text='Cancel' id='com.android.settings:id/vigour_search_right_btn' clickable=True center=(937,178)
+2026-03-28 12:56:24,394 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:56:24,402 [INFO] agent.agent_loop: Planned Action -> SKILL: press_key, ARGS: {'key': 'ENTER'}
+2026-03-28 12:56:24,403 [INFO] executor.skill_executor: Executing press_key with args: {'adb': <device.adb_controller.AdbController object at 0x000001B7812B4470>, 'device_id': 'adb-10BF5P1PNN0010T-WLhh7x._adb-tls-connect._tcp', 'key': 'ENTER'}
+2026-03-28 12:56:24,403 [INFO] skills.press_key: Executing PRESS_KEY: 'ENTER' (KEYCODE_ENTER)
+2026-03-28 12:56:24,693 [INFO] agent.agent_loop: History entry: press_key({'key': 'ENTER'}) → SUCCESS
+2026-03-28 12:56:25,694 [INFO] agent.agent_loop: === Step 5/20 ===
+2026-03-28 12:56:25,694 [INFO] ui.dump_ui: Dumping UI hierarchy...
+2026-03-28 12:56:29,041 [INFO] ui.dump_ui: UI dumped to D:\projects\mobile_agent\storage\ui_dump_1774682785.xml on attempt 1
+2026-03-28 12:56:29,049 [INFO] agent.agent_loop: UI Elements sent to LLM:
+[0] clickable=True center=(539,433)
+[1] text='Display, brightness & eye protection' id='com.android.settings:id/title' center=(594,410)
+[2] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,509)
+[3] clickable=True center=(539,705)
+[4] text='Always On Display' id='com.android.settings:id/title' center=(412,645)
+[5] text='Home screen, lock screen & wallpaper > Always On Display' id='com.android.settings:id/subtitle' center=(594,738)
+[6] clickable=True center=(539,970)
+[7] text='Always On Display' id='com.android.settings:id/title' center=(412,905)
+[8] text='Home screen, lock screen & wallpaper > Dynamic effects > Ambient lights' id='com.android.settings:id/subtitle' center=(594,998)
+[9] clickable=True center=(539,1236)
+[10] text='Display size' id='com.android.settings:id/title' center=(338,1234)
+[11] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1295)
+[12] clickable=True center=(539,1469)
+[13] text='Display on top' id='com.android.settings:id/title' center=(366,1441)
+[14] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1502)
+[15] clickable=True center=(539,1676)
+[16] text='Display in full screen' id='com.android.settings:id/title' center=(437,1648)
+[17] text='Display, brightness & eye protection' id='com.android.settings:id/subtitle' center=(535,1709)
+[18] clickable=True center=(539,1915)
+[19] text='Enhanced display effects' id='com.android.settings:id/title' center=(490,1850)
+[20] text='Display, brightness & eye protection > Enhanced display effects' id='com.android.settings:id/subtitle' center=(594,1943)
+[21] clickable=True center=(539,2207)
+[22] text='Display mode' id='com.android.settings:id/title' center=(358,2174)
+[23] text='Home screen, lock screen & wallpaper > Always On Display > More AOD settings' id='com.android.settings:id/subtitle' center=(594,2267)
+[24] clickable=True center=(539,2382)
+[25] id='com.android.settings:id/orginui_vcommonlayout_toptargetview' clickable=True center=(539,130)
+[26] id='com.android.settings:id/orginui_vcommonlayout_toptargetview_addmoreview_vsearchview' clickable=True center=(539,197)
+[27] id='com.android.settings:id/vigour_search_indicator_image' clickable=True center=(131,178)
+[28] text='display' id='com.android.settings:id/vigour_search_edit' clickable=True center=(461,178)
+[29] desc='Clear' id='com.android.settings:id/vigour_search_clear_image' clickable=True center=(772,178)
+[30] text='Cancel' id='com.android.settings:id/vigour_search_right_btn' clickable=True center=(937,178)
+2026-03-28 12:56:30,837 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/openai/chat/completions "HTTP/1.1 200 OK"
+2026-03-28 12:56:30,841 [INFO] agent.agent_loop: Planned Action -> SKILL: done, ARGS: {}
+2026-03-28 12:56:30,841 [INFO] agent.agent_loop: Task marked as DONE by planner.
+2026-03-28 12:56:30,841 [INFO] agent.agent_loop: Agent loop finished.
+2026-03-28 13:28:42,236 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:42] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:42,940 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:42] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:43,559 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:43] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:44,026 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:44] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:44,275 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:44] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:44,480 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:44] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:44,615 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:44] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:44,797 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:44] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:45,014 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:45] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:45,135 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:45] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:45,295 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:45] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 13:28:45,477 [INFO] werkzeug: 192.168.1.77 - - [28/Mar/2026 13:28:45] "[33mGET /memory HTTP/1.1[0m" 404 -
+2026-03-28 19:27:19,708 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.128:5000
+2026-03-28 19:27:19,709 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
