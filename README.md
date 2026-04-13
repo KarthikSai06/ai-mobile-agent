@@ -14,9 +14,9 @@
 
 ## 🎬 Demo
 
-| Demo 1 | Demo 2 |
-|:---:|:---:|
-| [![Watch Demo 1](https://img.youtube.com/vi/T9zF86opMik/0.jpg)](https://youtu.be/T9zF86opMik) | [![Watch Demo 2](https://img.youtube.com/vi/WAjywZKRklM/0.jpg)](https://youtu.be/WAjywZKRklM) |
+| Demo 1 | Demo 2 | Demo 3 |
+|:---:|:---:|:---:|
+| [![Watch Demo 1](https://img.youtube.com/vi/T9zF86opMik/0.jpg)](https://youtu.be/T9zF86opMik) | [![Watch Demo 2](https://img.youtube.com/vi/WAjywZKRklM/0.jpg)](https://youtu.be/WAjywZKRklM) | [![Watch Demo 3](https://img.youtube.com/vi/VRrSq7tNWKM/0.jpg)](https://youtu.be/VRrSq7tNWKM?si=Dx2I8XhLeUIopICT) |
 
 ---
 
@@ -42,7 +42,6 @@ The agent handles it all — reading the screen, planning each step, and executi
 |---|---|
 | 🎙️ **Voice Assistant Integration** | Turn your phone into a system-level assistant triggerable by the Android Home button |
 | 🌐 **Remote Triggering** | Flask API server `api_server.py` with dynamic endpoints like `/stop` |
-| 🧠 **Claude Code Inspired** | Dream-lite memory consolidation and extensive JSON session logs |
 | 📝 **Task Refinement** | Automatically expands raw instructions into step-by-step UI plans |
 | 🗣️ **Natural language tasks** | Give any instruction in plain English |
 | 📱 **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
