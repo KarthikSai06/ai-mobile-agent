@@ -91,6 +91,13 @@ class SkillExecutor:
                 element = self.last_elements[idx]
                 cx, cy = element.get("center_x"), element.get("center_y")
                 if cx is not None and cy is not None:
+                    # Apply smart offset for Send buttons to avoid overlapping EditText
+                    desc = str(element.get("content_desc", "")).lower()
+                    res_id = str(element.get("resource_id", "")).lower()
+                    if desc == "send" or "send" in res_id:
+                        w = element.get("width", 0)
+                        cx = cx + w // 4
+                        logger.info(f"Send button detected. Shifting tap X coordinate from center to safe right side: {cx}")
                     args["x"] = cx
                     args["y"] = cy
                     args.pop("id", None)
@@ -100,8 +107,16 @@ class SkillExecutor:
         # Try resource_id string match
         for element in self.last_elements:
             if str(element.get("resource_id")) == node_id:
-                args["x"] = element["center_x"]
-                args["y"] = element["center_y"]
+                cx = element["center_x"]
+                cy = element["center_y"]
+                desc = str(element.get("content_desc", "")).lower()
+                res_id = str(element.get("resource_id", "")).lower()
+                if desc == "send" or "send" in res_id or "send" in node_id.lower():
+                    w = element.get("width", 0)
+                    cx = cx + w // 4
+                    logger.info(f"Send button detected (resource match). Shifting tap X coordinate: {cx}")
+                args["x"] = cx
+                args["y"] = cy
                 args.pop("id", None)
                 logger.info(f"Resolved resource ID {node_id} → ({args['x']}, {args['y']})")
                 return args
@@ -124,8 +139,14 @@ class SkillExecutor:
             el_text = str(element.get("text", "")).lower()
             el_desc = str(element.get("content_desc", "")).lower()
             if label_lower in el_text or label_lower in el_desc:
-                args["x"] = element["center_x"]
-                args["y"] = element["center_y"]
+                cx = element["center_x"]
+                cy = element["center_y"]
+                if el_desc == "send" or "send" in el_text:
+                    w = element.get("width", 0)
+                    cx = cx + w // 4
+                    logger.info(f"Send button detected (text match). Shifting tap X coordinate: {cx}")
+                args["x"] = cx
+                args["y"] = cy
                 logger.info(f"Resolved text='{label}' → ({args['x']}, {args['y']}) via element text/desc")
                 return args
 

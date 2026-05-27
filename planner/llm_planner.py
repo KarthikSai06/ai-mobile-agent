@@ -4,10 +4,11 @@ import os
 import shlex
 import base64
 import traceback
+import httpx
 
 logger = logging.getLogger(__name__)
 
-                                               
+                                                
 try:
     import openai
     HAS_OPENAI = True
@@ -23,12 +24,12 @@ class LLMPlanner:
         self.model = settings.LLM_MODEL
         self.vision_model = getattr(settings, "LLM_VISION_MODEL", "moondream:latest")
         
-        self.system_prompt = """You are an Android agent. Output ONE action per turn.
+        self.system_prompt = """You are an Android phone automation agent. You output exactly ONE action per turn.
 
-Skills:
+Available Skills:
   tap            ARGS: id=<n>   OR   x=<n> y=<n>
   type_text      ARGS: text=<string>
-  open_app       ARGS: package_name=<pkg>   (no other args)
+  open_app       ARGS: package_name=<app_name_or_pkg>   (use app name like 'Spotify' or package like 'com.spotify.music')
   press_key      ARGS: key=HOME|BACK|ENTER|VOLUME_UP|VOLUME_DOWN
   scroll         ARGS: x1=500 y1=1500 x2=500 y2=500
   save_memory    ARGS: key=<name> value=<x,y or description>
@@ -40,37 +41,50 @@ Skills:
   set_airplane_mode ARGS: state=on|off
   set_flashlight ARGS: state=on|off
   set_mobile_data ARGS: state=on|off
-  extract_text   ARGS: save_as=<memory_key>   (reads all text visible on screen)
-  summarize_text ARGS: save_as=<memory_key>   (reads screen text, summarizes it via LLM, prints & optionally saves the summary)
-  take_screenshot ARGS: filename=<optional_name>  (saves a PNG to the screenshots folder)
+  extract_text   ARGS: save_as=<memory_key>
+  summarize_text ARGS: save_as=<memory_key>
+  take_screenshot ARGS: filename=<optional_name>
   done           ARGS: (none)
 
-Rules:
-  1. open_app only needs package_name. Never add id/x/y/text to it.
-  2. Prefer id over coordinates when available.
-  3. CRITICAL: If your last action was tapping a search bar or text field (and outcome was SUCCESS), you MUST immediately use the type_text skill on the next turn. Do NOT tap the search bar again. Repeatedly tapping it will close the keyboard and cause a loop.
-  4. If Stored Memory contains the coordinates for an element you need, use those coordinates directly instead of searching the UI.
-  5. After successfully locating a hard-to-find element (e.g., a search bar or send button), call save_memory to store its coordinates for future use.
-  6. CRITICAL: After typing a search term, the search bar element will now show your typed text (e.g., text='bujji' desc='Search Chats'). Do NOT tap this element — it is the search bar, not a result. Tap the actual search result that appears BELOW it (e.g., 'Bujji, bot', 'Bujji, @Karthikkammalabot').
-  7. CRITICAL — Identifying your current screen:
-     - YOU ARE ON A PROFILE PAGE if you see 'Message', 'Mute', 'Call'/'Share' buttons in a horizontal row near y=738 AND there is NO 'Bot menu' or 'Emoji, stickers, and GIFs' element visible. Action: tap the 'Message' button (at y=738) to enter the chat.
-     - YOU ARE IN THE CHAT WINDOW if you see 'desc=Emoji, stickers, and GIFs' or 'desc=Bot menu' in the UI elements. The message input box will be labeled 'Message' near y > 2000. Action: IMMEDIATELY tap the 'Message' input box (at the bottom) and type your text. Do NOT tap the contact name/header (e.g., 'Bujji\\nbot' at the top) — that takes you BACK to the profile page and will undo all progress.
-  8. CRITICAL: Never tap a three-dot menu button or options icon unless explicitly needed. If you see a dropdown with 'Night Mode', 'New Group', 'Saved Messages' — press BACK immediately to close it and look for the correct element instead.
-  9. For system tasks (WiFi, Bluetooth, brightness, etc.) use the dedicated skill directly — do NOT open Settings manually unless the skill is unavailable.
-  10. Output ONLY the two lines below — nothing else.
-  11. CRITICAL — Sending messages: After typing your message text, FIRST try tapping the Send button (desc='Send'). If the UI does NOT change after tapping it (outcome=NO_CHANGE), immediately switch to press_key ENTER to send the message instead of tapping Send repeatedly.
-  12. CRITICAL — SCROLLING: Any time your objective requires finding an element that logically exists on the page (e.g., a search result, a 'Submit'/'Add' button, an older message, or a setting) but it is NOT visible in the current UI Elements list, you MUST output a `scroll` action. Do NOT tap randomly, guess coordinates, repeat your previous tap, or give up. Scroll (usually x1=500 y1=1500 x2=500 y2=500) to find it.
-  13. CRITICAL — ONLY USE SKILLS FROM THE LIST ABOVE. Do NOT invent or use skills like 'search', 'find', 'query', 'swipe', 'input', or any other name not listed. There is NO 'search' skill. To search inside an app (Gmail, YouTube, etc.), you MUST: (a) tap the search icon/bar shown in UI Elements, then (b) use type_text to type the search query, then (c) press_key ENTER.
-  14. MEMORY REFERENCES: To type text that is stored in memory, use @key_name as the text value. Example: SKILL: type_text / ARGS: text=@bujji_summary — the agent will automatically expand it to the full stored value before typing. This is the PREFERRED way to send long saved texts (like summaries).
+CRITICAL RULES:
+  1. open_app ONLY needs package_name. You can use the plain app name (e.g. 'Spotify', 'YouTube', 'Google Maps') OR the full package name. Never add id/x/y/text to it.
+  2. Prefer id=<n> (element index) over raw x/y coordinates when available.
+  3. If your last action was tapping a search bar (SUCCESS), you MUST use type_text next. Do NOT tap the search bar again.
+  4. After typing a search term, tap the RESULT below the search bar, NOT the search bar itself.
+  5. If an element is NOT visible, use scroll to find it. Do NOT guess coordinates.
+  6. ONLY use skills from the list above. Do NOT invent skills like 'search', 'find', 'swipe', 'input'.
+  7. To search inside an app: (a) tap search icon/bar, (b) type_text, (c) press_key ENTER.
+  8. For system tasks (WiFi, Bluetooth, etc.) use the dedicated skill directly.
+  9. After typing text, press_key ENTER to submit if no Send button is visible.
 
-Format (copy exactly):
-SKILL: <name>
-ARGS: <key=val ...>"""
+OUTPUT FORMAT — you MUST reply with EXACTLY these two lines and nothing else:
+SKILL: <skill_name>
+ARGS: <key=value key=value ...>
+
+Examples:
+SKILL: tap
+ARGS: id=33
+
+SKILL: open_app
+ARGS: package_name=Swiggy
+
+SKILL: open_app
+ARGS: package_name=com.google.android.youtube
+
+SKILL: type_text
+ARGS: text=meghana biriyani
+
+SKILL: press_key
+ARGS: key=ENTER
+
+SKILL: done
+ARGS: (none)"""
         
         if HAS_OPENAI and self.api_key:
              self.client = openai.OpenAI(
                  api_key=self.api_key,
-                 base_url=self.base_url if self.base_url else None
+                 base_url=self.base_url if self.base_url else None,
+                 timeout=httpx.Timeout(30.0, connect=10.0)
              )
         else:
              self.client = None
@@ -113,9 +127,9 @@ ARGS: <key=val ...>"""
             f"{hint_line}"
             f"{memory_str}"
             f"\nAction History:\n{history_str}\n"
-            f"\nExample:\nSKILL: tap\nARGS: id=3\n"
+            f"\nIMPORTANT: Reply with ONLY two lines: SKILL: <name> and ARGS: <key=val>\n"
             f"\nUI Elements:\n{ui_elements_str}\n"
-            f"\nYour action:"
+            f"\nYour action (SKILL: and ARGS: only):"
         )
 
         if not self.client:
@@ -138,12 +152,18 @@ ARGS: <key=val ...>"""
 
         result = self._parse_llm_output(output)
 
-        # Fix 5: If output was malformed, retry once with a stripped-down prompt
+        # If output was malformed, retry once with the failed output included for correction
         if result is None:
-            logger.warning("Malformed LLM output. Retrying with simplified prompt.")
+            logger.warning("Malformed LLM output. Retrying with format correction prompt.")
             retry_messages = [
-                {"role": "system", "content": "Output ONLY:\nSKILL: <name>\nARGS: <key=val>"},
-                {"role": "user", "content": f"Task: {task}\nReply with one action."},
+                {"role": "system", "content": "You are an Android automation agent. Output ONLY two lines:\nSKILL: <name>\nARGS: <key=val ...>\n\nValid skills: tap, type_text, open_app, press_key, scroll, done\ntap needs: id=<n> OR x=<n> y=<n>\nopen_app needs: package_name=<pkg>"},
+                {"role": "user", "content": (
+                    f"Task: {task}\n\n"
+                    f"Your previous response was:\n{output}\n\n"
+                    f"This was malformed. Rewrite it as EXACTLY two lines:\n"
+                    f"SKILL: <skill_name>\nARGS: <key=value ...>\n\n"
+                    f"Reply now:"
+                )},
             ]
             try:
                 retry_output = self._call_llm(retry_messages)
@@ -169,17 +189,20 @@ ARGS: <key=val ...>"""
         prompt = (
             f"You are an Android automation planner. The user wants to: \"{raw_task}\"\n\n"
             "Rewrite this as a numbered, step-by-step list of exact UI interactions to perform on an Android phone. "
-            "Be very specific — specify which app to open, which button to tap, what text to type, and when to press send/enter. "
-            "Do NOT include steps about confirming the task is done. Keep it concise, max 8 steps.\n\n"
+            "Be very specific — specify which app to open (include package name), which button to tap, what text to type, and when to press enter.\n\n"
+            "IMPORTANT RULES:\n"
+            "- Do NOT include login/signup steps unless the user explicitly asked to log in\n"
+            "- Do NOT include a 'Close app' step at the end\n"
+            "- Do NOT assume the user needs to authenticate\n"
+            "- Keep it concise, max 6 steps\n"
+            "- Only include observable UI actions (tap, type, scroll)\n\n"
             "Example output:\n"
-            "1. Open Telegram (package: org.telegram.messenger)\n"
-            "2. Tap the element with desc='Search Chats' — this is the search bar at the top of the Chats list (do NOT tap the three-dot menu icon)\n"
-            "3. Type 'bujji' into the search bar\n"
-            "4. If the result shows a bot/user (e.g., 'Bujji, bot'), tap it\n"
-            "5. If a profile page opens with 'Message', 'Mute', 'Call' buttons — tap the 'Message' button\n"
-            "6. Tap the message input box labeled 'Message'\n"
-            "7. Type 'hi'\n"
-            "8. Tap the Send button\n\n"
+            "1. Open Swiggy (package: com.swiggy.android)\n"
+            "2. Tap the search bar at the top\n"
+            "3. Type 'biryani' into the search bar\n"
+            "4. Press Enter to search\n"
+            "5. Tap on the first result\n"
+            "6. Tap 'Add' button next to the item\n\n"
             "Now generate the steps for the user's task:"
         )
 
@@ -194,11 +217,15 @@ ARGS: <key=val ...>"""
 
     def _call_llm(self, messages: list) -> str:
         """Calls the LLM and returns the raw text response."""
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            temperature=0.0,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=0.0,
+            )
+        except (httpx.TimeoutException, httpx.ConnectError) as e:
+            logger.error(f"LLM API call timed out or connection failed: {e}")
+            raise
         return response.choices[0].message.content.strip()
 
     def get_action_from_screenshot(self, task: str, screenshot_path: str, hint: str = None) -> dict:
@@ -237,7 +264,8 @@ ARGS: <key=val ...>"""
                 }],
                 temperature=0.0,
             )
-            raw = response.choices[0].message.content.strip()
+            content = response.choices[0].message.content
+            raw = content.strip() if content else ""
             logger.info(f"Vision action output: {raw}")
 
             if raw.upper() == "SCROLL":
@@ -258,10 +286,9 @@ ARGS: <key=val ...>"""
 
     def check_task_done_from_screenshot(self, task: str, screenshot_path: str) -> bool:
         """
-        After a vision-based tap (e.g. on a video), uiautomator can't read the
-        player UI. This method takes a screenshot and asks the vision model whether
-        the task has been successfully completed.
-        Returns True if the model says YES.
+        Asks the vision model whether the task has been completed.
+        Returns True if the model confirms YES.
+        Handles verbose models that ignore YES/NO-only instructions.
         """
         if not self.client or not os.path.exists(screenshot_path):
             return False
@@ -271,30 +298,45 @@ ARGS: <key=val ...>"""
                 b64 = base64.b64encode(f.read()).decode("utf-8")
 
             prompt = (
-                f"You are verifying whether a task was completed on an Android phone.\n"
                 f"Task: {task}\n"
-                "Look at this screenshot carefully. Has the task been successfully completed?\n"
-                "Examples of 'done': video is playing, app is open, message sent, search results shown.\n"
-                "Reply with ONLY 'YES' or 'NO'."
+                "Has this task been successfully completed based on the screenshot?\n"
+                "Reply with ONLY the single word YES or NO. Nothing else."
             )
 
             response = self.client.chat.completions.create(
                 model=self.vision_model,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}}
-                    ]
-                }],
+                messages=[
+                    {"role": "system", "content": "You are a task verifier. You answer ONLY with YES or NO."},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}}
+                        ]
+                    }
+                ],
                 temperature=0.0,
+                max_tokens=10,
             )
-            answer = response.choices[0].message.content.strip().upper()
-            logger.info(f"Task completion check: '{answer}' for task: {task}")
-            return answer.startswith("YES")
+            content = response.choices[0].message.content
+            raw = content.strip().upper() if content else ""
+            logger.info(f"Task completion check raw: '{raw[:80]}' for task: {task}")
+
+            # Robust YES/NO scan — handles verbose models that ignore format instructions
+            if "YES" in raw:
+                return True
+            if "NO" in raw:
+                return False
+            # If truly ambiguous, default to False (keep going)
+            logger.warning("Vision model gave ambiguous completion answer. Defaulting to False.")
+            return False
 
         except Exception as e:
-            logger.error(f"Task completion check error: {e}")
+            err = str(e)
+            if "must be a string" in err or "not a multimodal" in err:
+                logger.warning(f"Vision model '{self.vision_model}' doesn't support images. Skipping completion check.")
+            else:
+                logger.error(f"Task completion check error: {e}")
             return False
 
 
@@ -351,57 +393,159 @@ ARGS: <key=val ...>"""
 
     def _parse_llm_output(self, output: str):
         """
-        Parses output like:
-        SKILL: tap
-        ARGS: x=650 y=140
-        Returns a dict on success, or None if the output is malformed.
+        Multi-strategy parser for LLM output.
+        Tries multiple formats to extract skill name and arguments.
+        Returns a dict on success, or None if all strategies fail.
         """
-        logger.debug(f"LLM Raw Output:\n{output}")
-        if not output or "SKILL:" not in output:
-            logger.warning("LLM returned empty or malformed output (no SKILL: found).")
+        if not output:
+            logger.warning("LLM returned empty output.")
             return None
 
-        result: dict = {"skill": "done", "args": {}}
-        
-        skill_match = re.search(r"SKILL:\s*(\w+)", output)
-        if skill_match:
-            result["skill"] = skill_match.group(1).lower()
-            
-        args_match = re.search(r"ARGS:\s*(.*)", output, re.DOTALL)
-        if args_match:
-            args_str = args_match.group(1).strip()
+        # Always log raw output at INFO level for debugging
+        logger.info(f"LLM Raw Output:\n{output}")
 
-            # Special-case: if skill is type_text, grab the FULL text value
-            # (including spaces and special chars) before running the generic parser.
-            if result.get("skill") == "type_text":
-                # Try quoted first: text="..." or text='...'
-                text_quoted = re.search(r'text\s*=\s*(?:"([^"]*)"|\'([^\']*)\')', args_str)
-                if text_quoted:
-                    result["args"]["text"] = text_quoted.group(1) or text_quoted.group(2)
-                else:
-                    # Unquoted: capture everything after text= to end of line
-                    text_unquoted = re.search(r'text\s*=\s*(.+?)(?:\n|$)', args_str)
-                    if text_unquoted:
-                        result["args"]["text"] = text_unquoted.group(1).strip()
+        # Clean up markdown formatting artifacts
+        cleaned = output.replace("**", "").replace("```", "").strip()
+
+        # ── Strategy 1: Standard format (case-insensitive) ──
+        # Matches: SKILL: tap / skill: tap / Skill: tap
+        skill_match = re.search(r"(?i)skill:\s*(\w+)", cleaned)
+        if skill_match:
+            skill = skill_match.group(1).lower()
+            result = {"skill": skill, "args": {}}
+
+            args_match = re.search(r"(?i)args:\s*(.*)", cleaned, re.DOTALL)
+            if args_match:
+                args_str = args_match.group(1).strip()
+                # Stop at newlines that don't look like args continuation
+                args_str = args_str.split("\n")[0].strip()
+                result["args"] = self._parse_args_string(skill, args_str)
+
+            logger.info(f"Parsed (strategy 1 - standard): {result}")
+            return result
+
+        # ── Strategy 2: Function-call style ──
+        # Matches: tap(x=100, y=200) or open_app(package_name=com.swiggy.android)
+        func_match = re.search(r"(\w+)\s*\(\s*(.*?)\s*\)", cleaned)
+        if func_match:
+            skill = func_match.group(1).lower()
+            valid_skills = {"tap", "type_text", "open_app", "press_key", "scroll",
+                          "save_memory", "delete_memory", "set_wifi", "set_bluetooth",
+                          "set_brightness", "set_volume", "set_airplane_mode",
+                          "set_flashlight", "set_mobile_data", "extract_text",
+                          "summarize_text", "take_screenshot", "done"}
+            if skill in valid_skills:
+                args_str = func_match.group(2)
+                result = {"skill": skill, "args": self._parse_args_string(skill, args_str)}
+                logger.info(f"Parsed (strategy 2 - function call): {result}")
                 return result
 
-            # Generic parser for all other skills
-            args_pairs = re.findall(r"(\w+)\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|(\S+))", args_str)
+        # ── Strategy 3: JSON format ──
+        # Matches: {"skill": "tap", "args": {"x": 100, "y": 200}}
+        import json
+        json_match = re.search(r'\{[^{}]*"skill"[^{}]*\}', cleaned)
+        if json_match:
+            try:
+                parsed = json.loads(json_match.group())
+                if "skill" in parsed:
+                    result = {"skill": parsed["skill"].lower(), "args": parsed.get("args", {})}
+                    logger.info(f"Parsed (strategy 3 - JSON): {result}")
+                    return result
+            except json.JSONDecodeError:
+                pass
 
-            for match in args_pairs:
-                key = match[0]
-                val = match[1] or match[2] or match[3]
+        # ── Strategy 4: Natural language extraction ──
+        # Matches: "tap on element [33]", "I would tap at (416, 2058)"
+        cleaned_lower = cleaned.lower()
 
-                if val.isdigit() or (val.startswith('-') and val[1:].isdigit()):
-                    result["args"][key] = int(val)
-                elif val.lower() == "true":
-                    result["args"][key] = True
-                elif val.lower() == "false":
-                    result["args"][key] = False
-                else:
-                    result["args"][key] = val
-                    
-        return result
+        # Check for "open_app" or "open app" with package name
+        pkg_match = re.search(r"(?:open[_ ]app|launch|open)\s+.*?(com\.\S+|org\.\S+)", cleaned_lower)
+        if pkg_match:
+            result = {"skill": "open_app", "args": {"package_name": pkg_match.group(1).rstrip(".)\"'")}}
+            logger.info(f"Parsed (strategy 4 - natural language open_app): {result}")
+            return result
+
+        # Check for "tap" with coordinates
+        tap_coord_match = re.search(r"tap\s+.*?(?:at\s+)?[\(]?\s*(\d{2,4})\s*[,\s]\s*(\d{2,4})\s*[\)]?", cleaned_lower)
+        if tap_coord_match:
+            result = {"skill": "tap", "args": {"x": int(tap_coord_match.group(1)), "y": int(tap_coord_match.group(2))}}
+            logger.info(f"Parsed (strategy 4 - natural language tap coords): {result}")
+            return result
+
+        # Check for "tap" with element index
+        tap_id_match = re.search(r"tap\s+.*?(?:element|id|index)?\s*\[?(\d{1,3})\]?", cleaned_lower)
+        if tap_id_match:
+            result = {"skill": "tap", "args": {"id": int(tap_id_match.group(1))}}
+            logger.info(f"Parsed (strategy 4 - natural language tap id): {result}")
+            return result
+
+        # Check for "type" or "type_text" with text
+        type_match = re.search(r"(?:type_text|type|enter|input)\s+['\"]?(.+?)['\"]?\s*$", cleaned_lower, re.MULTILINE)
+        if type_match:
+            result = {"skill": "type_text", "args": {"text": type_match.group(1).strip("'\" ")}}
+            logger.info(f"Parsed (strategy 4 - natural language type_text): {result}")
+            return result
+
+        # Check for "press" key
+        key_match = re.search(r"(?:press[_ ]key|press)\s+(\w+)", cleaned_lower)
+        if key_match:
+            key = key_match.group(1).upper()
+            if key in ("HOME", "BACK", "ENTER", "SEARCH", "VOLUME_UP", "VOLUME_DOWN", "TAB"):
+                result = {"skill": "press_key", "args": {"key": key}}
+                logger.info(f"Parsed (strategy 4 - natural language press_key): {result}")
+                return result
+
+        # Check for "scroll"
+        if re.search(r"\bscroll\b", cleaned_lower):
+            result = {"skill": "scroll", "args": {"x1": 500, "y1": 1500, "x2": 500, "y2": 500}}
+            logger.info(f"Parsed (strategy 4 - natural language scroll): {result}")
+            return result
+
+        # Check for "done"
+        if re.search(r"\bdone\b|\btask.{0,10}complet", cleaned_lower):
+            result = {"skill": "done", "args": {}}
+            logger.info(f"Parsed (strategy 4 - natural language done): {result}")
+            return result
+
+        logger.warning(f"All parsing strategies failed for output: {cleaned[:200]}")
+        return None
+
+    def _parse_args_string(self, skill: str, args_str: str) -> dict:
+        """Parse a key=value argument string into a dict."""
+        args = {}
+        if not args_str or args_str.strip() == "(none)":
+            return args
+
+        # Special-case: if skill is type_text, grab the FULL text value
+        if skill == "type_text":
+            # Try quoted first: text="..." or text='...'
+            text_quoted = re.search(r'text\s*=\s*(?:"([^"]*)"|\'([^\']*)\')', args_str)
+            if text_quoted:
+                args["text"] = text_quoted.group(1) or text_quoted.group(2)
+            else:
+                # Unquoted: capture everything after text= to end of line
+                text_unquoted = re.search(r'text\s*=\s*(.+?)(?:\n|$)', args_str)
+                if text_unquoted:
+                    args["text"] = text_unquoted.group(1).strip()
+            return args
+
+        # Generic parser for all other skills
+        args_pairs = re.findall(r"(\w+)\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|(\S+))", args_str)
+
+        for match in args_pairs:
+            key = match[0]
+            val = match[1] or match[2] or match[3]
+
+            if val.isdigit() or (val.startswith('-') and val[1:].isdigit()):
+                args[key] = int(val)
+            elif val.lower() == "true":
+                args[key] = True
+            elif val.lower() == "false":
+                args[key] = False
+            else:
+                args[key] = val
+
+        return args
                 
     def _filter_ui_by_quadrant(self, ui_elements_str: str, quadrant: str) -> str:
         """

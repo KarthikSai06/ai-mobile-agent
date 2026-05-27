@@ -1,10 +1,23 @@
 import os
 import time
+import glob
 import logging
 from device.adb_controller import AdbController
 from config import settings
 
 logger = logging.getLogger(__name__)
+
+def _cleanup_old_dumps():
+    """Remove old UI dump XML files to prevent storage bloat."""
+    try:
+        old_files = glob.glob(os.path.join(settings.STORAGE_DIR, "ui_dump_*.xml"))
+        for f in old_files:
+            try:
+                os.remove(f)
+            except OSError:
+                pass
+    except Exception:
+        pass
 
 def dump_ui_hierarchy(adb: AdbController, device_id: str = None) -> str:
     """
@@ -13,6 +26,9 @@ def dump_ui_hierarchy(adb: AdbController, device_id: str = None) -> str:
     (e.g. when a YouTube ad / fullscreen video is playing).
     Returns the local XML path on success, or "" after 3 scroll attempts.
     """
+    # Clean up previous dumps first
+    _cleanup_old_dumps()
+
     remote_path = "/sdcard/ui_dump.xml"
     local_filename = f"ui_dump_{int(time.time())}.xml"
     local_path = os.path.join(settings.STORAGE_DIR, local_filename)

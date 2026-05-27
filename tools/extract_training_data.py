@@ -230,7 +230,7 @@ def main():
 
     # Show a sample
     if examples:
-        print("\n── Sample example ──")
+        print("\n-- Sample example --")
         sample = examples[len(examples) // 2]
         print("USER:", sample["messages"][1]["content"][:300], "...")
         print("ASSISTANT:", sample["messages"][2]["content"])

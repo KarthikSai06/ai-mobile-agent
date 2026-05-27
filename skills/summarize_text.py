@@ -79,11 +79,13 @@ def _call_llm_summarize(screen_text: str) -> str:
     """Calls the configured LLM to produce a concise summary of screen_text."""
     try:
         import openai
+        import httpx
         from config import settings
 
         client = openai.OpenAI(
             api_key=settings.OPENAI_API_KEY,
             base_url=settings.LLM_BASE_URL if settings.LLM_BASE_URL else None,
+            timeout=httpx.Timeout(30.0, connect=10.0)
         )
 
         prompt = (
