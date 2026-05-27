@@ -3,19 +3,35 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Default timeout for ADB commands (seconds).
+# uiautomator dump can hang on fullscreen video/ad screens.
+ADB_TIMEOUT = 15
+
 class AdbController:
     """Handles execution of ADB commands."""
     
     def __init__(self, adb_path="adb"):
         self.adb_path = adb_path
 
-    def run_cmd(self, *args) -> str:
-        """Executes an adb command and returns the output as a string."""
+    def run_cmd(self, *args, timeout: int = None) -> str:
+        """Executes an adb command and returns the output as a string.
+        
+        Args:
+            *args: ADB command arguments.
+            timeout: Max seconds to wait. Defaults to ADB_TIMEOUT.
+        """
+        if timeout is None:
+            timeout = ADB_TIMEOUT
         cmd = [self.adb_path] + list(args)
         try:
-                                                 
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True, encoding='utf-8', errors='replace')
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, check=True,
+                encoding='utf-8', errors='replace', timeout=timeout
+            )
             return result.stdout.strip()
+        except subprocess.TimeoutExpired:
+            logger.warning(f"ADB command timed out after {timeout}s: {' '.join(cmd)}")
+            return ""
         except subprocess.CalledProcessError as e:
             logger.error(f"ADB command failed: {' '.join(cmd)}")
             logger.error(f"Error output: {e.stderr}")

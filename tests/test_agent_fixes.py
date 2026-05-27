@@ -68,6 +68,7 @@ def _make_loop():
     loop.planner.plan_next_action.return_value = {"skill": "tap", "args": {"id": 1}}
     # refine_task was added to agent_loop.run(); mock it to return the task unchanged
     loop.planner.refine_task.side_effect = lambda task: task
+    loop.planner.check_task_done_from_screenshot.return_value = False
 
     loop.adb = MagicMock()
     return loop

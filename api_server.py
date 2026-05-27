@@ -142,7 +142,7 @@ if __name__ == "__main__":
     hostname = socket.gethostname()
     local_ip = socket.gethostbyname(hostname)
     print("\n" + "="*55)
-    print("  📡 Mobile Agent API Server")
+    print("  [API] Mobile Agent API Server")
     print("="*55)
     print(f"  Local URL : http://localhost:5000")
     print(f"  Phone URL : http://{local_ip}:5000")
