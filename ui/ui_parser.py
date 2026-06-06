@@ -31,6 +31,36 @@ def _richness(el: dict) -> int:
     return score
 
 
+# Pure container class names that carry no semantic value when they have no text/desc.
+_CONTAINER_CLASSES = {
+    "android.widget.FrameLayout",
+    "android.widget.LinearLayout",
+    "android.widget.RelativeLayout",
+    "android.view.View",
+    "android.view.ViewGroup",
+    "androidx.coordinatorlayout.widget.CoordinatorLayout",
+    "androidx.constraintlayout.widget.ConstraintLayout",
+}
+
+
+def _find_text_in_children(node) -> tuple:
+    """Recursively search child nodes for text and content-desc."""
+    text = ""
+    desc = ""
+    for child in node.iter("node"):
+        if child == node:
+            continue
+        ctext = child.attrib.get("text", "")
+        cdesc = child.attrib.get("content-desc", "")
+        if ctext and not text:
+            text = ctext
+        if cdesc and not desc:
+            desc = cdesc
+        if text and desc:
+            break
+    return text, desc
+
+
 def parse_ui_xml(xml_path: str) -> list:
     """
     Parses the UI automation XML file and returns a deduplicated element list.
@@ -74,6 +104,10 @@ def parse_ui_xml(xml_path: str) -> list:
         clickable    = node.attrib.get("clickable", "false").lower() == "true"
         class_name   = node.attrib.get("class", "")
 
+        # Bubble up child text/desc to clickable containers that lack labels
+        if clickable and not text and not content_desc and class_name in _CONTAINER_CLASSES:
+            text, content_desc = _find_text_in_children(node)
+
         if clickable or text or content_desc:
             elements.append({
                 "text":         text,
@@ -89,32 +123,81 @@ def parse_ui_xml(xml_path: str) -> list:
             })
 
     # ── Deduplicate by center coordinate ────────────────────────────────────
-    # When two elements share the same (x, y), keep the richest one.
+    # When two elements share the same (x, y), merge their attributes and keep the richest.
     seen: dict = {}   # coord -> index in deduped list
     deduped = []
     for el in elements:
         coord = (el["center_x"], el["center_y"])
         if coord in seen:
             existing_idx = seen[coord]
-            if _richness(el) > _richness(deduped[existing_idx]):
-                deduped[existing_idx] = el   # replace ghost with richer entry
+            existing = deduped[existing_idx]
+            
+            # Merge text, content_desc, resource_id, and clickable properties
+            if not existing["text"] and el["text"]:
+                existing["text"] = el["text"]
+            if not existing["content_desc"] and el["content_desc"]:
+                existing["content_desc"] = el["content_desc"]
+            if not existing["resource_id"] and el["resource_id"]:
+                existing["resource_id"] = el["resource_id"]
+            if el["clickable"]:
+                existing["clickable"] = True
+                
+            # If the existing one is a container and the new one is not,
+            # adopt the non-container class_name to prevent format_ui_elements_for_llm filtering.
+            if existing["class_name"] in _CONTAINER_CLASSES and el["class_name"] not in _CONTAINER_CLASSES:
+                existing["class_name"] = el["class_name"]
+            
+            # If the new one is richer, update existing keys while preserving non-container class
+            if _richness(el) > _richness(existing):
+                old_class = existing["class_name"]
+                for k, v in el.items():
+                    if k != "class_name":
+                        existing[k] = v
+                if old_class not in _CONTAINER_CLASSES:
+                    existing["class_name"] = old_class
         else:
             seen[coord] = len(deduped)
-            deduped.append(el)
+            deduped.append(el.copy())
 
     return deduped
 
 
-def format_ui_elements_for_llm(elements: list, max_elements: int = 80) -> str:
+def format_ui_elements_for_llm(elements: list, max_elements: int = 60) -> str:
     """
     Formats parsed UI elements into a compact string for the LLM.
 
-    Improvements over original:
-    - Sorts clickable elements first (most actionable for the agent)
-    - Caps at max_elements (default 80) to avoid overwhelming context window
+    Pipeline:
+    1. Drop pure container views (no text, no desc, class is a layout container)
+    2. Deduplicate elements with identical text + center coordinates
+    3. Sort clickable elements first, then top-to-bottom reading order
+    4. Cap at max_elements (default 60) to stay within context window
     """
-    # Sort: clickable first, then top-to-bottom reading order
-    sorted_els = sorted(elements, key=lambda e: (not e["clickable"], e["center_y"]))
+    # Step 1 — Filter pure non-interactive containers
+    filtered = []
+    for el in elements:
+        is_container = el["class_name"] in _CONTAINER_CLASSES
+        has_label = bool(el["text"] or el["content_desc"])
+        # Keep if it has a visible label OR it's not a container
+        if has_label or not is_container:
+            filtered.append(el)
+
+    # Step 2 — Deduplicate: same text + center_x + center_y → keep richest
+    seen_label_coord: dict = {}  # (text, center_x, center_y) -> index in deduped
+    deduped: list = []
+    for el in filtered:
+        key = (el["text"].strip(), el["center_x"], el["center_y"])
+        if key in seen_label_coord:
+            existing_idx = seen_label_coord[key]
+            if _richness(el) > _richness(deduped[existing_idx]):
+                deduped[existing_idx] = el
+        else:
+            seen_label_coord[key] = len(deduped)
+            deduped.append(el)
+
+    # Step 3 — Sort: clickable first, then top-to-bottom reading order
+    sorted_els = sorted(deduped, key=lambda e: (not e["clickable"], e["center_y"]))
+
+    # Step 4 — Cap
     capped = sorted_els[:max_elements]
 
     lines = []
@@ -129,7 +212,6 @@ def format_ui_elements_for_llm(elements: list, max_elements: int = 80) -> str:
         if el["clickable"]:
             parts.append("clickable=True")
         parts.append(f"center=({el['center_x']},{el['center_y']})")
-
         lines.append(" ".join(parts))
 
     return "\n".join(lines)

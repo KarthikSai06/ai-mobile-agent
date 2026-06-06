@@ -217,5 +217,90 @@ class TestLoopDetector(unittest.TestCase):
                                 "Expected at least one BACK press for loop recovery")
 
 
+# ---------------------------------------------------------------------------
+# UI Parser Deduplication & Container Merging Fix Test
+# ---------------------------------------------------------------------------
+
+class TestUIParserMerge(unittest.TestCase):
+    def test_container_and_button_merging(self):
+        """When a FrameLayout container and a Button share coordinate, merge their attributes and keep the Button class."""
+        from ui.ui_parser import parse_ui_xml, format_ui_elements_for_llm
+        import tempfile
+        
+        xml_content = """<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+        <hierarchy rotation="0">
+            <node index="0" text="" resource-id="com.android.contacts:id/originui_vtoolbar_edit_right_button" class="android.widget.FrameLayout" package="com.android.contacts" content-desc="" checkable="false" checked="false" clickable="true" enabled="false" focusable="true" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[915,100][1046,260]">
+                <node index="0" text="" resource-id="" class="android.widget.Button" package="com.android.contacts" content-desc="" checkable="false" checked="false" clickable="true" enabled="false" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[915,100][1046,260]" />
+            </node>
+        </hierarchy>
+        """
+        
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.xml', encoding='utf-8') as f:
+            f.write(xml_content)
+            temp_path = f.name
+            
+        try:
+            elements = parse_ui_xml(temp_path)
+            # Both elements should be parsed and merged. The merged element should have:
+            # - resource_id of the parent FrameLayout
+            # - class_name of the child Button
+            # - clickable=True
+            self.assertEqual(len(elements), 1)
+            el = elements[0]
+            self.assertEqual(el["class_name"], "android.widget.Button")
+            self.assertEqual(el["resource_id"], "com.android.contacts:id/originui_vtoolbar_edit_right_button")
+            self.assertTrue(el["clickable"])
+            
+            # format_ui_elements_for_llm should NOT filter it out!
+            formatted = format_ui_elements_for_llm(elements)
+            self.assertIn("id='com.android.contacts:id/originui_vtoolbar_edit_right_button'", formatted)
+            self.assertIn("clickable=True", formatted)
+        finally:
+            import os
+            try:
+                os.remove(temp_path)
+            except OSError:
+                pass
+
+    def test_child_text_bubbling_for_container(self):
+        """A clickable container ViewGroup with no text of its own adopts its child TextView's text."""
+        from ui.ui_parser import parse_ui_xml, format_ui_elements_for_llm
+        import tempfile
+        
+        xml_content = """<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+        <hierarchy rotation="0">
+            <node index="0" text="" resource-id="com.spotify.music:id/row_root" class="android.view.ViewGroup" package="com.spotify.music" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="true" focused="false" bounds="[0,373][1080,541]">
+                <node index="0" text="Shape of You" resource-id="com.spotify.music:id/title" class="android.widget.TextView" package="com.spotify.music" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" bounds="[200,395][828,461]" />
+            </node>
+        </hierarchy>
+        """
+        
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.xml', encoding='utf-8') as f:
+            f.write(xml_content)
+            temp_path = f.name
+            
+        try:
+            elements = parse_ui_xml(temp_path)
+            # The row_root should win or keep, but more importantly:
+            # row_root element at center (540, 457) should adopt text 'Shape of You'!
+            # Let's verify row_root element is in parsed elements and has text
+            row_root_el = next((el for el in elements if el["resource_id"] == "com.spotify.music:id/row_root"), None)
+            self.assertIsNotNone(row_root_el)
+            self.assertEqual(row_root_el["text"], "Shape of You")
+            self.assertTrue(row_root_el["clickable"])
+            
+            # format_ui_elements_for_llm should keep it and print its text!
+            formatted = format_ui_elements_for_llm(elements)
+            self.assertIn("text='Shape of You'", formatted)
+            self.assertIn("id='com.spotify.music:id/row_root'", formatted)
+            self.assertIn("clickable=True", formatted)
+        finally:
+            import os
+            try:
+                os.remove(temp_path)
+            except OSError:
+                pass
+
+
 if __name__ == "__main__":
     unittest.main()

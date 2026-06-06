@@ -1,6 +1,7 @@
 import logging
 import time
 import os
+import hashlib
 from device.adb_controller import AdbController
 from ui.dump_ui import dump_ui_hierarchy
 from ui.ui_parser import parse_ui_xml, format_ui_elements_for_llm
@@ -10,12 +11,18 @@ from planner.llm_planner import LLMPlanner
 logger = logging.getLogger(__name__)
 
 class AgentLoop:
-    def __init__(self, device_id: str = None):
+    def __init__(self, device_id: str = None, on_step_update=None, on_refined_task=None, on_all_steps_done=None, on_chat_reply=None):
         from config import settings
         self.adb = AdbController(adb_path=settings.ADB_PATH)
         self.device_id = device_id
+        # Optional callbacks for live progress reporting
+        self._on_step_update = on_step_update       # fn(action: str, outcome: str)
+        self._on_refined_task = on_refined_task      # fn(refined: str)
+        # Called when the last planned step is marked done — triggers immediate completion check
+        self._on_all_steps_done = on_all_steps_done  # fn() -> bool (True = stop)
+        self._on_chat_reply = on_chat_reply          # fn(msg: str)
+        self._all_steps_done_flag = False            # set by callback, polled in run()
         
-                                                            
         if not self.device_id:
              devices = self.adb.get_devices()
              if devices:
@@ -29,12 +36,18 @@ class AgentLoop:
         self.history = []           # list of {"action": str, "outcome": str}
         self.last_ui_str = ""
 
-    def _check_completion_via_screenshot(self, task: str, step: int, label: str) -> bool:
-        """Take a screenshot and ask the vision model if the task is done."""
+    def _check_completion_via_screenshot(self, original_task: str, step: int, label: str) -> bool:
+        """Take a screenshot and ask the vision model if the task is done.
+        
+        IMPORTANT: always pass `original_task` (the short, user-typed intent),
+        NOT the full refined-task block. The vision model checks YES/NO against
+        this string — a 5-step numbered list causes it to always answer NO because
+        not every step detail is visible on screen.
+        """
         from config import settings
         screenshot_path = os.path.join(settings.SCREENSHOTS_DIR, f"completion_{step}.png")
         if self.adb.take_screenshot(screenshot_path, self.device_id):
-            if self.planner.check_task_done_from_screenshot(task, screenshot_path):
+            if self.planner.check_task_done_from_screenshot(original_task, screenshot_path):
                 logger.info(f"Task confirmed complete via screenshot ({label}). Done!")
                 return True
         return False
@@ -51,10 +64,29 @@ class AgentLoop:
         logger.info(f"Starting agent task: {task}")
         from config import settings
 
+        # ── Keep the original short user intent for completion checks ──────────
+        # refine_task() returns a big block: "<original>\n\nDetailed steps:\n1. ..."
+        # Using that full text in check_task_done_from_screenshot confuses the
+        # vision model (it checks all 5 steps instead of the simple goal).
+        # We always pass only the first line (original intent) for YES/NO checks.
+        original_task = task.split("\n")[0].strip()
+
         # --- Task Refiner: Expand raw user instruction into explicit steps BEFORE looping ---
         logger.info("Refining task with LLM before starting...")
         task = self.planner.refine_task(task)
         logger.info(f"Refined task:\n{task}")
+
+        # --- Notify server about refined steps ---
+        if self._on_refined_task:
+            try:
+                self._on_refined_task(task)
+            except Exception:
+                pass
+
+        # --- Initialise per-task correlation ID and progress tracker ---
+        raw_hash = hashlib.sha256(task.encode()).hexdigest()[:8]
+        self.planner.set_task(task_id=raw_hash, refined_task=task)
+        logger.info(f"Task ID: {raw_hash}")
 
         no_change_streak = 0
         # Track how many successful actions have been executed
@@ -71,7 +103,7 @@ class AgentLoop:
                 screenshot_path = os.path.join(settings.SCREENSHOTS_DIR, f"recovery_{step}.png")
                 if self.adb.take_screenshot(screenshot_path, self.device_id):
                     # ─── First, check if the task is already done (video playing, etc.) ───
-                    if self.planner.check_task_done_from_screenshot(task, screenshot_path):
+                    if self.planner.check_task_done_from_screenshot(original_task, screenshot_path):
                         logger.info("Task confirmed complete via screenshot (no tap needed). Done!")
                         break  # clean exit — video is already playing
 
@@ -85,7 +117,7 @@ class AgentLoop:
                         # Check if the task is now complete (e.g. video is playing)
                         verify_path = os.path.join(settings.SCREENSHOTS_DIR, f"verify_{step}.png")
                         if self.adb.take_screenshot(verify_path, self.device_id):
-                            if self.planner.check_task_done_from_screenshot(task, verify_path):
+                            if self.planner.check_task_done_from_screenshot(original_task, verify_path):
                                 logger.info("Task confirmed complete via screenshot. Done!")
                                 break  # clean exit — task succeeded
                         continue  # not done yet, retry this step
@@ -94,8 +126,8 @@ class AgentLoop:
                 
             # 2. Parse UI elements
             ui_elements = parse_ui_xml(xml_path)
-            # Sort: clickable first, then top-to-bottom reading order, and cap at 80 elements to match formatted indices
-            ui_elements = sorted(ui_elements, key=lambda e: (not e["clickable"], e["center_y"]))[:80]
+            # Sort: clickable first, then top-to-bottom reading order, and cap at 60 elements
+            ui_elements = sorted(ui_elements, key=lambda e: (not e["clickable"], e["center_y"]))[:60]
             ui_str = format_ui_elements_for_llm(ui_elements)
             logger.info(f"UI Elements sent to LLM:\n{ui_str}")
             
@@ -110,7 +142,7 @@ class AgentLoop:
             if no_change_streak >= 3:
                 logger.warning(f"Trigger 2: {no_change_streak} consecutive NO_CHANGE steps. Escalating to vision.")
                 # Before escalating, check if the task is already done
-                if self._check_completion_via_screenshot(task, step, "no-change check"):
+                if self._check_completion_via_screenshot(original_task, step, "no-change check"):
                     break
                 screenshot_path = os.path.join(settings.SCREENSHOTS_DIR, f"no_change_{step}.png")
                 if self.adb.take_screenshot(screenshot_path, self.device_id):
@@ -141,8 +173,18 @@ class AgentLoop:
 
                                
             if skill_name == "done":
+                msg = args.get("message", "")
+                if msg and self._on_chat_reply:
+                    self._on_chat_reply(msg)
                 logger.info("Task marked as DONE by planner.")
                 break
+
+            if skill_name == "chat_reply":
+                msg = args.get("message", "")
+                if msg and self._on_chat_reply:
+                    self._on_chat_reply(msg)
+                # It's not an actionable device skill, but let it go through execute_skill
+                # so it returns SUCCESS and gets logged normally.
                 
             # Execute the planned action
             result = self.executor.execute_skill(skill_name, args)
@@ -166,53 +208,77 @@ class AgentLoop:
                 time.sleep(1.0)
                 continue
 
-            success = bool(result)
-
-            if not success:
-                outcome = "FAILED"
-                logger.warning("Action execution failed or returned False.")
+            # Check for explicit error feedback loop
+            if isinstance(result, str) and result.startswith("ERROR:"):
+                success = False
+                outcome = result
+                logger.warning(f"Action execution returned explicit error: {result}")
             else:
-                is_input_field = False
-                if skill_name == "tap":
-                    target_el = None
-                    if "id" in args and isinstance(args["id"], int) and args["id"] < len(ui_elements):
-                        target_el = ui_elements[args["id"]]
-                    elif "x" in args and "y" in args:
-                        for el in ui_elements:
-                            if el.get("center_x") == args["x"] and el.get("center_y") == args["y"]:
-                                target_el = el
-                                break
-                    
-                    if target_el:
-                        res_id = target_el.get("resource_id", "").lower()
-                        class_name = target_el.get("class_name", "").lower()
-                        text = target_el.get("text", "").lower()
-                        desc = target_el.get("content_desc", "").lower()
+                success = bool(result)
+                if not success:
+                    outcome = "FAILED"
+                    logger.warning("Action execution failed or returned False.")
+                else:
+                    is_input_field = False
+                    if skill_name == "tap":
+                        target_el = None
+                        if "id" in args and isinstance(args["id"], int) and args["id"] < len(ui_elements):
+                            target_el = ui_elements[args["id"]]
+                        elif "x" in args and "y" in args:
+                            for el in ui_elements:
+                                if el.get("center_x") == args["x"] and el.get("center_y") == args["y"]:
+                                    target_el = el
+                                    break
                         
-                        if (
-                            "query" in res_id or "search" in res_id or "input" in res_id or "edit" in res_id or
-                            "edittext" in class_name or
-                            "search" in text or "type" in text or "listen" in text or "find" in text or
-                            "search" in desc or "type" in desc or "listen" in desc or "find" in desc
-                        ):
-                            is_input_field = True
+                        if target_el:
+                            res_id = target_el.get("resource_id", "").lower()
+                            class_name = target_el.get("class_name", "").lower()
+                            text = target_el.get("text", "").lower()
+                            desc = target_el.get("content_desc", "").lower()
+                            
+                            if (
+                                "query" in res_id or "search" in res_id or "input" in res_id or "edit" in res_id or
+                                "edittext" in class_name or
+                                "search" in text or "type" in text or "listen" in text or "find" in text or
+                                "search" in desc or "type" in desc or "listen" in desc or "find" in desc
+                            ):
+                                is_input_field = True
 
-                post_xml_path = dump_ui_hierarchy(self.adb, self.device_id)
-                if post_xml_path:
-                    post_ui_elements = parse_ui_xml(post_xml_path)
-                    post_ui_str = format_ui_elements_for_llm(post_ui_elements)
-                    if post_ui_str == ui_str and not is_input_field:
-                        outcome = "NO_CHANGE"
+                    post_xml_path = dump_ui_hierarchy(self.adb, self.device_id)
+                    if post_xml_path:
+                        post_ui_elements = parse_ui_xml(post_xml_path)
+                        post_ui_str = format_ui_elements_for_llm(post_ui_elements)
+                        if post_ui_str == ui_str and not is_input_field:
+                            outcome = "NO_CHANGE"
+                        else:
+                            outcome = "SUCCESS"
+                            success_count += 1
                     else:
                         outcome = "SUCCESS"
                         success_count += 1
-                else:
-                    outcome = "SUCCESS"
-                    success_count += 1
 
             action_record = f"{skill_name}({args})"
             self.history.append({"action": action_record, "outcome": outcome})
             logger.info(f"History entry: {action_record} → {outcome}")
+
+            # --- Notify server about this step ---
+            if self._on_step_update:
+                try:
+                    self._on_step_update(action_record, outcome)
+                except Exception:
+                    pass
+
+            # --- Immediate completion check when ALL planned steps are done ---
+            # _on_step_update (via api_server) sets _all_steps_done_flag when the
+            # last numbered step is marked ✓. We immediately verify via screenshot
+            # instead of waiting for the periodic check (which fires every 2 steps).
+            if self._all_steps_done_flag:
+                self._all_steps_done_flag = False   # reset
+                logger.info("All planned steps completed. Running immediate completion check.")
+                if self._check_completion_via_screenshot(original_task, step, "all-steps-done"):
+                    break
+                # Vision said not done yet — continue but let rule 11 in the prompt
+                # guide the planner to call 'done' on the next step.
 
             # --- Task Completion Check ---
             # After 3+ successful actions, periodically check if the task is done
@@ -220,7 +286,7 @@ class AgentLoop:
             # doesn't realize it (e.g. directions are showing, video is playing)
             if success and success_count >= 3 and success_count % 2 == 1:
                 logger.info("Checking if task is complete after multiple successful actions...")
-                if self._check_completion_via_screenshot(task, step, "periodic check"):
+                if self._check_completion_via_screenshot(original_task, step, "periodic check"):
                     break
 
             # --- Trigger 1: Loop Detected → Vision First, BACK as fallback ---
@@ -228,10 +294,11 @@ class AgentLoop:
                     self.history[-1]["action"] == self.history[-2]["action"] == self.history[-3]["action"]):
                 logger.warning(f"Trigger 1: Loop — '{action_record}' repeated 3x. Trying vision before BACK.")
                 # First check if the task is actually done despite the loop
-                if self._check_completion_via_screenshot(task, step, "loop-check"):
+                if self._check_completion_via_screenshot(original_task, step, "loop-check"):
                     break
                 screenshot_path = os.path.join(settings.SCREENSHOTS_DIR, f"loop_{step}.png")
                 vision_tapped = False
+                loop_recovery_action = None
                 if self.adb.take_screenshot(screenshot_path, self.device_id):
                     recent = " → ".join(h["action"] for h in self.history[-3:] if isinstance(h, dict))
                     hint = (
@@ -246,9 +313,21 @@ class AgentLoop:
                     if vision_action.get("skill") in ["tap", "scroll"]:
                         self.executor.execute_skill(vision_action["skill"], vision_action.get("args", {}))
                         vision_tapped = True
+                        loop_recovery_action = f"{vision_action['skill']}({vision_action.get('args', {})})"
                 if not vision_tapped:
                     logger.warning("Vision gave no tap — falling back to BACK key.")
                     self.executor.execute_skill("press_key", {"key": "BACK"})
+                    loop_recovery_action = "press_key({'key': 'BACK'}) [loop-break fallback]"
+                # ── Record the recovery action so the loop detector resets ──
+                # Without this, self.history still ends in 3x the same action
+                # and the loop warning fires again on the very next step.
+                if loop_recovery_action:
+                    self.history.append({"action": loop_recovery_action, "outcome": "SUCCESS"})
+                    if self._on_step_update:
+                        try:
+                            self._on_step_update(loop_recovery_action, "SUCCESS")
+                        except Exception:
+                            pass
                 time.sleep(0.8)
 
             time.sleep(1.0)
