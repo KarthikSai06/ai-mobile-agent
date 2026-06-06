@@ -1,10 +1,10 @@
 import logging
 from device.adb_controller import AdbController
 from skills import (
-    tap, type_text, open_app, press_key, scroll, save_memory, delete_memory,
+    tap, type_text, open_app, open_url, press_key, scroll, save_memory, delete_memory,
     set_wifi, set_bluetooth, set_brightness, set_volume,
     set_airplane_mode, set_flashlight, set_mobile_data, extract_text,
-    take_screenshot, summarize_text,
+    take_screenshot, summarize_text, chat_reply
 )
 
 logger = logging.getLogger(__name__)
@@ -19,6 +19,7 @@ class SkillExecutor:
             "tap": tap.execute,
             "type_text": type_text.execute,
             "open_app": open_app.execute,
+            "open_url": open_url.execute,
             "press_key": press_key.execute,
             "scroll": scroll.execute,
             "save_memory": save_memory.execute,
@@ -37,6 +38,8 @@ class SkillExecutor:
             "summarize_text": summarize_text.execute,
             # Screenshot
             "take_screenshot": take_screenshot.execute,
+            # Chat
+            "chat_reply": chat_reply.execute,
         }
 
 
@@ -158,8 +161,9 @@ class SkillExecutor:
         Executes a skill given its name and arguments.
         """
         if skill_name not in self.skills:
-            logger.error(f"Unknown skill: {skill_name}")
-            return False
+            err = f"Unknown skill: {skill_name}"
+            logger.error(err)
+            return f"ERROR: {err}"
 
         skill_func = self.skills[skill_name]
 
@@ -176,8 +180,9 @@ class SkillExecutor:
 
         # Guard: tap requires x and y — fail fast if still missing after all resolution
         if skill_name == "tap" and (not isinstance(args, dict) or "x" not in args or "y" not in args):
-            logger.error(f"tap skill called without x/y and could not resolve them from args {args}. Skipping.")
-            return False
+            err = f"tap skill requires 'id' or 'x' and 'y' arguments. You provided: {args}"
+            logger.error(err)
+            return f"ERROR: {err}"
 
         # Memory key resolution: if any arg value is "@key_name", replace with stored memory value
         args = self._resolve_memory_refs(args)
@@ -208,8 +213,10 @@ class SkillExecutor:
 
         try:
             logger.info(f"Executing {skill_name} with args: {call_args}")
-            return skill_func(**call_args)
+            res = skill_func(**call_args)
+            return res if res is not False else f"ERROR: Skill {skill_name} execution failed."
         except Exception as e:
-            logger.error(f"Error executing skill {skill_name}: {e}")
-            return False
+            err = f"Error executing skill {skill_name}: {e}"
+            logger.error(err)
+            return f"ERROR: {err}"
 

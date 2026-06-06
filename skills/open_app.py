@@ -32,21 +32,27 @@ def _resolve_package(name_or_pkg: str, adb: AdbController, device_id: str) -> st
     """
     candidate = name_or_pkg.strip()
 
-    # 1. Already a package name
-    if "." in candidate and " " not in candidate:
-        return candidate
-
     key = candidate.lower()
 
-    # 2. Exact alias match
+    # 1. Exact alias match
     if key in APP_ALIASES:
         pkg = APP_ALIASES[key]
         logger.info(f"Resolved '{candidate}' → '{pkg}' (exact alias)")
         return pkg
 
+    # 2. Looks like a package name -> verify it's actually installed
+    if "." in candidate and " " not in candidate:
+        installed = adb.list_packages(candidate, device_id)
+        if candidate in installed:
+            logger.info(f"Resolved '{candidate}' → '{candidate}' (verified installed package)")
+            return candidate
+        else:
+            logger.info(f"'{candidate}' looks like a package but is not installed. Checking aliases...")
+
     # 3. Partial alias match — e.g. 'maps' matches 'google maps'
+    # Also handles hallucinated packages like 'com.swiggy.android' matching alias 'swiggy'
     for alias_key, pkg in APP_ALIASES.items():
-        if key in alias_key or alias_key in key:
+        if len(alias_key) > 2 and (key in alias_key or alias_key in key):
             logger.info(f"Resolved '{candidate}' → '{pkg}' (partial alias '{alias_key}')")
             return pkg
 

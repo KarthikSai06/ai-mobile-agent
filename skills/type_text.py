@@ -37,30 +37,10 @@ def execute(adb: AdbController, text: str, x: int = None, y: int = None, device_
 
     if use_clipboard:
         logger.info(f"type_text: using clipboard-paste for {len(text)}-char text.")
-        res = _paste_via_clipboard(adb, device_id, text)
+        return _paste_via_clipboard(adb, device_id, text)
     else:
         logger.info(f"type_text: using direct input for '{text}'.")
-        res = _direct_input(adb, device_id, text)
-
-    # Hide soft keyboard if shown to avoid blocking the UI / Send buttons
-    try:
-        cmd = []
-        if device_id:
-            cmd.extend(["-s", device_id])
-        cmd.extend(["shell", "dumpsys", "input_method"])
-        dumpsys_out = adb.run_cmd(*cmd)
-        if "mInputShown=true" in dumpsys_out:
-            logger.info("Soft keyboard is open. Hiding it to reveal full screen.")
-            back_cmd = []
-            if device_id:
-                back_cmd.extend(["-s", device_id])
-            back_cmd.extend(["shell", "input", "keyevent", "4"])
-            adb.run_cmd(*back_cmd)
-            time.sleep(0.5)
-    except Exception as e:
-        logger.warning(f"Failed to check/hide soft keyboard: {e}")
-
-    return res
+        return _direct_input(adb, device_id, text)
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────

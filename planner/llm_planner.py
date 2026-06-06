@@ -1,12 +1,98 @@
 import logging
 import re
 import os
+import hashlib
+import json
 import shlex
 import base64
 import traceback
 import httpx
 
 logger = logging.getLogger(__name__)
+
+# ── LLM Response Cache ───────────────────────────────────────────────────────
+# Avoids redundant API calls when the same input is seen multiple times.
+_llm_cache: dict = {}   # hash -> response string
+MAX_CACHE_SIZE = 128
+
+
+def _cache_key(*parts: str) -> str:
+    """SHA-256 hex digest of the concatenated inputs."""
+    return hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()
+
+
+def _cache_get(key: str):
+    return _llm_cache.get(key)
+
+
+def _cache_set(key: str, value: str):
+    if len(_llm_cache) >= MAX_CACHE_SIZE:
+        # Evict the oldest entry (insertion-order FIFO for Python 3.7+)
+        oldest = next(iter(_llm_cache))
+        del _llm_cache[oldest]
+    _llm_cache[key] = value
+
+
+# ── Task Progress Tracker ────────────────────────────────────────────────────
+class TaskProgressTracker:
+    """
+    Tracks which high-level steps of the refined task have been completed,
+    so the LLM always knows what's done and what remains.
+    """
+
+    def __init__(self, refined_task: str):
+        # Extract numbered lines as steps ("1. Open app", "2. Tap search", ...)
+        self._steps = re.findall(r"^\s*\d+\.\s+(.+)", refined_task, re.MULTILINE)
+        self._done: list[bool] = [False] * len(self._steps)
+        self._current = 0
+
+    @property
+    def has_steps(self) -> bool:
+        return bool(self._steps)
+
+    def mark_done(self, step_index: int):
+        if 0 <= step_index < len(self._done):
+            self._done[step_index] = True
+            self._current = step_index + 1
+
+    def infer_progress_from_history(self, history: list):
+        """
+        Heuristically advances the current step pointer based on
+        the number of SUCCESS outcomes in the history so far.
+        """
+        success_count = sum(
+            1 for h in history
+            if isinstance(h, dict) and h.get("outcome") == "SUCCESS"
+        )
+        # Advance one step per two successes (conservative)
+        new_current = min(success_count // 2, len(self._steps))
+        if new_current > self._current:
+            for i in range(self._current, new_current):
+                self._done[i] = True
+            self._current = new_current
+
+    def progress_summary(self) -> str:
+        """Returns a human-readable summary for injection into the LLM prompt."""
+        if not self._steps:
+            return ""
+        lines = ["Task Progress:"]
+        for i, step in enumerate(self._steps):
+            if self._done[i]:
+                lines.append(f"  ✓ Step {i+1} (done): {step}")
+            elif i == self._current:
+                lines.append(f"  ► Step {i+1} (CURRENT): {step}")
+            else:
+                lines.append(f"  □ Step {i+1} (pending): {step}")
+        return "\n".join(lines)
+
+
+# ── Structured Logging Adapter ───────────────────────────────────────────────
+class TaskLogger(logging.LoggerAdapter):
+    """Injects task_id into every log record for correlation."""
+
+    def process(self, msg, kwargs):
+        task_id = self.extra.get("task_id", "")
+        return f"[{task_id}] {msg}" if task_id else msg, kwargs
 
                                                 
 try:
@@ -23,6 +109,10 @@ class LLMPlanner:
         self.base_url = settings.LLM_BASE_URL
         self.model = settings.LLM_MODEL
         self.vision_model = getattr(settings, "LLM_VISION_MODEL", "moondream:latest")
+        # Progress tracker is created per-task by the AgentLoop
+        self.progress_tracker: TaskProgressTracker | None = None
+        self._task_id: str = ""
+        self._log = TaskLogger(logger, {})
         
         self.system_prompt = """You are an Android phone automation agent. You output exactly ONE action per turn.
 
@@ -30,6 +120,7 @@ Available Skills:
   tap            ARGS: id=<n>   OR   x=<n> y=<n>
   type_text      ARGS: text=<string>
   open_app       ARGS: package_name=<app_name_or_pkg>   (use app name like 'Spotify' or package like 'com.spotify.music')
+  open_url       ARGS: url=<full_url_or_deep_link>      (use for any URL, YouTube link, WhatsApp link, Maps link, etc.)
   press_key      ARGS: key=HOME|BACK|ENTER|VOLUME_UP|VOLUME_DOWN
   scroll         ARGS: x1=500 y1=1500 x2=500 y2=500
   save_memory    ARGS: key=<name> value=<x,y or description>
@@ -44,6 +135,7 @@ Available Skills:
   extract_text   ARGS: save_as=<memory_key>
   summarize_text ARGS: save_as=<memory_key>
   take_screenshot ARGS: filename=<optional_name>
+  chat_reply     ARGS: message=<text>
   done           ARGS: (none)
 
 CRITICAL RULES:
@@ -53,9 +145,12 @@ CRITICAL RULES:
   4. After typing a search term, tap the RESULT below the search bar, NOT the search bar itself.
   5. If an element is NOT visible, use scroll to find it. Do NOT guess coordinates.
   6. ONLY use skills from the list above. Do NOT invent skills like 'search', 'find', 'swipe', 'input'.
-  7. To search inside an app: (a) tap search icon/bar, (b) type_text, (c) press_key ENTER.
+  7. To search inside an app: (a) tap search icon/bar, (b) type_text, (c) press_key ENTER. Do NOT press BACK after typing — it cancels the search.
   8. For system tasks (WiFi, Bluetooth, etc.) use the dedicated skill directly.
   9. After typing text, press_key ENTER to submit if no Send button is visible.
+  10. If the task contains a full URL (starting with http/https) or a known deep link, use open_url IMMEDIATELY as the first action. Do NOT navigate manually to websites.
+  11. If Task Progress shows ALL steps marked as done (✓), output SKILL: done immediately. Do NOT plan any more actions.
+  12. You can use 'chat_reply' to tell the user something helpful mid-task, or to summarize results. Example: ARGS: message=I found 3 emails from Internshala.
 
 OUTPUT FORMAT — you MUST reply with EXACTLY these two lines and nothing else:
 SKILL: <skill_name>
@@ -78,7 +173,13 @@ SKILL: press_key
 ARGS: key=ENTER
 
 SKILL: done
-ARGS: (none)"""
+ARGS: (none)
+
+SKILL: open_url
+ARGS: url=https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+SKILL: open_url
+ARGS: url=https://wa.me/919876543210"""
         
         if HAS_OPENAI and self.api_key:
              self.client = openai.OpenAI(
@@ -88,6 +189,13 @@ ARGS: (none)"""
              )
         else:
              self.client = None
+
+    def set_task(self, task_id: str, refined_task: str):
+        """Initialise per-task state: correlation ID and progress tracker."""
+        self._task_id = task_id
+        self._log = TaskLogger(logger, {"task_id": task_id})
+        self.progress_tracker = TaskProgressTracker(refined_task)
+        self._log.info(f"Progress tracker initialised with {len(self.progress_tracker._steps)} steps.")
 
     def plan_next_action(self, task: str, ui_elements_str: str, history: list, vision_insight: str = None) -> dict:
         """
@@ -104,7 +212,6 @@ ARGS: (none)"""
         history_str = "\n".join(history_lines) if history_lines else "  (none)"
 
         # Load saved memory and inject into prompt
-        import json, os
         memory_str = ""
         memory_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "storage", "memory.json")
         if os.path.exists(memory_path):
@@ -117,6 +224,13 @@ ARGS: (none)"""
             except Exception:
                 pass
 
+        # --- Context-Aware Progress Injection ---
+        progress_str = ""
+        tracker = getattr(self, "progress_tracker", None)
+        if tracker and tracker.has_steps:
+            tracker.infer_progress_from_history(history)
+            progress_str = f"\n{tracker.progress_summary()}\n"
+
         # Fix 1: Always pass the FULL UI to the LLM — vision is a soft hint, not a filter
         hint_line = ""
         if vision_insight:
@@ -124,6 +238,7 @@ ARGS: (none)"""
 
         user_prompt = (
             f"Task: {task}\n"
+            f"{progress_str}"
             f"{hint_line}"
             f"{memory_str}"
             f"\nAction History:\n{history_str}\n"
@@ -182,9 +297,17 @@ ARGS: (none)"""
         Takes the user's raw instruction and rewrites it into a clear, step-by-step
         sequence of Android UI interaction steps. Called once at the start of every task.
         Returns the refined task string, or the original if refinement fails.
+        Uses a cache to avoid redundant LLM calls for identical inputs.
         """
         if not self.client:
             return raw_task
+
+        # --- Cache check ---
+        cache_key = _cache_key("refine", raw_task, self.model)
+        cached = _cache_get(cache_key)
+        if cached:
+            self._log.info("refine_task: cache HIT — skipping LLM call.")
+            return cached
 
         prompt = (
             f"You are an Android automation planner. The user wants to: \"{raw_task}\"\n\n"
@@ -209,10 +332,12 @@ ARGS: (none)"""
         try:
             messages = [{"role": "user", "content": prompt}]
             refined = self._call_llm(messages)
-            logger.info(f"Task refined:\n{refined}")
-            return f"{raw_task}\n\nDetailed steps:\n{refined}"
+            self._log.info(f"Task refined:\n{refined}")
+            result = f"{raw_task}\n\nDetailed steps:\n{refined}"
+            _cache_set(cache_key, result)
+            return result
         except Exception as e:
-            logger.error(f"refine_task error: {e}")
+            self._log.error(f"refine_task error: {e}")
             return raw_task
 
     def _call_llm(self, messages: list) -> str:
@@ -289,13 +414,23 @@ ARGS: (none)"""
         Asks the vision model whether the task has been completed.
         Returns True if the model confirms YES.
         Handles verbose models that ignore YES/NO-only instructions.
+        Uses a file-hash-based cache to avoid duplicate API calls for the same screenshot.
         """
         if not self.client or not os.path.exists(screenshot_path):
             return False
 
         try:
             with open(screenshot_path, "rb") as f:
-                b64 = base64.b64encode(f.read()).decode("utf-8")
+                raw_bytes = f.read()
+                b64 = base64.b64encode(raw_bytes).decode("utf-8")
+
+            # Cache keyed on task + screenshot content hash
+            img_hash = hashlib.md5(raw_bytes).hexdigest()  # fast, non-cryptographic
+            cache_key = _cache_key("completion", task, img_hash)
+            cached = _cache_get(cache_key)
+            if cached is not None:
+                self._log.info(f"check_task_done: cache HIT ({cached}) for screenshot {os.path.basename(screenshot_path)}")
+                return cached == "YES"
 
             prompt = (
                 f"Task: {task}\n"
@@ -320,23 +455,25 @@ ARGS: (none)"""
             )
             content = response.choices[0].message.content
             raw = content.strip().upper() if content else ""
-            logger.info(f"Task completion check raw: '{raw[:80]}' for task: {task}")
+            self._log.info(f"Task completion check raw: '{raw[:80]}' for task: {task}")
 
             # Robust YES/NO scan — handles verbose models that ignore format instructions
             if "YES" in raw:
+                _cache_set(cache_key, "YES")
                 return True
             if "NO" in raw:
+                _cache_set(cache_key, "NO")
                 return False
             # If truly ambiguous, default to False (keep going)
-            logger.warning("Vision model gave ambiguous completion answer. Defaulting to False.")
+            self._log.warning("Vision model gave ambiguous completion answer. Defaulting to False.")
             return False
 
         except Exception as e:
             err = str(e)
             if "must be a string" in err or "not a multimodal" in err:
-                logger.warning(f"Vision model '{self.vision_model}' doesn't support images. Skipping completion check.")
+                self._log.warning(f"Vision model '{self.vision_model}' doesn't support images. Skipping completion check.")
             else:
-                logger.error(f"Task completion check error: {e}")
+                self._log.error(f"Task completion check error: {e}")
             return False
 
 
@@ -429,7 +566,7 @@ ARGS: (none)"""
         func_match = re.search(r"(\w+)\s*\(\s*(.*?)\s*\)", cleaned)
         if func_match:
             skill = func_match.group(1).lower()
-            valid_skills = {"tap", "type_text", "open_app", "press_key", "scroll",
+            valid_skills = {"tap", "type_text", "open_app", "open_url", "press_key", "scroll",
                           "save_memory", "delete_memory", "set_wifi", "set_bluetooth",
                           "set_brightness", "set_volume", "set_airplane_mode",
                           "set_flashlight", "set_mobile_data", "extract_text",
