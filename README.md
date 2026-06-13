@@ -1,6 +1,6 @@
 <div align="center">
 
-#  Mobile Agent
+# 🤖 Mobile Agent
 
 ### An AI-powered Android automation agent that controls your phone with natural language
 
@@ -11,7 +11,7 @@
 
 ---
 
-##  Demo
+## 🎬 Demo
 
 | Demo 1 | Demo 2 | Demo 3 |
 |:---:|:---:|:---:|
@@ -19,7 +19,7 @@
 
 ---
 
-##  Overview
+## 📖 Overview
 
 **Mobile Agent** is a Python automation framework that lets an LLM control a real Android device via ADB. Give it a task in plain English — it reads the UI, plans each action, executes it, learns from the outcome, and keeps going until the task is done.
 
@@ -35,55 +35,55 @@ The agent handles it all — reading the screen, planning each step, and executi
 
 ---
 
-##  Features
+## ✨ Features
 
 | Feature | Description |
 |---|---|
-|  **Voice Assistant Integration** | Turn your phone into a system-level assistant triggerable by the Android Home button |
-|  **Remote Triggering** | Flask API server `api_server.py` with dynamic endpoints like `/stop` |
-|  **Task Refinement** | Automatically expands raw instructions into step-by-step UI plans |
-|  **Natural language tasks** | Give any instruction in plain English |
-|  **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
-|  **LLM action planning** | Powered by **Gemini 2.5**, **OpenRouter**, or local **Ollama** models |
-|  **Persistent Memory** | Store elements or text and reference them via `@key` in future tasks |
-|  **Optimized execution** | Auto-selects `LocalLLMPlanner` for speed or `LLMPlanner` for complex tasks |
-|  **Vision Recovery** | Smart escalation to VLM models on loop, no-change, or element-not-found |
-|  **Smart task completion** | Checks if task is already done via vision **before** recovery attempts |
-|  **Outcome tracking** | Every action is tracked as `SUCCESS`, `FAILED`, or `NO_CHANGE` |
-|  **Smart element resolution** | Resolves elements by numeric index, text label, or resource ID |
-|  **System control skills** | Toggles for WiFi, BT, Airplane mode, Flashlight, Data, Volume, Brightness |
-|  **Screenshot skill** | Capture the device screen and save as PNG on demand |
+| 🎙️ **Voice Assistant Integration** | Turn your phone into a system-level assistant triggerable by the Android Home button |
+| 🌐 **Remote Triggering** | Flask API server `api_server.py` with dynamic endpoints like `/stop` |
+| 📝 **Task Refinement** | Automatically expands raw instructions into step-by-step UI plans |
+| 🗣️ **Natural language tasks** | Give any instruction in plain English |
+| 📱 **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
+| 🧠 **LLM action planning** | Powered by **Gemini 2.5**, **OpenRouter**, or local **Ollama** models |
+| 🧠 **Persistent Memory** | Store elements or text and reference them via `@key` in future tasks |
+| ⚡ **Optimized execution** | Auto-selects `LocalLLMPlanner` for speed or `LLMPlanner` for complex tasks |
+| 👁️ **Vision Recovery** | Smart escalation to VLM models on loop, no-change, or element-not-found |
+| ✅ **Smart task completion** | Checks if task is already done via vision **before** recovery attempts |
+| 📋 **Outcome tracking** | Every action is tracked as `SUCCESS`, `FAILED`, or `NO_CHANGE` |
+| 🎯 **Smart element resolution** | Resolves elements by numeric index, text label, or resource ID |
+| 🔌 **System control skills** | Toggles for WiFi, BT, Airplane mode, Flashlight, Data, Volume, Brightness |
+| 📸 **Screenshot skill** | Capture the device screen and save as PNG on demand |
 
 ---
 
-##  Architecture
+## 🏗️ Architecture
 
 ```
 User Task (natural language)
-        
-        
-
-    Agent Loop         agent/agent_loop.py
-  (orchestrator)       — step counter, history, loop detector, vision recovery
-
-         
-          
-     UI Dump     UI Parser         ui/dump_ui.py + ui_parser.py
-            (XML → elements)
-                     
-                              
-                     
-                       LLM Planner       planner/llm_planner.py
-                       (decides action)  — text + vision planning (Gemini 2.5 Flash)
-                     
-                              
-                     
-                      Skill Executor     executor/skill_executor.py
-                      (maps → ADB cmd) 
-                     
-                              
-       
-                                                   
+        │
+        ▼
+┌─────────────────────┐
+│    Agent Loop       │  agent/agent_loop.py
+│  (orchestrator)     │  — step counter, history, loop detector, vision recovery
+└────────┬────────────┘
+         │
+    ┌────▼────┐      ┌──────────────────┐
+    │ UI Dump │ ───► │  UI Parser       │  ui/dump_ui.py + ui_parser.py
+    └─────────┘      │  (XML → elements)│
+                     └────────┬─────────┘
+                              │
+                     ┌────────▼─────────┐
+                     │  LLM Planner     │  planner/llm_planner.py
+                     │  (decides action)│  — text + vision planning (Gemini 2.5 Flash)
+                     └────────┬─────────┘
+                              │
+                     ┌────────▼─────────┐
+                     │ Skill Executor   │  executor/skill_executor.py
+                     │ (maps → ADB cmd) │
+                     └────────┬─────────┘
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       ▼              ▼              ▼                ▼
    open_app         tap          type_text       set_wifi
    scroll        press_key     set_brightness  extract_text
                                (& 8 more...)
@@ -91,7 +91,7 @@ User Task (natural language)
 
 ---
 
-##  Performance
+## ⚡ Performance
 
 Each agent step was optimized to minimize dead time between actions. Key improvements:
 
@@ -112,7 +112,7 @@ Each agent step was optimized to minimize dead time between actions. Key improve
 
 ---
 
-##  Findings & Limitations (Based on Recent Architecture Tests)
+## ⚠️ Findings & Limitations (Based on Recent Architecture Tests)
 
 Through extensive testing with local offline models (like `gemma4` or `qwen2.5:3b`) versus cloud models (like OpenRouter or Gemini), we discovered several key limitations and built mitigations for them:
 
@@ -131,44 +131,44 @@ During heavy automation sessions, free-tier endpoints on platforms like OpenRout
 
 ---
 
-##  Project Structure
+## 📁 Project Structure
 
 ```
 mobile_agent/
- main.py                     # CLI entry point
- api_server.py               # Flask REST API (for remote triggering)
- config/
-    settings.py             # API keys, model selection, ADB path
- agent/
-    agent_loop.py           # Core loop + vision recovery logic
- planner/
-    llm_planner.py          # Task Refiner + Action Planner
- executor/
-    skill_executor.py       # Action dispatcher + @memory resolver
- device/
-    adb_controller.py       # Raw ADB command runner
- ui/
-    dump_ui.py              # uiautomator dump with recovery
-    ui_parser.py            # XML → element list parser
- skills/
-    open_app.py
-    tap.py / type_text.py
-    scroll.py / press_key.py
-    save_memory.py / delete_memory.py
-    summarize_text.py       # New: LLM content summary
-    set_wifi.py / set_bluetooth.py
-    set_brightness.py / set_volume.py
-    set_airplane_mode.py / set_flashlight.py
-    set_mobile_data.py
-    extract_text.py / take_screenshot.py
-    done.py
- tests/
-     test_agent_fixes.py     # 10 unit tests (all passing)
+├── main.py                     # CLI entry point
+├── api_server.py               # Flask REST API (for remote triggering)
+├── config/
+│   └── settings.py             # API keys, model selection, ADB path
+├── agent/
+│   └── agent_loop.py           # Core loop + vision recovery logic
+├── planner/
+│   └── llm_planner.py          # Task Refiner + Action Planner
+├── executor/
+│   └── skill_executor.py       # Action dispatcher + @memory resolver
+├── device/
+│   └── adb_controller.py       # Raw ADB command runner
+├── ui/
+│   ├── dump_ui.py              # uiautomator dump with recovery
+│   └── ui_parser.py            # XML → element list parser
+├── skills/
+│   ├── open_app.py
+│   ├── tap.py / type_text.py
+│   ├── scroll.py / press_key.py
+│   ├── save_memory.py / delete_memory.py
+│   ├── summarize_text.py       # New: LLM content summary
+│   ├── set_wifi.py / set_bluetooth.py
+│   ├── set_brightness.py / set_volume.py
+│   ├── set_airplane_mode.py / set_flashlight.py
+│   ├── set_mobile_data.py
+│   ├── extract_text.py / take_screenshot.py
+│   └── done.py
+└── tests/
+    └── test_agent_fixes.py     # 10 unit tests (all passing)
 ```
 
 ---
 
-##  Setup
+## ⚙️ Setup
 
 ### 1. Prerequisites
 
@@ -213,7 +213,7 @@ ENABLE_VISION_FALLBACK = True
 
 ---
 
-##  Connecting Your Device
+## 📲 Connecting Your Device
 
 ### USB (classic)
 Enable **USB Debugging** in Developer Options and plug in your phone.
@@ -234,11 +234,11 @@ adb tcpip 5555
 adb connect <PHONE_IP>:5555
 ```
 
->  **Don't run `set_wifi off` while connected over WiFi** — it will kill your ADB connection!
+> ⚠️ **Don't run `set_wifi off` while connected over WiFi** — it will kill your ADB connection!
 
 ---
 
-##  Usage
+## 🚀 Usage
 
 ```bash
 ### **Remote Triggering (Android Assistant)**
@@ -272,7 +272,7 @@ python main.py "Open WhatsApp and send hi to Thanu Sree"
 
 ---
 
-##  Supported Skills
+## 🧩 Supported Skills
 
 | Skill | Arguments | Description |
 |---|---|---|
@@ -297,7 +297,7 @@ python main.py "Open WhatsApp and send hi to Thanu Sree"
 
 ---
 
-##  Adding a New Skill
+## 🧩 Adding a New Skill
 
 1. Create `skills/my_skill.py`:
 ```python
@@ -318,7 +318,7 @@ self.skills["my_skill"] = my_skill.execute
 
 ---
 
-##  Running Tests
+## 🧪 Running Tests
 
 ```bash
 pytest tests/test_agent_fixes.py -v
