@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🤖 Mobile Agent
+# Mobile Agent
 
 ### An AI-powered Android automation agent that controls your phone with natural language
 
@@ -11,7 +11,7 @@
 
 ---
 
-## 🎬 Demo
+## Demo
 
 | Demo 1 | Demo 2 | Demo 3 |
 |:---:|:---:|:---:|
@@ -19,7 +19,7 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 **Mobile Agent** is a Python automation framework that lets an LLM control a real Android device via ADB. Give it a task in plain English — it reads the UI, plans each action, executes it, learns from the outcome, and keeps going until the task is done.
 
@@ -35,28 +35,29 @@ The agent handles it all — reading the screen, planning each step, and executi
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 🎙️ **Voice Assistant Integration** | Turn your phone into a system-level assistant triggerable by the Android Home button |
-| 🌐 **Remote Triggering** | Flask API server `api_server.py` with dynamic endpoints like `/stop` |
-| 📝 **Task Refinement** | Automatically expands raw instructions into step-by-step UI plans |
-| 🗣️ **Natural language tasks** | Give any instruction in plain English |
-| 📱 **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
-| 🧠 **LLM action planning** | Powered by **Gemini 2.5**, **OpenRouter**, or local **Ollama** models |
-| 🧠 **Persistent Memory** | Store elements or text and reference them via `@key` in future tasks |
-| ⚡ **Optimized execution** | Auto-selects `LocalLLMPlanner` for speed or `LLMPlanner` for complex tasks |
-| 👁️ **Vision Recovery** | Smart escalation to VLM models on loop, no-change, or element-not-found |
-| ✅ **Smart task completion** | Checks if task is already done via vision **before** recovery attempts |
-| 📋 **Outcome tracking** | Every action is tracked as `SUCCESS`, `FAILED`, or `NO_CHANGE` |
-| 🎯 **Smart element resolution** | Resolves elements by numeric index, text label, or resource ID |
-| 🔌 **System control skills** | Toggles for WiFi, BT, Airplane mode, Flashlight, Data, Volume, Brightness |
-| 📸 **Screenshot skill** | Capture the device screen and save as PNG on demand |
+| **Model Context Protocol (MCP)** | Run as an MCP Server to expose Android control to other LLMs and tools |
+| **Voice Assistant Integration** | Turn your phone into a system-level assistant triggerable by the Android Home button |
+| **Remote Triggering** | Flask API server `api_server.py` with dynamic endpoints like `/stop` |
+| **Task Refinement** | Automatically expands raw instructions into step-by-step UI plans |
+| **Natural language tasks** | Give any instruction in plain English |
+| **Real device control** | Works on physical Android phones via USB or WiFi (ADB) |
+| **LLM action planning** | Powered by **Gemini 2.5**, **OpenRouter**, or local **Ollama** models |
+| **Persistent Memory** | Store elements or text and reference them via `@key` in future tasks |
+| **Optimized execution** | Auto-selects `LocalLLMPlanner` for speed or `LLMPlanner` for complex tasks |
+| **Vision Recovery** | Smart escalation to VLM models on loop, no-change, or element-not-found |
+| **Smart task completion** | Checks if task is already done via vision **before** recovery attempts |
+| **Outcome tracking** | Every action is tracked as `SUCCESS`, `FAILED`, or `NO_CHANGE` |
+| **Smart element resolution** | Resolves elements by numeric index, text label, or resource ID |
+| **System control skills** | Toggles for WiFi, BT, Airplane mode, Flashlight, Data, Volume, Brightness |
+| **Screenshot skill** | Capture the device screen and save as PNG on demand |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 User Task (natural language)
@@ -86,12 +87,12 @@ User Task (natural language)
        ▼              ▼              ▼                ▼
    open_app         tap          type_text       set_wifi
    scroll        press_key     set_brightness  extract_text
-                               (& 8 more...)
+                              (& 8 more...)
 ```
 
 ---
 
-## ⚡ Performance
+## Performance
 
 Each agent step was optimized to minimize dead time between actions. Key improvements:
 
@@ -112,7 +113,7 @@ Each agent step was optimized to minimize dead time between actions. Key improve
 
 ---
 
-## ⚠️ Findings & Limitations (Based on Recent Architecture Tests)
+## Findings & Limitations (Based on Recent Architecture Tests)
 
 Through extensive testing with local offline models (like `gemma4` or `qwen2.5:3b`) versus cloud models (like OpenRouter or Gemini), we discovered several key limitations and built mitigations for them:
 
@@ -131,12 +132,14 @@ During heavy automation sessions, free-tier endpoints on platforms like OpenRout
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 mobile_agent/
 ├── main.py                     # CLI entry point
 ├── api_server.py               # Flask REST API (for remote triggering)
+├── mcp_server.py               # MCP Server for exposing tools to other LLMs
+├── mcp.json                    # MCP Server configuration mapping
 ├── config/
 │   └── settings.py             # API keys, model selection, ADB path
 ├── agent/
@@ -155,7 +158,7 @@ mobile_agent/
 │   ├── tap.py / type_text.py
 │   ├── scroll.py / press_key.py
 │   ├── save_memory.py / delete_memory.py
-│   ├── summarize_text.py       # New: LLM content summary
+│   ├── summarize_text.py       # LLM content summary
 │   ├── set_wifi.py / set_bluetooth.py
 │   ├── set_brightness.py / set_volume.py
 │   ├── set_airplane_mode.py / set_flashlight.py
@@ -163,12 +166,12 @@ mobile_agent/
 │   ├── extract_text.py / take_screenshot.py
 │   └── done.py
 └── tests/
-    └── test_agent_fixes.py     # 10 unit tests (all passing)
+    └── test_agent_fixes.py     # Unit tests (all passing)
 ```
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ### 1. Prerequisites
 
@@ -179,7 +182,7 @@ mobile_agent/
 ### 2. Install dependencies
 
 ```bash
-pip install openai
+pip install openai mcp
 ```
 
 ### 3. Configure your LLM backend
@@ -213,7 +216,7 @@ ENABLE_VISION_FALLBACK = True
 
 ---
 
-## 📲 Connecting Your Device
+## Connecting Your Device
 
 ### USB (classic)
 Enable **USB Debugging** in Developer Options and plug in your phone.
@@ -234,14 +237,23 @@ adb tcpip 5555
 adb connect <PHONE_IP>:5555
 ```
 
-> ⚠️ **Don't run `set_wifi off` while connected over WiFi** — it will kill your ADB connection!
+> **Warning:** Don't run `set_wifi off` while connected over WiFi — it will kill your ADB connection!
 
 ---
 
-## 🚀 Usage
+## Usage
 
-```bash
-### **Remote Triggering (Android Assistant)**
+### MCP Server Integration (New)
+You can now use Mobile Agent as an MCP Server, allowing agents like Claude Desktop to directly interact with your Android phone.
+
+1. Start the MCP server using `mcp.json` mapping.
+2. The exposed MCP tools directly map to the Android automation skills.
+3. Once running, you can ask your host LLM to:
+   - "Get a dump of my Android phone UI"
+   - "Tap the element with ID 3"
+   - "Type 'hello world' into the current text field"
+
+### Remote Triggering (Android Assistant)
 Start the server:
 ```bash
 python api_server.py
@@ -251,7 +263,7 @@ Trigger tasks via `curl` or **HTTP Shortcuts** on Android:
 POST /run-task  {"task": "open youtube and search believer"}
 ```
 
-### **CLI Usage**
+### CLI Usage
 ```bash
 # Basic task
 python main.py "Open Settings"
@@ -268,36 +280,35 @@ python main.py "Disable WiFi"
 # Messaging
 python main.py "Open WhatsApp and send hi to Thanu Sree"
 ```
-```
 
 ---
 
-## 🧩 Supported Skills
+## Supported Skills
 
 | Skill | Arguments | Description |
 |---|---|---|
 | `open_app` | `package_name` | Launch app via intent |
-| `tap` | `id`, `x,y`, or `text` | Tap element by ID, coords, or **text label** |
+| `tap` | `id`, `x,y`, or `text` | Tap element by ID, coords, or text label |
 | `type_text` | `text` | Type text (supports `@memory_key` refs) |
 | `scroll` | `x1,y1,x2,y2` | Swipe/scroll gesture |
 | `press_key` | `key` | HOME, BACK, ENTER, VOLUME_UP, VOLUME_DOWN |
 | `save_memory` | `key, value` | Store coordinates or text for later |
 | `delete_memory` | `key` | Remove a saved memory entry |
-| `summarize_text`| `save_as` | **Refined**: Summarize screen content via LLM |
-| `set_wifi` | `state=on|off` | Toggle WiFi |
-| `set_bluetooth` | `state=on|off` | Toggle Bluetooth |
+| `summarize_text`| `save_as` | Summarize screen content via LLM |
+| `set_wifi` | `state=on\|off` | Toggle WiFi |
+| `set_bluetooth` | `state=on\|off` | Toggle Bluetooth |
 | `set_brightness` | `level, mode` | Set brightness (0-255 or `50%`) |
 | `set_volume` | `level, stream` | Set volume (0-15) for media/ring/etc |
-| `set_airplane_mode`| `state=on|off` | Toggle airplane mode |
-| `set_flashlight` | `state=on|off` | Toggle camera torch |
-| `set_mobile_data` | `state=on|off` | Toggle mobile data |
+| `set_airplane_mode`| `state=on\|off` | Toggle airplane mode |
+| `set_flashlight` | `state=on\|off` | Toggle camera torch |
+| `set_mobile_data` | `state=on\|off` | Toggle mobile data |
 | `extract_text` | `save_as` | Extract all visible text |
 | `take_screenshot`| `filename` | Save PNG to `storage/screenshots/` |
 | `done` | — | Signal task completion |
 
 ---
 
-## 🧩 Adding a New Skill
+## Adding a New Skill
 
 1. Create `skills/my_skill.py`:
 ```python
@@ -318,9 +329,8 @@ self.skills["my_skill"] = my_skill.execute
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 ```bash
 pytest tests/test_agent_fixes.py -v
-# 10 tests, all passing
 ```
