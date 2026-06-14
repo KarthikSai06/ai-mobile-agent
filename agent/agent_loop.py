@@ -128,7 +128,7 @@ class AgentLoop:
             ui_elements = parse_ui_xml(xml_path)
             # Sort: clickable first, then top-to-bottom reading order, and cap at 60 elements
             ui_elements = sorted(ui_elements, key=lambda e: (not e["clickable"], e["center_y"]))[:60]
-            ui_str = format_ui_elements_for_llm(ui_elements)
+            ui_str, ui_elements = format_ui_elements_for_llm(ui_elements)
             logger.info(f"UI Elements sent to LLM:\n{ui_str}")
             
             # Check for UI change and update no_change_streak
@@ -247,7 +247,7 @@ class AgentLoop:
                     post_xml_path = dump_ui_hierarchy(self.adb, self.device_id)
                     if post_xml_path:
                         post_ui_elements = parse_ui_xml(post_xml_path)
-                        post_ui_str = format_ui_elements_for_llm(post_ui_elements)
+                        post_ui_str, _ = format_ui_elements_for_llm(post_ui_elements)
                         if post_ui_str == ui_str and not is_input_field:
                             outcome = "NO_CHANGE"
                         else:
@@ -258,6 +258,24 @@ class AgentLoop:
                         success_count += 1
 
             action_record = f"{skill_name}({args})"
+
+            # --- Auto-advance after type_text: press ENTER so model doesn't re-type ---
+            # When type_text succeeds the keyboard/edit field is still visible, which
+            # causes weaker models to type the same text again on the next step.
+            # We deterministically submit the input with ENTER and skip the LLM call.
+            if skill_name == "type_text" and outcome == "SUCCESS":
+                logger.info("type_text succeeded — auto-pressing ENTER to submit.")
+                self.history.append({"action": action_record, "outcome": outcome})
+                if self._on_step_update:
+                    try:
+                        self._on_step_update(action_record, outcome)
+                    except Exception:
+                        pass
+                self.executor.execute_skill("press_key", {"key": "ENTER"})
+                self.history.append({"action": "press_key({'key': 'ENTER'})", "outcome": "SUCCESS"})
+                success_count += 1
+                time.sleep(1.5)
+                continue
             self.history.append({"action": action_record, "outcome": outcome})
             logger.info(f"History entry: {action_record} → {outcome}")
 
@@ -315,9 +333,28 @@ class AgentLoop:
                         vision_tapped = True
                         loop_recovery_action = f"{vision_action['skill']}({vision_action.get('args', {})})"
                 if not vision_tapped:
-                    logger.warning("Vision gave no tap — falling back to BACK key.")
-                    self.executor.execute_skill("press_key", {"key": "BACK"})
-                    loop_recovery_action = "press_key({'key': 'BACK'}) [loop-break fallback]"
+                    # If looping on ENTER, try tapping the first non-input result element
+                    # instead of going BACK (which would close the search results).
+                    if "press_key" in action_record and "ENTER" in action_record:
+                        logger.info("Loop on ENTER — tapping first visible result element.")
+                        result_el = next(
+                            (el for el in ui_elements
+                             if el.get("clickable")
+                             and "edit" not in el.get("resource_id", "").lower()
+                             and "search_bar" not in el.get("resource_id", "").lower()),
+                            None
+                        )
+                        if result_el:
+                            self.executor.execute_skill("tap", {"x": result_el["center_x"], "y": result_el["center_y"]})
+                            loop_recovery_action = f"tap({{'x': {result_el['center_x']}, 'y': {result_el['center_y']}}})"
+                        else:
+                            logger.warning("No result element found — falling back to BACK key.")
+                            self.executor.execute_skill("press_key", {"key": "BACK"})
+                            loop_recovery_action = "press_key({'key': 'BACK'}) [loop-break fallback]"
+                    else:
+                        logger.warning("Vision gave no tap — falling back to BACK key.")
+                        self.executor.execute_skill("press_key", {"key": "BACK"})
+                        loop_recovery_action = "press_key({'key': 'BACK'}) [loop-break fallback]"
                 # ── Record the recovery action so the loop detector resets ──
                 # Without this, self.history still ends in 3x the same action
                 # and the loop warning fires again on the very next step.

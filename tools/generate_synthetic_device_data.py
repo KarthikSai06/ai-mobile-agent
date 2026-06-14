@@ -113,7 +113,7 @@ class SyntheticDataGenerator:
         Formats and saves a single step record.
         """
         # Build UI list formatted for the LLM
-        ui_str = format_ui_elements_for_llm(elements)
+        ui_str, _ = format_ui_elements_for_llm(elements)
         
         # Build history string
         history_str = "\n".join(f"  {h}" for h in history[-5:]) or "  (none)"

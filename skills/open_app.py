@@ -71,13 +71,15 @@ def _resolve_package(name_or_pkg: str, adb: AdbController, device_id: str) -> st
     return candidate
 
 
-def execute(adb: AdbController, package_name: str = None, device_id: str = None) -> bool:
+def execute(adb: AdbController, package_name: str = None, query: str = None, device_id: str = None) -> bool:
     """
     Opens an application given its name or package name.
 
     Accepts both:
       - Package names:  'com.spotify.music'
       - App names:      'Spotify', 'YouTube', 'Google Maps'
+      
+    If 'query' is provided, attempts to launch the app directly into search results using android.intent.action.SEARCH.
     """
     if not package_name:
         logger.error("open_app: No package_name provided.")
@@ -96,19 +98,36 @@ def execute(adb: AdbController, package_name: str = None, device_id: str = None)
         logger.info(f"App '{package_name}' is already in focus.")
         return True
 
-    # Launch via monkey
+    # Launch via intent or monkey
     launch_cmd = []
     if device_id:
         launch_cmd.extend(["-s", device_id])
-    launch_cmd.extend(["shell", "monkey", "-p", package_name, "-c", "android.intent.category.LAUNCHER", "1"])
+        
+    if query:
+        logger.info(f"Deep searching: '{package_name}' for '{query}'")
+        launch_cmd.extend(["shell", "am", "start", "-a", "android.intent.action.SEARCH", "-p", package_name, "-e", "query", f'"{query}"'])
+    else:
+        logger.info(f"Launching: '{package_name}'")
+        launch_cmd.extend(["shell", "monkey", "-p", package_name, "-c", "android.intent.category.LAUNCHER", "1"])
 
-    logger.info(f"Launching: '{package_name}'")
     adb.run_cmd(*launch_cmd)
 
     import time
     time.sleep(1.2)
     if adb.get_current_focus(device_id) == package_name:
         return True
+
+    # If we tried a query intent and it failed to open the app, fall back to normal launch
+    if query:
+        logger.warning(f"Search intent failed for '{package_name}'. Falling back to standard launch.")
+        fallback_launch = []
+        if device_id:
+            fallback_launch.extend(["-s", device_id])
+        fallback_launch.extend(["shell", "monkey", "-p", package_name, "-c", "android.intent.category.LAUNCHER", "1"])
+        adb.run_cmd(*fallback_launch)
+        time.sleep(1.2)
+        if adb.get_current_focus(device_id) == package_name:
+            return True
 
     # Fallback: search installed packages for the closest match
     logger.warning(f"Failed to launch '{package_name}'. Searching installed packages for alternatives...")

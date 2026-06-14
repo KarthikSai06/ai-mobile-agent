@@ -3,9 +3,7 @@ import re
 import os
 import hashlib
 import json
-import shlex
 import base64
-import traceback
 import httpx
 
 logger = logging.getLogger(__name__)
@@ -119,10 +117,10 @@ class LLMPlanner:
 Available Skills:
   tap            ARGS: id=<n>   OR   x=<n> y=<n>
   type_text      ARGS: text=<string>
-  open_app       ARGS: package_name=<app_name_or_pkg>   (use app name like 'Spotify' or package like 'com.spotify.music')
+  open_app       ARGS: package_name=<app_name_or_pkg> query=<optional_search_query>
   open_url       ARGS: url=<full_url_or_deep_link>      (use for any URL, YouTube link, WhatsApp link, Maps link, etc.)
   press_key      ARGS: key=HOME|BACK|ENTER|VOLUME_UP|VOLUME_DOWN
-  scroll         ARGS: x1=500 y1=1500 x2=500 y2=500
+  scroll         ARGS: direction=up|down|left|right
   save_memory    ARGS: key=<name> value=<x,y or description>
   delete_memory  ARGS: key=<name>
   set_wifi       ARGS: state=on|off
@@ -141,7 +139,7 @@ Available Skills:
 CRITICAL RULES:
   1. open_app ONLY needs package_name. You can use the plain app name (e.g. 'Spotify', 'YouTube', 'Google Maps') OR the full package name. Never add id/x/y/text to it.
   2. Prefer id=<n> (element index) over raw x/y coordinates when available.
-  3. If your last action was tapping a search bar (SUCCESS), you MUST use type_text next. Do NOT tap the search bar again.
+  3. TYPING RULE (HIGHEST PRIORITY): If the UI elements list contains ANY element with 'edit_text', 'EditText', or 'edittext' in its id or class — OR if your Action History shows your last action was a successful tap on a search bar, input bar, or text field — you MUST output SKILL: type_text immediately. Do NOT tap anything. Do NOT tap the search bar again.
   4. After typing a search term, tap the RESULT below the search bar, NOT the search bar itself.
   5. If an element is NOT visible, use scroll to find it. Do NOT guess coordinates.
   6. ONLY use skills from the list above. Do NOT invent skills like 'search', 'find', 'swipe', 'input'.
@@ -164,7 +162,7 @@ SKILL: open_app
 ARGS: package_name=Swiggy
 
 SKILL: open_app
-ARGS: package_name=com.google.android.youtube
+ARGS: package_name=com.google.android.youtube query=Imagine Dragons Believer
 
 SKILL: type_text
 ARGS: text=meghana biriyani
@@ -477,57 +475,6 @@ ARGS: url=https://wa.me/919876543210"""
             return False
 
 
-    def analyze_with_vision(self, task: str, screenshot_path: str) -> str:
-        """
-        Uses a vision model to act as a Visual Analyst and return a screen quadrant.
-        """
-        if not self.client or not os.path.exists(screenshot_path):
-            logger.warning("No LLM client or screenshot not found. Returning empty vision insight.")
-            return ""
-            
-        try:
-            with open(screenshot_path, "rb") as image_file:
-                base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-                
-            prompt = (
-                "You are a visual analyst checking a phone screenshot. "
-                f"The user wants to: {task}\n"
-                "Look at this screenshot and find the most relevant icon, button, or search field to accomplish this task. "
-                "Reply ONLY with its approximate location using EXACTLY the co-ordinates of the button "
-            )
-            
-            response = self.client.chat.completions.create(
-                model=self.vision_model,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/png;base64,{base64_image}"
-                                }
-                            }
-                        ]
-                    }
-                ],
-                temperature=0.0
-            )
-            output = response.choices[0].message.content.strip().lower()
-            logger.info(f"Vision Model Output: {output}")
-            
-                                                                                
-            valid_quadrants = ["top-left", "top-right", "bottom-left", "bottom-right", "center", "top-center", "bottom-center", "top", "bottom", "left", "right"]
-            for quad in valid_quadrants:
-                if quad in output:
-                    return quad
-                    
-            return output                                                             
-        except Exception as e:
-            logger.error(f"Vision LLM API Error: {e}")
-            return ""
-
     def _parse_llm_output(self, output: str):
         """
         Multi-strategy parser for LLM output.
@@ -579,7 +526,6 @@ ARGS: url=https://wa.me/919876543210"""
 
         # ── Strategy 3: JSON format ──
         # Matches: {"skill": "tap", "args": {"x": 100, "y": 200}}
-        import json
         json_match = re.search(r'\{[^{}]*"skill"[^{}]*\}', cleaned)
         if json_match:
             try:
@@ -682,53 +628,5 @@ ARGS: url=https://wa.me/919876543210"""
             else:
                 args[key] = val
 
+
         return args
-                
-    def _filter_ui_by_quadrant(self, ui_elements_str: str, quadrant: str) -> str:
-        """
-        Filters the raw UI elements string down to only elements that reside in the specified 
-        quadrant (e.g. 'top-right', 'bottom-center').
-        Standard phone dimensions are typically 1080x2400.
-        """
-                                                                              
-                                                                                             
-        MAX_X = 1080
-        MAX_Y = 2400
-        MID_X = MAX_X // 2
-        MID_Y = MAX_Y // 2
-        
-        filtered_lines = []
-        for line in ui_elements_str.splitlines():
-                                  
-            match = re.search(r"center=\((\d+),(\d+)\)", line)
-            if not match:
-                filtered_lines.append(line)                                         
-                continue
-                
-            x, y = int(match.group(1)), int(match.group(2))
-            
-                                                       
-            in_quadrant = False
-            quadrant_words = quadrant.split("-") if "-" in quadrant else [quadrant]
-            
-            if "top-left" == quadrant and x <= MID_X and y <= MID_Y: in_quadrant = True
-            elif "top-right" == quadrant and x > MID_X and y <= MID_Y: in_quadrant = True
-            elif "bottom-left" == quadrant and x <= MID_X and y > MID_Y: in_quadrant = True
-            elif "bottom-right" == quadrant and x > MID_X and y > MID_Y: in_quadrant = True
-            elif "top-center" == quadrant and y <= MID_Y: in_quadrant = True                                        
-            elif "bottom-center" == quadrant and y > MID_Y: in_quadrant = True                                     
-            elif "center" == quadrant and (MID_X - 250) < x < (MID_X + 250) and (MID_Y - 500) < y < (MID_Y + 500): in_quadrant = True
-            elif "top" == quadrant and y <= MID_Y: in_quadrant = True
-            elif "bottom" == quadrant and y > MID_Y: in_quadrant = True
-            elif "left" == quadrant and x <= MID_X: in_quadrant = True
-            elif "right" == quadrant and x > MID_X: in_quadrant = True
-            
-                                              
-            if in_quadrant:
-                filtered_lines.append(line)
-        
-                                                                                                    
-        if not filtered_lines:
-            return ui_elements_str
-            
-        return "\n".join(filtered_lines)

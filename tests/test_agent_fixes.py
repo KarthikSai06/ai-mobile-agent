@@ -49,16 +49,16 @@ def _make_loop():
     """
     Build an AgentLoop shell without hitting __init__ (no adb, no config).
     Executor and planner are swapped for mocks.
-    stuck_counter is set to -999 so the vision-fallback block never fires,
-    which avoids needing to patch `config.settings` in tests.
     """
     from agent.agent_loop import AgentLoop
     loop = AgentLoop.__new__(AgentLoop)
     loop.device_id = "emulator-5554"
     loop.history = []
     loop.last_ui_str = ""
-    # Keep stuck_counter negative so it never reaches the vision-fallback block
-    loop.stuck_counter = -999
+    loop._all_steps_done_flag = False
+    loop._on_step_update = None
+    loop._on_refined_task = None
+    loop._on_chat_reply = None
 
     loop.executor = MagicMock()
     loop.executor.execute_skill.return_value = True
@@ -72,6 +72,7 @@ def _make_loop():
 
     loop.adb = MagicMock()
     return loop
+
 
 
 # ---------------------------------------------------------------------------
@@ -160,9 +161,10 @@ class TestOutcomeTracking(unittest.TestCase):
         loop.planner.plan_next_action.return_value = {"skill": "tap", "args": {"id": 0}}
 
         # Provide 2 dump paths (pre + post) and 2 format return values
+        # format_ui_elements_for_llm returns (str, list) — mock must match
         with patch("agent.agent_loop.dump_ui_hierarchy", side_effect=["/tmp/before.xml", "/tmp/after.xml"]), \
              patch("agent.agent_loop.parse_ui_xml", return_value=[]), \
-             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=[ui_before, ui_after]), \
+             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=[(ui_before, []), (ui_after, [])]), \
              patch("time.sleep"):
             loop.run(task="test task", max_steps=1)
         return loop.history
@@ -198,13 +200,13 @@ class TestLoopDetector(unittest.TestCase):
         }
 
         # Need enough dump/format pairs for 4 steps * 2 calls each = 8 calls
-        # Use unlimited side_effect via a cycle
+        # format_ui_elements_for_llm returns (str, list) — mock must match
         ui_dumps = [f"/tmp/ui{i}.xml" for i in range(20)]
-        ui_strs = ["same_ui"] * 20
+        ui_tuples = [("same_ui", [])] * 20
 
         with patch("agent.agent_loop.dump_ui_hierarchy", side_effect=ui_dumps), \
              patch("agent.agent_loop.parse_ui_xml", return_value=[]), \
-             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=ui_strs), \
+             patch("agent.agent_loop.format_ui_elements_for_llm", side_effect=ui_tuples), \
              patch("time.sleep"):
             loop.run(task="scroll forever", max_steps=4)
 
@@ -252,7 +254,7 @@ class TestUIParserMerge(unittest.TestCase):
             self.assertTrue(el["clickable"])
             
             # format_ui_elements_for_llm should NOT filter it out!
-            formatted = format_ui_elements_for_llm(elements)
+            formatted, _ = format_ui_elements_for_llm(elements)
             self.assertIn("id='com.android.contacts:id/originui_vtoolbar_edit_right_button'", formatted)
             self.assertIn("clickable=True", formatted)
         finally:
@@ -290,7 +292,7 @@ class TestUIParserMerge(unittest.TestCase):
             self.assertTrue(row_root_el["clickable"])
             
             # format_ui_elements_for_llm should keep it and print its text!
-            formatted = format_ui_elements_for_llm(elements)
+            formatted, _ = format_ui_elements_for_llm(elements)
             self.assertIn("text='Shape of You'", formatted)
             self.assertIn("id='com.spotify.music:id/row_root'", formatted)
             self.assertIn("clickable=True", formatted)

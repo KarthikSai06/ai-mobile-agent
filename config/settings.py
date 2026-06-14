@@ -30,8 +30,8 @@ ADB_PATH = default_adb if os.path.exists(default_adb) else "adb"
 # ── Option B: Local Ollama (Active) ─────────────────────────────────────────
 OPENAI_API_KEY   = "dummy_key"
 LLM_BASE_URL     = "http://localhost:11434/v1"
-LLM_MODEL        = "qwen2.5:3b"
-LLM_VISION_MODEL = "qwen2.5:3b"
+LLM_MODEL        = "llama3.1:8b"
+LLM_VISION_MODEL = "llama3.1:8b"
 ENABLE_VISION_FALLBACK = True
 
 # ── Option C: Nvidia ──────────────────────────────────────────────────────

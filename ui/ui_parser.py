@@ -162,7 +162,7 @@ def parse_ui_xml(xml_path: str) -> list:
     return deduped
 
 
-def format_ui_elements_for_llm(elements: list, max_elements: int = 60) -> str:
+def format_ui_elements_for_llm(elements: list, max_elements: int = 60) -> tuple[str, list]:
     """
     Formats parsed UI elements into a compact string for the LLM.
 
@@ -214,4 +214,5 @@ def format_ui_elements_for_llm(elements: list, max_elements: int = 60) -> str:
         parts.append(f"center=({el['center_x']},{el['center_y']})")
         lines.append(" ".join(parts))
 
-    return "\n".join(lines)
+    return "\n".join(lines), capped
+
