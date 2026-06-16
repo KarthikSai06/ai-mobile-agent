@@ -6,6 +6,11 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
 [![ADB](https://img.shields.io/badge/ADB-Android%20Debug%20Bridge-green?logo=android)](https://developer.android.com/tools/adb)
+[![Topic](https://img.shields.io/badge/topic-llm--agent-blueviolet)](https://github.com/topics/llm-agent)
+[![Topic](https://img.shields.io/badge/topic-android--automation-orange)](https://github.com/topics/android-automation)
+[![Topic](https://img.shields.io/badge/topic-agentic--ai-red)](https://github.com/topics/agentic-ai)
+[![Topic](https://img.shields.io/badge/topic-mcp-teal)](https://github.com/topics/mcp)
+[![Topic](https://img.shields.io/badge/topic-gemini-blue)](https://github.com/topics/gemini)
 
 </div>
 
@@ -326,6 +331,21 @@ self.skills["my_skill"] = my_skill.execute
 ```
 
 3. Describe it in the system prompt in `planner/llm_planner.py`.
+
+---
+
+## Related Research
+
+This project draws inspiration from and builds upon the following academic works in LLM-based GUI agents:
+
+| Paper | What It Does | Relevance |
+|---|---|---|
+| [**AppAgent**](https://arxiv.org/abs/2312.13771) (2023) | LLM agent that learns to operate Android apps via exploration | Core inspiration for UI-dump → LLM → action loop |
+| [**DroidBot-GPT**](https://arxiv.org/abs/2304.07061) (2023) | GPT-4 powered Android testing agent using DroidBot events | Demonstrates LLM-driven UI traversal on real devices |
+| [**AndroidWorld**](https://arxiv.org/abs/2405.14573) (2024, Google DeepMind) | Benchmark of 116 programmatic Android tasks for agent evaluation | Benchmark methodology used to design our task suite |
+| [**UFO**](https://arxiv.org/abs/2402.07939) (2024, Microsoft) | GUI agent framework using vision + control for Windows/Android | Multi-modal vision recovery pattern reference |
+
+> **Note:** Unlike AppAgent (which relies on exploration/annotation phases), this agent operates **zero-shot** on any app using live UI hierarchy dumps and vision fallback.
 
 ---
 
